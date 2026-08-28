@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro';
+import { counts, marketAccess, jurisdictionName, licence, gmp, eudamed, mhra } from '../data/registry';
+
+const supplyLabel: Record<string, { text: string; cls: string }> = {
+  yes: { text: 'Supply available', cls: 'ok' },
+  'contract-manufacture-only': { text: 'Contract manufacture only', cls: 'neutral' },
+  no: { text: 'Not yet available', cls: 'warn' },
+};
+const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdictionName[j]).join(' · ');
+---
+
+<Base title="GANA R&D">
+  <!-- 1. 사진 밴드 (Lonza 히어로) -->
+  <section class="container band-wrap">
+    <div class="band">
+      <img src="/images/syringes-set.png" alt="GANA R&D dermal filler syringes" style="object-position: 50% 42%;" />
+      <div class="overlay">
+        <h3>What we manufacture</h3>
+        <ul>
+          <li>Hyaluronic acid</li>
+          <li>PLLA</li>
+          <li>PCL</li>
+          <li>Calcium</li>
+          <li>PN / PDRN</li>
+          <li>Hydrogel &amp; foam wound dressings</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 파란 헤드라인 -->
+  <section class="container headline">
+    <h1>Medical devices, made and registered.</h1>
+  </section>
+
+  <!-- 3. 좌 문단 / 우 이미지 -->
+  <section class="container">
+    <div class="split">
+      <div class="text">
+        <p>GANA R&amp;D is a licensed medical device manufacturer in Seongnam, Korea. We formulate, fill and register dermal fillers across four chemistries, manufacture hydrogel and foam wound dressings, and produce under partner brands.</p>
+        <p>Every product registration on this site carries a number a buyer can look up. GANA R&amp;D is named as manufacturer on each one.</p>
+        <a class="btn" href="/market-access">See the registrations</a>
+      </div>
+      <div class="visual"><img src="/images/vial-stone.png" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- 4. 숫자 행 — registrations.json에서 계산 -->
+  <section class="container section">
+    <div class="stats">
+      <div class="stat"><div class="n">{counts.published}</div><div class="l">Active product registrations with GANA R&amp;D named as manufacturer</div></div>
+      <div class="stat"><div class="n">{counts.jurisdictions}</div><div class="l">Jurisdictions — {jurisdictionsList}</div></div>
+      <div class="stat"><div class="n">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
+      <div class="stat"><div class="n">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
+    </div>
+  </section>
+
+  <!-- 5. 프로포지션 3 -->
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">Who we work with</p>
+      <h2>Three ways to work with GANA R&amp;D</h2>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <p class="who">Clinics · aesthetic distributors</p>
+        <h3>Medical Aesthetics</h3>
+        <p>Dermal fillers across hyaluronic acid, PLLA, PCL and calcium, registered under a single manufacturer name. A portfolio that serves different patient needs and is hard to copy.</p>
+        <a class="link" href="/aesthetics">Medical Aesthetics →</a>
+      </article>
+      <article class="card">
+        <p class="who">Hospitals · medical distribution</p>
+        <h3>Wound Care</h3>
+        <p>Hydrogel and foam wound dressings, licensed by the MFDS including domestic approval, and registered in Russia. A regulated device line, not a cosmetic.</p>
+        <a class="link" href="/wound-care">Wound Care →</a>
+      </article>
+      <article class="card">
+        <p class="who">Brands · OEM / ODM partners</p>
+        <h3>Co-development &amp; Manufacturing</h3>
+        <p>From concept and formulation through regulatory development, scale-up and licensed manufacture, on our own site.</p>
+        <a class="link" href="/co-development">Co-development →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6. 증거 리스트 -->
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">On the record</p>
+      <h2>Credentials a buyer can verify</h2>
+    </div>
+    <ul class="kv">
+      <li><span class="k">Manufacturing licence</span><span>MFDS {licence.number} — active since {licence.since.slice(0,4)}</span></li>
+      <li><span class="k">GMP conformity</span><span>{gmp.number} ({gmp.issuer}) — valid to 3 March 2027</span></li>
+      <li><span class="k">EU manufacturer registration</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
+      <li><span class="k">UK manufacturer registration</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
+      <li><span class="k">Chemistries under one manufacturer</span><span>Hyaluronic acid · PLLA · PCL · Calcium</span></li>
+      <li><span class="k">Manufacturing site</span><span>555 Dunchon-daero, Jungwon-gu, Seongnam-si 13215, Republic of Korea</span></li>
+    </ul>
+  </section>
+
+  <!-- 7. 시장접근 요약 -->
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">Market access</p>
+      <h2>Where we can supply today</h2>
+      <p class="lead">The first question a distributor asks is whether their territory is covered. This is the current answer.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Territory</th><th>Status</th><th>Basis</th></tr></thead>
+        <tbody>
+          {marketAccess.map((m) => (
+            <tr>
+              <td>{jurisdictionName[m.territory]}</td>
+              <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
+              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: var(--s5)"><a class="link" href="/market-access">Full registration list by jurisdiction →</a></p>
+  </section>
+
+  <!-- 8. CTA -->
+  <section class="cta">
+    <div class="container row">
+      <div>
+        <h2>Ask for the numbers.</h2>
+        <p>Registration numbers, certificates and dossiers are available to distributors, clinics and brand partners on request.</p>
+      </div>
+      <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .band-wrap { padding-top: var(--s2); }
+  .headline { padding-block: var(--s8) var(--s7); }
+  .headline h1 { max-width: 20ch; }
+</style>

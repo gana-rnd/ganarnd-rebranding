@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+// 폼 처리(메일/DB)는 미정 — 연결 전까지 action 없음. 필드는 코스메틱 사이트 문의 폼 기준과 동일.
+---
+
+<Base title="Contact" description="Contact GANA R&D — distributors, clinics, hospitals and brand partners.">
+  <section class="container headline">
+    <p class="eyebrow">Contact</p>
+    <h1>Tell us the market and the product.</h1>
+    <p class="lead" style="margin-top: var(--s4)">We reply with registration status for your territory and the documents you need.</p>
+  </section>
+
+  <section class="container section tight">
+    <div class="split top">
+      <form class="form" method="post" action="#" novalidate>
+        <div class="row2">
+          <label>Name<input name="name" type="text" required /></label>
+          <label>Company<input name="company" type="text" required /></label>
+        </div>
+        <div class="row2">
+          <label>Email<input name="email" type="email" required /></label>
+          <label>Phone<input name="phone" type="tel" /></label>
+        </div>
+        <div class="row2">
+          <label>Country / territory<input name="country" type="text" required /></label>
+          <label>I am a
+            <select name="type">
+              <option>Distributor / importer</option>
+              <option>Clinic / physician</option>
+              <option>Hospital / medical distribution</option>
+              <option>Brand / OEM / ODM partner</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+        <label>Message<textarea name="message" rows="6" required></textarea></label>
+        <button class="btn" type="submit">Send</button>
+        <p class="small muted">Form delivery is being connected. Until then, please use the address on the right.</p>
+      </form>
+
+      <div class="side">
+        <p class="eyebrow">Manufacturing site</p>
+        <address>
+          GANA R&amp;D Co., Ltd.<br />
+          555 Dunchon-daero, Jungwon-gu,<br />
+          Seongnam-si, Gyeonggi-do 13215<br />
+          Republic of Korea<br />
+          <span class="mono">Tel +82-31-733-0242</span>
+        </address>
+        <p class="small muted" style="margin-top: var(--s5)">Manufacturing licence MFDS No. 4490 · GMP KCL-ABBA-19926 · EUDAMED SRN KR-MF-000037221 · MHRA MAN_ID 32678</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .headline { padding-block: var(--s9) var(--s7); }
+  .split.top { align-items: start; }
+  .form { display: flex; flex-direction: column; gap: var(--s4); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+  label { display: flex; flex-direction: column; gap: var(--s2); font-size: var(--text-sm); font-weight: 600; color: var(--ink-2); }
+  input, select, textarea { font: inherit; font-weight: 400; color: var(--ink); padding: 11px 12px; border: 1px solid var(--line); border-radius: 2px; background: #fff; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .btn { align-self: flex-start; margin-top: var(--s2); }
+  address { font-style: normal; font-size: var(--text-sm); line-height: 1.7; }
+  @media (max-width: 640px) { .row2 { grid-template-columns: 1fr; } }
+</style>

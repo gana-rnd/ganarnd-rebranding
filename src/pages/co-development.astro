@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+import { licence, gmp, eudamed, mhra, counts } from '../data/registry';
+const steps = [
+  { t: 'Concept', d: 'Clinical idea, brand brief or market gap. We start from what the product must do and where it must be registered.' },
+  { t: 'Formulation', d: 'In-house formulation across hyaluronic acid, PLLA, PCL, calcium and PN/PDRN, with testing at each iteration.' },
+  { t: 'Regulatory development', d: 'Dossier and registration work under our own manufacturing licence, with international registration experience.' },
+  { t: 'Scale-up', d: 'Engineering batches on the production lines that will make the commercial product.' },
+  { t: 'Licensed manufacture', d: 'Production on our GMP-certified site, under your brand or ours, with supply agreements to match.' },
+];
+---
+
+<Base title="Co-development & Manufacturing" description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.">
+  <section class="container headline">
+    <p class="eyebrow">Co-development &amp; Manufacturing — for brands and OEM / ODM partners</p>
+    <h1>From concept and formulation to licensed manufacture.</h1>
+  </section>
+
+  <section class="container">
+    <div class="split">
+      <div class="text">
+        <p>A partner may hold a strong brand, market access or a clinical idea, but not the laboratories, formulation expertise or licensed manufacturing needed to turn it into a registered device.</p>
+        <p>GANA R&amp;D is a licensed manufacturing site rather than a development house. The same lines that make our own products make yours, and the registrations we already hold are the track record.</p>
+        <a class="btn" href="/contact">Discuss a project</a>
+      </div>
+      <div class="visual contain"><img src="/images/vial-marble.png" alt="" /></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head">
+      <p class="eyebrow">Development pathway</p>
+      <h2>Five stages, one site</h2>
+    </div>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li>
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <div><h4>{s.t}</h4><p>{s.d}</p></div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container section tight alt-wrap">
+    <div class="section-head">
+      <p class="eyebrow">Facility</p>
+      <h2>Production on our own site</h2>
+      <p class="lead">555 Dunchon-daero, Jungwon-gu, Seongnam — manufacturing floors 801, 802, 905 and 1106.</p>
+    </div>
+    <ul class="kv">
+      <li><span class="k">High-volume vial filling, stoppering and capping</span><span>20,000 vials per hour</span></li>
+      <li><span class="k">5 ml full-automatic line</span><span>6,000 vials per hour</span></li>
+      <li><span class="k">50 ml full-automatic line</span><span>4,000 vials per hour</span></li>
+      <li><span class="k">PLLA powder filling</span><span>4,000 pieces per hour</span></li>
+      <li><span class="k">Lyophilisation</span><span>On site</span></li>
+      <li><span class="k">Purified water tank · reactor</span><span>3,000 L · 300 L heated vacuum reactor</span></li>
+    </ul>
+  </section>
+
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">Quality and registrations</p>
+      <h2>The credentials your dossier will cite</h2>
+    </div>
+    <ul class="kv">
+      <li><span class="k">Manufacturing licence</span><span>MFDS {licence.number}, active since {licence.since.slice(0, 4)}</span></li>
+      <li><span class="k">GMP conformity</span><span>{gmp.number} — valid to 3 March 2027</span></li>
+      <li><span class="k">EU manufacturer registration</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span></span></li>
+      <li><span class="k">UK manufacturer registration</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
+      <li><span class="k">Product registrations</span><span>{counts.published} active, across {counts.jurisdictions} jurisdictions</span></li>
+      <li><span class="k">Partner-brand manufacturing</span><span>Includes a Class III device registered with the MHRA under our manufacturer registration. Brand names are cited only with the partner's agreement.</span></li>
+    </ul>
+  </section>
+
+  <section class="container section tight">
+    <div class="callout">
+      <b>Partnership models.</b> Paid development, OEM/ODM manufacturing, technology licensing, shared IP, royalties, exclusive rights, jointly funded development and co-equity in selected products or ventures.
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container row">
+      <div><h2>Bring the idea. The site is here.</h2><p>Tell us the product, the market and the timeline, and we will come back with a development route.</p></div>
+      <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .headline { padding-block: var(--s9) var(--s7); }
+  .headline h1 { max-width: 22ch; }
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s6); }
+  .steps li { border-top: 2px solid var(--accent); padding-top: var(--s4); }
+  .steps .num { display: block; font-size: var(--text-xs); font-weight: 600; color: var(--accent); letter-spacing: .08em; margin-bottom: var(--s3); }
+  .steps h4 { margin-bottom: var(--s2); }
+  .steps p { font-size: var(--text-sm); color: var(--ink-2); }
+  @media (max-width: 1024px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+</style>

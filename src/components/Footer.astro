@@ -1,0 +1,54 @@
+---
+// 다크 푸터 — 법인 정체성 + 그룹 안내 (법인별 자격 귀속 원칙: 이 사이트는 GANA R&D의 자격만 말한다)
+import { manufacturer } from '../data/registry';
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr">
+  <div class="container grid">
+    <div>
+      <p class="wordmark on-dark"><span class="g">GANA</span> <span class="r">R&amp;D</span></p>
+      <p class="note">
+        GANA R&amp;D Co., Ltd. is the medical device manufacturer of Dr. Park Group,
+        alongside GANA Cosmetic (cosmeceuticals) and Dr. Park CDMO (cell and gene therapy manufacturing).
+        This site presents GANA R&amp;D and its registrations only.
+      </p>
+    </div>
+    <div>
+      <p class="h">Company</p>
+      <ul>
+        <li><a href="/aesthetics">Medical Aesthetics</a></li>
+        <li><a href="/wound-care">Wound Care</a></li>
+        <li><a href="/co-development">Co-development &amp; Manufacturing</a></li>
+        <li><a href="/market-access">Registrations &amp; Market Access</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="h">Manufacturing site</p>
+      <address>
+        {manufacturer.legal_name_en}<br />
+        555 Dunchon-daero, Jungwon-gu,<br />
+        Seongnam-si, Gyeonggi-do 13215, Republic of Korea<br />
+        Tel +82-31-733-0242
+      </address>
+    </div>
+  </div>
+  <div class="container base">
+    <p>&copy; {year} GANA R&amp;D Co., Ltd.</p>
+    <p>For professional and B2B audiences — distributors, clinics, hospitals and brand partners.</p>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--navy); color: #c9d3e2; margin-top: var(--s10); padding-block: var(--s8) var(--s6); }
+  .grid { display: grid; grid-template-columns: 2fr 1fr 1.4fr; gap: var(--s8); }
+    .note { font-size: var(--text-sm); max-width: 52ch; }
+  .h { font-size: var(--text-sm); font-weight: 600; color: #ffffff; margin-bottom: var(--s4); }
+  ul { list-style: none; display: flex; flex-direction: column; gap: var(--s2); }
+  a { font-size: var(--text-sm); transition: color var(--dur) var(--ease); }
+  a:hover { color: #fff; }
+  address { font-style: normal; font-size: var(--text-sm); }
+  .base { display: flex; justify-content: space-between; gap: var(--s4); margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid rgba(255,255,255,.12); font-size: var(--text-xs); color: #8ea0bd; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; gap: var(--s6); } .base { flex-direction: column; } }
+</style>

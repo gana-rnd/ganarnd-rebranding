@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import { surface, chemistryGroups, jurisdictionName, authorityName, fmtDate } from '../data/registry';
+const groups = chemistryGroups(surface);
+---
+
+<Base title="Medical Aesthetics" description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
+  <section class="container band-wrap">
+    <div class="band">
+      <img src="/images/syringes-set.png" alt="GANA R&D filler syringes" style="object-position: 50% 42%;" />
+      <div class="overlay">
+        <h3>Four chemistries</h3>
+        <ul><li>Hyaluronic acid</li><li>PLLA</li><li>PCL</li><li>Calcium</li><li>PN / PDRN</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container headline">
+    <p class="eyebrow">Medical Aesthetics — for clinics and aesthetic distributors</p>
+    <h1>Research-led products that make clinics harder to copy.</h1>
+  </section>
+
+  <section class="container">
+    <div class="split">
+      <div class="text">
+        <p>Many clinics offer similar products. A stronger portfolio serves different patient needs and helps a clinic stand apart. GANA R&amp;D formulates and fills across four chemical families — hyaluronic acid, PLLA, PCL and calcium — under one manufacturer name.</p>
+        <p>That range appears when a company formulates and fills across chemistries. It does not appear when a company buys one ingredient and resells it. A distributor who knows the category reads it that way straight away.</p>
+        <a class="btn" href="/contact">Request the portfolio</a>
+      </div>
+      <div class="visual contain"><img src="/images/vial-box.png" alt="" /></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head">
+      <p class="eyebrow">Registered products</p>
+      <h2>Every product, with its registration</h2>
+      <p class="lead">GANA R&amp;D is named as manufacturer on each entry. Korean licences marked “export” are export-designated product licences.</p>
+    </div>
+
+    {groups.map((g) => (
+      <div class="group">
+        <h3>{g.name}</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Product</th><th>Jurisdiction</th><th>Registration</th><th>Granted</th><th>Scope</th></tr></thead>
+            <tbody>
+              {g.items.map((r) => (
+                <tr>
+                  <td>{r.product}{r.umbrella_note_en ? <div class="small muted">{r.umbrella_note_en}</div> : null}{r.product_note ? <div class="small muted">{r.product_note}</div> : null}</td>
+                  <td>{jurisdictionName[r.jurisdiction]} · {authorityName[r.jurisdiction]}</td>
+                  <td class="mono">{r.number}</td>
+                  <td class="tabular">{fmtDate(r.date)}</td>
+                  <td>{r.export_only === true ? 'Export' : r.export_only === false ? 'Domestic' : r.class ? `Class ${r.class}` : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="container section tight">
+    <div class="callout">
+      <b>Partnership models.</b> Curated product portfolios, clinic supply, practitioner training, treatment protocols, volume pricing, network agreements and selected exclusivity.
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container row">
+      <div><h2>Build a portfolio around it.</h2><p>Ask for the full product list with registration numbers for your territory.</p></div>
+      <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .band-wrap { padding-top: var(--s2); }
+  .headline { padding-block: var(--s8) var(--s7); }
+  .headline h1 { max-width: 22ch; }
+  .group { margin-bottom: var(--s8); }
+  .group h3 { margin-bottom: var(--s4); color: var(--ink); }
+</style>

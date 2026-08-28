@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import { published, marketAccess, jurisdictionName, authorityName, fmtDate, licence, gmp, eudamed, mhra, counts } from '../data/registry';
+
+const supplyLabel: Record<string, { text: string; cls: string }> = {
+  yes: { text: 'Supply available', cls: 'ok' },
+  'contract-manufacture-only': { text: 'Contract manufacture only', cls: 'neutral' },
+  no: { text: 'Not yet available', cls: 'warn' },
+};
+const order = ['KR', 'RU', 'BR', 'UK'];
+const byJ = order.map((j) => ({ j, items: published.filter((r) => r.jurisdiction === j) })).filter((g) => g.items.length);
+const lookup: Record<string, string> = {
+  KR: 'https://emedi.mfds.go.kr',
+  RU: 'https://roszdravnadzor.gov.ru/services/misearch',
+  BR: 'https://consultas.anvisa.gov.br',
+  UK: 'https://pard.mhra.gov.uk/manufacturer-details/32678',
+};
+---
+
+<Base title="Registrations & Market Access" description="Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path.">
+  <section class="container headline">
+    <p class="eyebrow">Registrations &amp; Market Access</p>
+    <h1>Where we can supply today.</h1>
+    <p class="lead" style="margin-top: var(--s4)">The first question a distributor asks is whether their territory is covered. This page is the answer, followed by every registration behind it.</p>
+  </section>
+
+  <!-- 시장접근 지도 -->
+  <section class="container">
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Territory</th><th>Status</th><th>Basis</th></tr></thead>
+        <tbody>
+          {marketAccess.map((m) => (
+            <tr>
+              <td><strong>{jurisdictionName[m.territory]}</strong></td>
+              <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
+              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 유통 파트너십 블록 (반 페이지) -->
+  <section class="container section tight">
+    <div class="split">
+      <div class="text">
+        <p class="eyebrow">Distribution partnerships</p>
+        <h2>How we work with distributors</h2>
+        <p>Territorial distribution with phased exclusivity, registration and dossier support for new markets, joint launch and market-development support, and selected joint ventures or co-equity partnerships.</p>
+        <p>Registration dossiers already exist for the territories above. For a new territory, we support the local registration holder with the documentation the authority requires.</p>
+        <a class="btn" href="/contact">Enquire about a territory</a>
+      </div>
+      <div class="visual contain"><img src="/images/filler-x-box.jpg" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- 제조자 자격 -->
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">Manufacturer credentials</p>
+      <h2>Manufacturer of record</h2>
+    </div>
+    <ul class="kv">
+      <li><span class="k">MFDS manufacturing licence</span><span>{licence.number} — active since {licence.since.slice(0, 4)} · <a class="link" href={licence.lookup} rel="noopener">MFDS lookup</a></span></li>
+      <li><span class="k">MFDS GMP conformity</span><span>{gmp.number} — valid {fmtDate(gmp.valid_from)} to {fmtDate(gmp.valid_to)} · <a class="link" href={gmp.lookup} rel="noopener">MFDS GMP status</a></span></li>
+      <li><span class="k">EUDAMED actor registration</span><span><span class="mono">{eudamed.number}</span> — Manufacturer, active · <a class="link" href={eudamed.lookup} rel="noopener">EUDAMED search</a></span></li>
+      <li><span class="k">MHRA manufacturer registration</span><span><span class="mono">{mhra.number}</span> — updated {fmtDate(mhra.updated)} · <a class="link" href={mhra.lookup} rel="noopener">MHRA PARD</a></span></li>
+    </ul>
+  </section>
+
+  <!-- 등재 자료실 -->
+  <section class="container section">
+    <div class="section-head">
+      <p class="eyebrow">Registration library</p>
+      <h2>{counts.published} active product registrations</h2>
+      <p class="lead">GANA R&amp;D is named as manufacturer on every entry. Registration holders in Russia and Brazil are local representatives; the accurate description is “named as manufacturer”.</p>
+    </div>
+
+    {byJ.map((g) => (
+      <div class="group">
+        <div class="group-head">
+          <h3>{jurisdictionName[g.j]} <span class="muted">· {authorityName[g.j]} · {g.items.length}</span></h3>
+          <a class="link" href={lookup[g.j]} rel="noopener">Public lookup →</a>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Registration</th><th>Product</th><th>Category</th><th>Granted</th><th>Scope / class</th></tr></thead>
+            <tbody>
+              {g.items.map((r) => (
+                <tr>
+                  <td class="mono">{r.number}</td>
+                  <td>{r.product}{r.umbrella_note_en ? <div class="small muted">{r.umbrella_note_en}</div> : null}{r.product_note ? <div class="small muted">{r.product_note}</div> : null}</td>
+                  <td class="muted" title={r.category_ko}>{r.category_en ?? r.gmdn ?? r.chemistry ?? '—'}</td>
+                  <td class="tabular">{fmtDate(r.date)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.term === 'indefinite' ? ' — indefinite' : ''}</td>
+                  <td>
+                    {r.export_only === false ? <span class="status ok">Domestic</span> : r.export_only === true ? <span>Export</span> : null}
+                    {r.class ? <span class="sep"> · </span><span>Class {r.class}</span> : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- 진행 중 -->
+  <section class="container section tight">
+    <div class="section-head">
+      <p class="eyebrow">In progress</p>
+      <h2>What is not yet available, and why</h2>
+    </div>
+    <ul class="kv">
+      <li><span class="k">European Union</span><span>Manufacturer registration is active in EUDAMED. The CE certificate expired on 27 May 2024 and renewal is required before devices can be placed on the EU market.</span></li>
+      <li><span class="k">United States</span><span>No FDA device registration. US device distribution cannot be offered.</span></li>
+      <li><span class="k">United Kingdom</span><span>Manufacturer registered with the MHRA. Products in the UK are supplied under a partner's brand, so distribution is contract manufacture only.</span></li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <div class="container row">
+      <div><h2>Need a certificate, not a summary?</h2><p>Registration certificates and dossiers are provided to qualified partners on request.</p></div>
+      <a class="btn on-dark" href="/contact">Request documents</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .headline { padding-block: var(--s9) var(--s7); }
+  .headline h1 { max-width: 20ch; }
+  .group { margin-bottom: var(--s8); }
+  .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); flex-wrap: wrap; }
+  .group-head h3 { color: var(--ink); }
+</style>
