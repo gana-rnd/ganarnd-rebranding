@@ -332,3 +332,15 @@ nav a[aria-current='page']::after {
   .hero-media img { animation: none !important; transform: none !important; }
   .marquee-band, .scroll-indicator { display: none !important; }
 }
+
+/* ─────────────────────────────────────────────
+   안전망 — 어떤 이유로든 리빌이 안 오면 3초 뒤 표시
+   (스크립트 캐시 불일치·IO 실패 등). is-in 이 붙으면 이 규칙은 빠진다.
+   ───────────────────────────────────────────── */
+@keyframes reveal-failsafe { to { opacity: 1; transform: none; } }
+html.js [data-reveal]:not(.is-in),
+html.js [data-reveal-stagger]:not(.is-in) > *,
+html.js body:not(.is-loaded) .hero-line > span,
+html.js body:not(.is-loaded) .hero-fade {
+  animation: reveal-failsafe 1ms 3s forwards;
+}
