@@ -13,7 +13,10 @@
  * prefers-reduced-motion 존중.
  */
 (() => {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 검토용: ?motion=force 를 붙이면 OS의 모션 감소 설정을 무시한다 (실제 방문자에겐 적용 안 함)
+  const force = /[?&]motion=force/.test(location.search);
+  if (force) document.documentElement.classList.add('force-motion');
+  const reduced = !force && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const revealEls = document.querySelectorAll('[data-reveal], [data-reveal-stagger]');
   const showAll = () => revealEls.forEach((el) => el.classList.add('is-in'));
 
