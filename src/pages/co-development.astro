@@ -12,27 +12,27 @@ const steps = [
 
 <Base title="Co-development & Manufacturing" description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.">
   <section class="container headline">
-    <p class="eyebrow">Co-development &amp; Manufacturing — for brands and OEM / ODM partners</p>
-    <h1>From concept and formulation to licensed manufacture.</h1>
+    <p class="eyebrow hero-fade d1">Co-development &amp; Manufacturing — for brands and OEM / ODM partners</p>
+    <h1><span class="hero-line"><span>From concept and formulation to licensed manufacture.</span></span></h1>
   </section>
 
   <section class="container">
     <div class="split">
-      <div class="text">
+      <div class="text" data-reveal-stagger>
         <p>A partner may hold a strong brand, market access or a clinical idea, but not the laboratories, formulation expertise or licensed manufacturing needed to turn it into a registered device.</p>
         <p>GANA R&amp;D is a licensed manufacturing site rather than a development house. The same lines that make our own products make yours, and the registrations we already hold are the track record.</p>
         <a class="btn" href="/contact">Discuss a project</a>
       </div>
-      <div class="visual contain"><img src="/images/vial-marble.png" alt="" /></div>
+      <div class="visual contain zoom-hover" data-reveal="right"><img src="/images/vial-marble.png" alt="" /></div>
     </div>
   </section>
 
   <section class="container section">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Development pathway</p>
       <h2>Five stages, one site</h2>
     </div>
-    <ol class="steps">
+    <ol class="steps" data-reveal-stagger>
       {steps.map((s, i) => (
         <li>
           <span class="num">{String(i + 1).padStart(2, '0')}</span>
@@ -43,12 +43,12 @@ const steps = [
   </section>
 
   <section class="container section tight alt-wrap">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Facility</p>
       <h2>Production on our own site</h2>
       <p class="lead">555 Dunchon-daero, Jungwon-gu, Seongnam — manufacturing floors 801, 802, 905 and 1106.</p>
     </div>
-    <ul class="kv">
+    <ul class="kv" data-reveal-stagger>
       <li><span class="k">High-volume vial filling, stoppering and capping</span><span>20,000 vials per hour</span></li>
       <li><span class="k">5 ml full-automatic line</span><span>6,000 vials per hour</span></li>
       <li><span class="k">50 ml full-automatic line</span><span>4,000 vials per hour</span></li>
@@ -59,11 +59,11 @@ const steps = [
   </section>
 
   <section class="container section tight">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <p class="eyebrow">Quality and registrations</p>
       <h2>The credentials your dossier will cite</h2>
     </div>
-    <ul class="kv">
+    <ul class="kv" data-reveal-stagger>
       <li><span class="k">Manufacturing licence</span><span>MFDS {licence.number}, active since {licence.since.slice(0, 4)}</span></li>
       <li><span class="k">GMP conformity</span><span>{gmp.number} — valid to 3 March 2027</span></li>
       <li><span class="k">EU manufacturer registration</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span></span></li>
@@ -74,13 +74,13 @@ const steps = [
   </section>
 
   <section class="container section tight">
-    <div class="callout">
+    <div class="callout" data-reveal>
       <b>Partnership models.</b> Paid development, OEM/ODM manufacturing, technology licensing, shared IP, royalties, exclusive rights, jointly funded development and co-equity in selected products or ventures.
     </div>
   </section>
 
   <section class="cta">
-    <div class="container row">
+    <div class="container row" data-reveal>
       <div><h2>Bring the idea. The site is here.</h2><p>Tell us the product, the market and the timeline, and we will come back with a development route.</p></div>
       <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
     </div>
