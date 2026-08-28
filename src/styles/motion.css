@@ -302,17 +302,17 @@ nav a[aria-current='page']::after {
    접근성 — 모션 감소 설정 시 전부 비활성화
    ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal],
-  [data-reveal-stagger] > *,
-  .hero-line > span,
-  .hero-fade {
+  html:not(.force-motion) [data-reveal],
+  html:not(.force-motion) [data-reveal-stagger] > *,
+  html:not(.force-motion) .hero-line > span,
+  html:not(.force-motion) .hero-fade {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
-  .hero-media img,
-  .scroll-indicator::after,
-  .marquee-text {
+  html:not(.force-motion) .hero-media img,
+  html:not(.force-motion) .scroll-indicator::after,
+  html:not(.force-motion) .marquee-text {
     animation: none !important;
   }
 }
