@@ -1,39 +1,32 @@
 /* GANA R&D — 모션 런타임
  * samsungcnt.com 패턴 참고:
  *  - IntersectionObserver로 뷰포트 진입 시 is-in 클래스 부여 (1회성)
- *  - 숫자 카운트업 (수량에만 — 등록번호·연도에는 쓰지 않는다)
+ *  - 숫자 카운트업
  *  - 헤더 스크롤 상태 클래스
  *  - CTA 패럴랙스 글로우
  *  - 히어로 로드 시퀀스 (is-loaded)
- *  - 마르퀴: 화면 밖에서는 정지
- * 안전장치:
- *  - 숨김 초기 상태는 CSS에서 html.js 가 있을 때만 적용된다 (JS 없으면 전부 보임)
- *  - 카운트업은 요소가 화면에 들어올 때 시작한다 (그 전까지 실제 값 유지 → 인쇄 안전)
- *  - IntersectionObserver 미지원 시 전부 즉시 표시
  * prefers-reduced-motion 존중.
  */
 (() => {
-  // 검토용: ?motion=force 를 붙이면 OS의 모션 감소 설정을 무시한다 (실제 방문자에겐 적용 안 함)
-  const force = /[?&]motion=force/.test(location.search);
-  if (force) document.documentElement.classList.add('force-motion');
-  const reduced = !force && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealEls = document.querySelectorAll('[data-reveal], [data-reveal-stagger]');
-  const showAll = () => revealEls.forEach((el) => el.classList.add('is-in'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── 히어로 로드 시퀀스 ── */
-  const boot = () => document.body.classList.add('is-loaded');
+  const boot = () => {
+    document.body.classList.add('is-loaded');
+  };
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     requestAnimationFrame(boot);
   } else {
     window.addEventListener('DOMContentLoaded', boot, { once: true });
   }
 
-  if (reduced || !('IntersectionObserver' in window)) {
-    showAll();
+  if (reduced) {
+    // 모션 감소 설정: 모든 리빌 요소를 즉시 표시
+    document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => el.classList.add('is-in'));
     return;
   }
 
-  /* ── 스크롤 리빌 ── */
+  /* ── 스크롤 리빌 (IntersectionObserver) ── */
   const revealIO = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -45,27 +38,22 @@
     },
     { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   );
-  revealEls.forEach((el) => revealIO.observe(el));
+  document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => revealIO.observe(el));
 
-  /* 인쇄 직전엔 전부 표시 (Ctrl+P 시 beforeprint 발생) */
-  window.addEventListener('beforeprint', showAll);
-
-  /* ── 숫자 카운트업 — 화면 진입 시 0에서 시작, 그 전까진 실제 값 ── */
+  /* ── 숫자 카운트업 ── */
   const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
   const animateCount = (el) => {
-    const node = el.firstChild;
-    if (!node || node.nodeType !== Node.TEXT_NODE) return;
     const target = parseFloat(el.dataset.count);
-    if (!Number.isFinite(target)) return;
     const dur = 1600;
     const start = performance.now();
     const tick = (now) => {
       const p = Math.min((now - start) / dur, 1);
-      node.nodeValue = String(Math.round(target * easeOutExpo(p)));
+      const val = Math.round(target * easeOutExpo(p));
+      // 천 단위 구분 없이 표기 (연도·라이선스 번호 등에 쉼표가 들어가면 어색함)
+      el.firstChild.nodeValue = String(val);
       if (p < 1) requestAnimationFrame(tick);
-      else node.nodeValue = String(target);
+      else el.firstChild.nodeValue = String(target);
     };
-    node.nodeValue = '0';
     requestAnimationFrame(tick);
   };
   const countIO = new IntersectionObserver(
@@ -79,16 +67,13 @@
     },
     { threshold: 0.4 }
   );
-  document.querySelectorAll('[data-count]').forEach((el) => countIO.observe(el));
-
-  /* ── 마르퀴 — 화면 밖이면 정지 ── */
-  const marquees = document.querySelectorAll('.marquee-band');
-  if (marquees.length) {
-    const mIO = new IntersectionObserver((entries) => {
-      for (const entry of entries) entry.target.classList.toggle('is-paused', !entry.isIntersecting);
-    });
-    marquees.forEach((el) => mIO.observe(el));
-  }
+  document.querySelectorAll('[data-count]').forEach((el) => {
+    // 초기값 0으로 설정 (첫 텍스트 노드만)
+    if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+      el.firstChild.nodeValue = '0';
+    }
+    countIO.observe(el);
+  });
 
   /* ── 헤더 스크롤 상태 ── */
   const hdr = document.querySelector('.hdr');

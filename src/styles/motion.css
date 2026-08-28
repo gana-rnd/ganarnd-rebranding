@@ -19,7 +19,7 @@
    사용: <section data-reveal> 또는 개별 요소에.
    자식 stagger는 [data-reveal-stagger] 컨테이너의 직계 자식에게 자동 적용.
    ───────────────────────────────────────────── */
-html.js [data-reveal] {
+[data-reveal] {
   opacity: 0;
   transform: translateY(48px);
   transition:
@@ -28,16 +28,16 @@ html.js [data-reveal] {
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
-html.js [data-reveal='left']  { transform: translateX(-60px); }
-html.js [data-reveal='right'] { transform: translateX(60px); }
-html.js [data-reveal='scale'] { transform: scale(0.94); }
+[data-reveal='left']  { transform: translateX(-60px); }
+[data-reveal='right'] { transform: translateX(60px); }
+[data-reveal='scale'] { transform: scale(0.94); }
 [data-reveal].is-in {
   opacity: 1;
   transform: none;
 }
 
 /* stagger 컨테이너 — 자식들이 120ms 간격으로 순차 등장 */
-html.js [data-reveal-stagger] > * {
+[data-reveal-stagger] > * {
   opacity: 0;
   transform: translateY(40px);
   transition:
@@ -71,7 +71,7 @@ html.js [data-reveal-stagger] > * {
 
 /* 히어로 텍스트 라인 마스크 리빌 */
 .hero-line { overflow: hidden; display: block; }
-html.js .hero-line > span {
+.hero-line > span {
   display: inline-block;
   transform: translateY(110%);
   transition: transform var(--dur-slow) var(--ease-out-expo);
@@ -83,7 +83,7 @@ html.js .hero-line > span {
 .is-loaded .hero-line:nth-child(3) > span { transition-delay: 450ms; }
 
 /* 히어로 부가 요소 페이드 */
-html.js .hero-fade {
+.hero-fade {
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -160,7 +160,6 @@ html.js .hero-fade {
   will-change: transform;
 }
 .marquee-text.solid { color: var(--paper-2); -webkit-text-stroke: 0; }
-.marquee-band.is-paused .marquee-text { animation-play-state: paused; }
 @keyframes marquee-x {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -302,25 +301,6 @@ nav a[aria-current='page']::after {
    접근성 — 모션 감소 설정 시 전부 비활성화
    ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  html:not(.force-motion) [data-reveal],
-  html:not(.force-motion) [data-reveal-stagger] > *,
-  html:not(.force-motion) .hero-line > span,
-  html:not(.force-motion) .hero-fade {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-  html:not(.force-motion) .hero-media img,
-  html:not(.force-motion) .scroll-indicator::after,
-  html:not(.force-motion) .marquee-text {
-    animation: none !important;
-  }
-}
-
-/* ─────────────────────────────────────────────
-   인쇄 — 리빌·마스크 강제 표시, 장식 요소 숨김
-   ───────────────────────────────────────────── */
-@media print {
   [data-reveal],
   [data-reveal-stagger] > *,
   .hero-line > span,
@@ -329,18 +309,9 @@ nav a[aria-current='page']::after {
     transform: none !important;
     transition: none !important;
   }
-  .hero-media img { animation: none !important; transform: none !important; }
-  .marquee-band, .scroll-indicator { display: none !important; }
-}
-
-/* ─────────────────────────────────────────────
-   안전망 — 어떤 이유로든 리빌이 안 오면 3초 뒤 표시
-   (스크립트 캐시 불일치·IO 실패 등). is-in 이 붙으면 이 규칙은 빠진다.
-   ───────────────────────────────────────────── */
-@keyframes reveal-failsafe { to { opacity: 1; transform: none; } }
-html.js [data-reveal]:not(.is-in),
-html.js [data-reveal-stagger]:not(.is-in) > *,
-html.js body:not(.is-loaded) .hero-line > span,
-html.js body:not(.is-loaded) .hero-fade {
-  animation: reveal-failsafe 1ms 1.5s forwards;
+  .hero-media img,
+  .scroll-indicator::after,
+  .marquee-text {
+    animation: none !important;
+  }
 }

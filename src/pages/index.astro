@@ -55,8 +55,8 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
     <div class="stats" data-reveal>
       <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">Active product registrations with GANA R&amp;D named as manufacturer</div></div>
       <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">Jurisdictions — {jurisdictionsList}</div></div>
-      <div class="stat"><div class="n">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
-      <div class="stat"><div class="n">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
+      <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
+      <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
     </div>
   </section>
 
