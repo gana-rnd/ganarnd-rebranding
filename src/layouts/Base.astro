@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '../styles/motion.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import motionSrc from '../scripts/motion.js?raw';
 
 interface Props { title: string; description?: string; }
 const {
@@ -33,7 +34,7 @@ const fullTitle = title === 'GANA R&D' ? title : `${title} — GANA R&D`;
     <Header />
     <main id="main"><slot /></main>
     <Footer />
-    <script src="../scripts/motion.js"></script>
+    <script is:inline set:html={motionSrc}></script>
     <style>
       .skip { position: absolute; left: -999px; }
       .skip:focus { left: var(--gutter); top: var(--s2); z-index: 30; background: var(--navy); color: #fff; padding: var(--s2) var(--s3); font-size: var(--text-sm); }

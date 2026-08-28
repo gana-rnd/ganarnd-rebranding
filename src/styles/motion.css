@@ -342,5 +342,5 @@ html.js [data-reveal]:not(.is-in),
 html.js [data-reveal-stagger]:not(.is-in) > *,
 html.js body:not(.is-loaded) .hero-line > span,
 html.js body:not(.is-loaded) .hero-fade {
-  animation: reveal-failsafe 1ms 3s forwards;
+  animation: reveal-failsafe 1ms 1.5s forwards;
 }
