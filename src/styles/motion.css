@@ -1,10 +1,10 @@
 /* GANA R&D — 모션 시스템
  * 레퍼런스: samsungcnt.com
- *  - 스크롤 트리거 리빌 (translate + fade, expo-out 이징, stagger 지연)
- *  - 히어로 Ken Burns 줌 + 텍스트 순차 등장 + 스크롤 다운 인디케이터
- *  - 섹션 배경 대형 타이포 마르퀴
- *  - 숫자 카운트업, 카드 호버 리프트, 헤더 스크롤 축소/블러
- * 접근성: prefers-reduced-motion 시 모든 모션 비활성화
+ *
+ * 중요: 모든 "숨김 초기 상태"는 html.js 가 있을 때만 적용된다.
+ *   - <html>에 class 없음 (JS 미실행) → 콘텐츠 100% 즉시 표시, 모션만 없음
+ *   - <html class="js"> (인라인 스크립트가 head에서 즉시 부여) → 리빌 모션 활성
+ * 이렇게 해야 외부 스크립트 로드 실패·캐시·경로 문제가 나도 콘텐츠가 절대 사라지지 않는다.
  */
 
 :root {
@@ -16,10 +16,8 @@
 
 /* ─────────────────────────────────────────────
    1. 스크롤 리빌 — [data-reveal]
-   사용: <section data-reveal> 또는 개별 요소에.
-   자식 stagger는 [data-reveal-stagger] 컨테이너의 직계 자식에게 자동 적용.
    ───────────────────────────────────────────── */
-[data-reveal] {
+html.js [data-reveal] {
   opacity: 0;
   transform: translateY(48px);
   transition:
@@ -28,16 +26,16 @@
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
-[data-reveal='left']  { transform: translateX(-60px); }
-[data-reveal='right'] { transform: translateX(60px); }
-[data-reveal='scale'] { transform: scale(0.94); }
-[data-reveal].is-in {
+html.js [data-reveal='left']  { transform: translateX(-60px); }
+html.js [data-reveal='right'] { transform: translateX(60px); }
+html.js [data-reveal='scale'] { transform: scale(0.94); }
+html.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
 }
 
 /* stagger 컨테이너 — 자식들이 120ms 간격으로 순차 등장 */
-[data-reveal-stagger] > * {
+html.js [data-reveal-stagger] > * {
   opacity: 0;
   transform: translateY(40px);
   transition:
@@ -45,14 +43,14 @@
     transform var(--dur-reveal) var(--ease-out-expo);
   will-change: opacity, transform;
 }
-[data-reveal-stagger].is-in > *:nth-child(1) { transition-delay: 0ms; }
-[data-reveal-stagger].is-in > *:nth-child(2) { transition-delay: 120ms; }
-[data-reveal-stagger].is-in > *:nth-child(3) { transition-delay: 240ms; }
-[data-reveal-stagger].is-in > *:nth-child(4) { transition-delay: 360ms; }
-[data-reveal-stagger].is-in > *:nth-child(5) { transition-delay: 480ms; }
-[data-reveal-stagger].is-in > *:nth-child(6) { transition-delay: 600ms; }
-[data-reveal-stagger].is-in > *:nth-child(n+7) { transition-delay: 720ms; }
-[data-reveal-stagger].is-in > * {
+html.js [data-reveal-stagger].is-in > *:nth-child(1) { transition-delay: 0ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(2) { transition-delay: 120ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(3) { transition-delay: 240ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(4) { transition-delay: 360ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(5) { transition-delay: 480ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(6) { transition-delay: 600ms; }
+html.js [data-reveal-stagger].is-in > *:nth-child(n+7) { transition-delay: 720ms; }
+html.js [data-reveal-stagger].is-in > * {
   opacity: 1;
   transform: none;
 }
@@ -64,36 +62,36 @@
   0%   { transform: scale(1.12); }
   100% { transform: scale(1); }
 }
-.hero-media img {
+html.js .hero-media img {
   animation: kenburns 2.4s var(--ease-out-expo) both;
   will-change: transform;
 }
 
 /* 히어로 텍스트 라인 마스크 리빌 */
 .hero-line { overflow: hidden; display: block; }
-.hero-line > span {
+html.js .hero-line > span {
   display: inline-block;
   transform: translateY(110%);
   transition: transform var(--dur-slow) var(--ease-out-expo);
   will-change: transform;
 }
-.is-loaded .hero-line > span { transform: translateY(0); }
-.is-loaded .hero-line:nth-child(1) > span { transition-delay: 150ms; }
-.is-loaded .hero-line:nth-child(2) > span { transition-delay: 300ms; }
-.is-loaded .hero-line:nth-child(3) > span { transition-delay: 450ms; }
+html.js .is-loaded .hero-line > span { transform: translateY(0); }
+html.js .is-loaded .hero-line:nth-child(1) > span { transition-delay: 150ms; }
+html.js .is-loaded .hero-line:nth-child(2) > span { transition-delay: 300ms; }
+html.js .is-loaded .hero-line:nth-child(3) > span { transition-delay: 450ms; }
 
 /* 히어로 부가 요소 페이드 */
-.hero-fade {
+html.js .hero-fade {
   opacity: 0;
   transform: translateY(24px);
   transition:
     opacity 900ms var(--ease-out-expo),
     transform 900ms var(--ease-out-expo);
 }
-.is-loaded .hero-fade { opacity: 1; transform: none; }
-.is-loaded .hero-fade.d1 { transition-delay: 550ms; }
-.is-loaded .hero-fade.d2 { transition-delay: 700ms; }
-.is-loaded .hero-fade.d3 { transition-delay: 850ms; }
+html.js .is-loaded .hero-fade { opacity: 1; transform: none; }
+html.js .is-loaded .hero-fade.d1 { transition-delay: 550ms; }
+html.js .is-loaded .hero-fade.d2 { transition-delay: 700ms; }
+html.js .is-loaded .hero-fade.d3 { transition-delay: 850ms; }
 
 /* ─────────────────────────────────────────────
    3. 스크롤 다운 인디케이터 (samsungcnt scrolldown 키프레임)
@@ -238,8 +236,7 @@
 .hdr {
   transition:
     background 400ms var(--ease-out-expo),
-    box-shadow 400ms var(--ease-out-expo),
-    backdrop-filter 400ms var(--ease-out-expo);
+    box-shadow 400ms var(--ease-out-expo);
 }
 .hdr .row { transition: min-height 400ms var(--ease-out-expo); }
 .hdr.is-scrolled {
@@ -301,10 +298,10 @@ nav a[aria-current='page']::after {
    접근성 — 모션 감소 설정 시 전부 비활성화
    ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal],
-  [data-reveal-stagger] > *,
-  .hero-line > span,
-  .hero-fade {
+  html.js [data-reveal],
+  html.js [data-reveal-stagger] > *,
+  html.js .hero-line > span,
+  html.js .hero-fade {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
