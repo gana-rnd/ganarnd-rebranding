@@ -62,9 +62,13 @@ html.js [data-reveal-stagger].is-in > * {
   0%   { transform: scale(1.12); }
   100% { transform: scale(1); }
 }
-html.js .hero-media img,
-html.js .page-hero .ph-media img {
+html.js .hero-media img {
   animation: kenburns 2.4s var(--ease-out-expo) both;
+  will-change: transform;
+}
+/* 서브 페이지 비주얼 밴드 — 은은한 줌아웃 */
+html.js .page-visual img {
+  animation: kenburns 2s var(--ease-out-expo) both;
   will-change: transform;
 }
 
