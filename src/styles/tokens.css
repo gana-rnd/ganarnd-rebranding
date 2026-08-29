@@ -37,6 +37,10 @@
   --text-2xl: 2rem;
   --text-3xl: 2.5rem;
   --text-4xl: 3rem;
+  /* 프리미엄 디스플레이 스케일 */
+  --text-display: clamp(2.75rem, 6.4vw, 5.5rem);
+  --text-h1: clamp(2.25rem, 4.6vw, 4rem);
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
 
   --leading-tight: 1.15;
   --leading-body: 1.6;

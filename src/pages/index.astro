@@ -10,38 +10,44 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
 const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdictionName[j]).join(' · ');
 ---
 
-<Base title="GANA R&D">
-  <!-- 1. 히어로 — Ken Burns 줌 + 오버레이 순차 등장 + 스크롤 인디케이터 -->
-  <section class="container band-wrap">
-    <div class="band hero-media">
-      <img src="/images/syringes-set.png" alt="GANA R&D dermal filler syringes" style="object-position: 50% 42%;" />
-      <div class="overlay">
-        <h3 class="hero-fade d1">What we manufacture</h3>
-        <ul data-reveal-stagger class="hero-list">
-          <li>Hyaluronic acid</li>
-          <li>PLLA</li>
-          <li>PCL</li>
-          <li>Calcium</li>
-          <li>PN / PDRN</li>
-          <li>Hydrogel &amp; foam wound dressings</li>
-        </ul>
-      </div>
-      <div class="scroll-indicator" aria-hidden="true"><span class="label">Scroll</span></div>
+<Base title="GANA R&D" hasHero>
+  <!-- 1. 풀스크린 히어로 — Ken Burns + 그라디언트 오버레이 + 대형 헤드라인 -->
+  <section class="hero">
+    <div class="hero-media">
+      <img src="/images/syringes-set.png" alt="GANA R&D dermal filler syringes" />
+      <div class="hero-shade" aria-hidden="true"></div>
     </div>
+    <div class="container hero-inner">
+      <p class="hero-eyebrow hero-fade d1">Licensed medical device manufacturer — Seongnam, Korea</p>
+      <h1 class="hero-title">
+        <span class="hero-line"><span>Medical devices,</span></span>
+        <span class="hero-line"><span>made and registered.</span></span>
+      </h1>
+      <p class="hero-sub hero-fade d2">Dermal fillers across four chemistries, hydrogel and foam wound dressings, and contract manufacture — every product carrying a registration number a buyer can look up.</p>
+      <div class="hero-actions hero-fade d3">
+        <a class="btn on-dark" href="/market-access">See the registrations</a>
+        <a class="hero-link" href="/contact">Contact GANA R&amp;D <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="container hero-chips hero-fade d3">
+      <ul>
+        <li>Hyaluronic acid</li>
+        <li>PLLA</li>
+        <li>PCL</li>
+        <li>Calcium</li>
+        <li>PN / PDRN</li>
+        <li>Hydrogel &amp; foam wound dressings</li>
+      </ul>
+    </div>
+    <div class="scroll-indicator on-hero" aria-hidden="true"><span class="label">Scroll</span></div>
   </section>
 
-  <!-- 2. 파란 헤드라인 — 라인 마스크 리빌 -->
-  <section class="container headline">
-    <h1>
-      <span class="hero-line"><span>Medical devices,</span></span>
-      <span class="hero-line"><span>made and registered.</span></span>
-    </h1>
-  </section>
-
-  <!-- 3. 좌 문단 / 우 이미지 -->
-  <section class="container">
+  <!-- 2. 좌 문단 / 우 이미지 -->
+  <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> The company</p>
+        <h2>A manufacturer, not a reseller.</h2>
         <p>GANA R&amp;D is a licensed medical device manufacturer in Seongnam, Korea. We formulate, fill and register dermal fillers across four chemistries, manufacture hydrogel and foam wound dressings, and produce under partner brands.</p>
         <p>Every product registration on this site carries a number a buyer can look up. GANA R&amp;D is named as manufacturer on each one.</p>
         <a class="btn" href="/market-access">See the registrations</a>
@@ -50,13 +56,19 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
     </div>
   </section>
 
-  <!-- 4. 숫자 행 — 카운트업 -->
-  <section class="container section">
-    <div class="stats" data-reveal>
-      <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">Active product registrations with GANA R&amp;D named as manufacturer</div></div>
-      <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">Jurisdictions — {jurisdictionsList}</div></div>
-      <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
-      <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
+  <!-- 3. 숫자 행 — 다크 신뢰 섹션 + 카운트업 -->
+  <section class="dark section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow"><span class="no">02</span> On the record</p>
+        <h2>The numbers behind the name</h2>
+      </div>
+      <div class="stats" data-reveal>
+        <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">Active product registrations with GANA R&amp;D named as manufacturer</div></div>
+        <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">Jurisdictions — {jurisdictionsList}</div></div>
+        <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
+        <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
+      </div>
     </div>
   </section>
 
@@ -65,10 +77,10 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
     <span class="marquee-text">REGISTRATIONS · MANUFACTURING · REGISTRATIONS · MANUFACTURING ·&nbsp;</span>
   </div>
 
-  <!-- 5. 프로포지션 3 -->
-  <section class="container section tight">
+  <!-- 4. 프로포지션 3 -->
+  <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Who we work with</p>
+      <p class="eyebrow"><span class="no">03</span> Who we work with</p>
       <h2>Three ways to work with GANA R&amp;D</h2>
     </div>
     <div class="cards" data-reveal-stagger>
@@ -76,32 +88,32 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
         <p class="who">Clinics · aesthetic distributors</p>
         <h3>Medical Aesthetics</h3>
         <p>Dermal fillers across hyaluronic acid, PLLA, PCL and calcium, registered under a single manufacturer name. A portfolio that serves different patient needs and is hard to copy.</p>
-        <a class="link" href="/aesthetics">Medical Aesthetics →</a>
+        <a class="link" href="/aesthetics">Medical Aesthetics <span class="arr">→</span></a>
       </article>
       <article class="card">
         <p class="who">Hospitals · medical distribution</p>
         <h3>Wound Care</h3>
         <p>Hydrogel and foam wound dressings, licensed by the MFDS including domestic approval, and registered in Russia. A regulated device line, not a cosmetic.</p>
-        <a class="link" href="/wound-care">Wound Care →</a>
+        <a class="link" href="/wound-care">Wound Care <span class="arr">→</span></a>
       </article>
       <article class="card">
         <p class="who">Brands · OEM / ODM partners</p>
         <h3>Co-development &amp; Manufacturing</h3>
         <p>From concept and formulation through regulatory development, scale-up and licensed manufacture, on our own site.</p>
-        <a class="link" href="/co-development">Co-development →</a>
+        <a class="link" href="/co-development">Co-development <span class="arr">→</span></a>
       </article>
     </div>
   </section>
 
-  <!-- 6. 증거 리스트 -->
+  <!-- 5. 증거 리스트 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">On the record</p>
+      <p class="eyebrow"><span class="no">04</span> Credentials</p>
       <h2>Credentials a buyer can verify</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
-      <li><span class="k">Manufacturing licence</span><span>MFDS {licence.number} — active since {licence.since.slice(0,4)}</span></li>
-      <li><span class="k">GMP conformity</span><span>{gmp.number} ({gmp.issuer}) — valid to 3 March 2027</span></li>
+      <li><span class="k">Manufacturing licence</span><span>MFDS <span class="mono">{licence.number}</span> — active since {licence.since.slice(0,4)}</span></li>
+      <li><span class="k">GMP conformity</span><span><span class="mono">{gmp.number}</span> ({gmp.issuer}) — valid to 3 March 2027</span></li>
       <li><span class="k">EU manufacturer registration</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
       <li><span class="k">UK manufacturer registration</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
       <li><span class="k">Chemistries under one manufacturer</span><span>Hyaluronic acid · PLLA · PCL · Calcium</span></li>
@@ -109,10 +121,10 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
     </ul>
   </section>
 
-  <!-- 7. 시장접근 요약 -->
+  <!-- 6. 시장접근 요약 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Market access</p>
+      <p class="eyebrow"><span class="no">05</span> Market access</p>
       <h2>Where we can supply today</h2>
       <p class="lead">The first question a distributor asks is whether their territory is covered. This is the current answer.</p>
     </div>
@@ -130,10 +142,10 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
         </tbody>
       </table>
     </div>
-    <p style="margin-top: var(--s5)" data-reveal><a class="link" href="/market-access">Full registration list by jurisdiction →</a></p>
+    <p style="margin-top: var(--s5)" data-reveal><a class="link" href="/market-access">Full registration list by jurisdiction <span class="arr">→</span></a></p>
   </section>
 
-  <!-- 8. CTA -->
+  <!-- 7. CTA -->
   <section class="cta">
     <div class="container row" data-reveal>
       <div>
@@ -146,10 +158,88 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
 </Base>
 
 <style>
-  .band-wrap { padding-top: var(--s2); }
-  .band { position: relative; }
-  .headline { padding-block: var(--s8) var(--s7); }
-  .headline h1 { max-width: 20ch; }
-  .hero-list { list-style: none; }
-  .marquee-band { padding-block: var(--s4); }
+  /* ── 풀스크린 히어로 ── */
+  .hero {
+    position: relative;
+    min-height: min(92vh, 980px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .hero-media { position: absolute; inset: 0; }
+  .hero-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+  }
+  .hero-shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 31, 58, 0.42) 0%,
+      rgba(11, 31, 58, 0.28) 30%,
+      rgba(11, 31, 58, 0.62) 62%,
+      rgba(11, 31, 58, 0.92) 100%
+    );
+  }
+  .hero-inner { position: relative; padding-bottom: var(--s6); padding-top: var(--s10); }
+  .hero-eyebrow {
+    font-size: var(--text-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: var(--s5);
+  }
+  .hero-title {
+    font-size: var(--text-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    color: #fff;
+    max-width: 14ch;
+  }
+  .hero-sub {
+    margin-top: var(--s5);
+    max-width: 56ch;
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .hero-actions { display: flex; align-items: center; gap: var(--s6); margin-top: var(--s7); flex-wrap: wrap; }
+  .hero-link {
+    color: #fff; font-weight: 600; font-size: var(--text-sm);
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 4px;
+    transition: border-color 300ms var(--ease-out-expo);
+  }
+  .hero-link:hover { border-color: #fff; }
+  .hero-link .arr { display: inline-block; transition: transform 350ms var(--ease-out-expo); }
+  .hero-link:hover .arr { transform: translateX(5px); }
+
+  .hero-chips { position: relative; padding-bottom: var(--s7); }
+  .hero-chips ul {
+    list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2);
+    border-top: 1px solid rgba(255, 255, 255, 0.22); padding-top: var(--s5);
+  }
+  .hero-chips li {
+    font-size: var(--text-xs); letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    padding: 7px 14px;
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .scroll-indicator.on-hero { bottom: 24px; background: rgba(255,255,255,0.25); }
+  .scroll-indicator.on-hero::after { background: #fff; }
+  .scroll-indicator.on-hero .label { color: rgba(255,255,255,0.7); }
+
+  @media (max-width: 768px) {
+    .hero { min-height: 88vh; }
+    .hero-chips ul { gap: 6px; }
+  }
+
+  .marquee-band { border-top: 0; }
 </style>

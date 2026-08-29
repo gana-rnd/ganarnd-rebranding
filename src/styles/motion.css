@@ -231,7 +231,7 @@ html.js .is-loaded .hero-fade.d3 { transition-delay: 850ms; }
 .btn.on-dark::before { background: #e9ebee; }
 
 /* ─────────────────────────────────────────────
-   8. 헤더 — 스크롤 시 축소 + 블러
+   8. 헤더 — 히어로 위 투명 오버레이, 스크롤 시 블러
    ───────────────────────────────────────────── */
 .hdr {
   transition:
@@ -239,8 +239,26 @@ html.js .is-loaded .hero-fade.d3 { transition-delay: 850ms; }
     box-shadow 400ms var(--ease-out-expo);
 }
 .hdr .row { transition: min-height 400ms var(--ease-out-expo); }
+/* 히어로가 있는 페이지: 헤더를 투명 오버레이로 */
+body.has-hero .hdr {
+  position: fixed;
+  left: 0; right: 0;
+  background: transparent;
+}
+body.has-hero .hdr .wordmark .g { color: #fff; }
+body.has-hero .hdr nav a { color: rgba(255, 255, 255, 0.88); }
+body.has-hero .hdr nav a::after { background: #fff; }
+body.has-hero .hdr.is-scrolled {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: 0 1px 0 var(--line);
+}
+body.has-hero .hdr.is-scrolled .wordmark .g { color: #3a3a3a; }
+body.has-hero .hdr.is-scrolled nav a { color: var(--ink); }
+body.has-hero .hdr.is-scrolled nav a::after { background: var(--accent); }
 .hdr.is-scrolled {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   box-shadow: 0 1px 0 var(--line);

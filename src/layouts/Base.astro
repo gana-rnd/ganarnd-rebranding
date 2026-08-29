@@ -4,10 +4,11 @@ import '../styles/motion.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-interface Props { title: string; description?: string; }
+interface Props { title: string; description?: string; hasHero?: boolean; }
 const {
   title,
   description = 'GANA R&D Co., Ltd. — licensed medical device manufacturer in Seongnam, Korea. Dermal fillers, wound dressings and contract manufacturing, with registration numbers a buyer can verify.',
+  hasHero = false,
 } = Astro.props;
 const fullTitle = title === 'GANA R&D' ? title : `${title} — GANA R&D`;
 ---
@@ -30,7 +31,7 @@ const fullTitle = title === 'GANA R&D' ? title : `${title} — GANA R&D`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body class={hasHero ? 'has-hero' : undefined}>
     <a href="#main" class="skip">Skip to content</a>
     <Header />
     <main id="main"><slot /></main>
