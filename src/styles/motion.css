@@ -335,3 +335,20 @@ nav a[aria-current='page']::after {
     animation: none !important;
   }
 }
+
+/* ─────────────────────────────────────────────
+   인쇄 — 리빌·마스크 강제 표시, 장식 요소 숨김
+   (실사 담당자는 Ctrl+P 로 PDF를 만든다. 스크롤 안 한 부분이 백지가 되면 안 된다)
+   ───────────────────────────────────────────── */
+@media print {
+  html.js [data-reveal],
+  html.js [data-reveal-stagger] > *,
+  html.js .hero-line > span,
+  html.js .hero-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-media img { animation: none !important; transform: none !important; }
+  .marquee-band, .scroll-indicator { display: none !important; }
+}

@@ -65,8 +65,8 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
       <div class="stats" data-reveal>
         <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">{t.home.stat1}</div></div>
         <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">{t.home.stat2} — {jurisdictionsList}</div></div>
-        <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">{t.home.stat3}</div></div>
-        <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
+        <div class="stat"><div class="n">4490</div><div class="l">{t.home.stat3}</div></div>
+        <div class="stat"><div class="n">2027<small>Mar</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
       </div>
     </div>
   </section>
@@ -184,7 +184,8 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
       rgba(11, 31, 58, 0.92) 100%
     );
   }
-  .hero-inner { position: relative; padding-bottom: var(--s6); padding-top: var(--s10); }
+  .hero-inner { position: relative; width: 100%; max-width: var(--content-max); padding-bottom: var(--s6); padding-top: var(--s10); }
+  .hero-inner > * { max-width: 100%; }
   .hero-eyebrow {
     font-size: var(--text-sm);
     letter-spacing: 0.14em;
@@ -217,9 +218,9 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
   .hero-link .arr { display: inline-block; transition: transform 350ms var(--ease-out-expo); }
   .hero-link:hover .arr { transform: translateX(5px); }
 
-  .hero-chips { position: relative; padding-bottom: var(--s7); }
+  .hero-chips { position: relative; width: 100%; max-width: var(--content-max); padding-bottom: var(--s7); }
   .hero-chips ul {
-    list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2);
+    list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2); padding-right: 96px;
     border-top: 1px solid rgba(255, 255, 255, 0.22); padding-top: var(--s5);
   }
   .hero-chips li {
@@ -231,7 +232,7 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
     backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.06);
   }
-  .scroll-indicator.on-hero { bottom: 24px; background: rgba(255,255,255,0.25); }
+  .scroll-indicator.on-hero { left: auto; right: var(--gutter); transform: none; bottom: 24px; background: rgba(255,255,255,0.25); }
   .scroll-indicator.on-hero::after { background: #fff; }
   .scroll-indicator.on-hero .label { color: rgba(255,255,255,0.7); }
 
