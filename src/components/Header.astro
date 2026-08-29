@@ -60,7 +60,7 @@ const nav = [
   nav a:hover, nav a[aria-current='page'] { border-bottom-color: var(--accent); }
 
   /* 언어 전환기 */
-  .lang-switch { position: relative; }
+  .lang-switch { position: relative; z-index: 30; }
   .lang-btn {
     display: inline-flex; align-items: center; gap: 6px;
     font: inherit; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em;
@@ -74,10 +74,12 @@ const nav = [
     list-style: none; background: #fff; border: 1px solid var(--line);
     border-radius: 6px; padding: 6px; min-width: 150px;
     box-shadow: 0 8px 24px rgba(11, 31, 58, 0.10);
-    opacity: 0; visibility: hidden; transform: translateY(-6px);
-    transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo), visibility 200ms;
+    display: none;
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo);
   }
-  .lang-switch.open .lang-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-switch.open .lang-menu { display: block; opacity: 1; transform: translateY(0); }
+  .lang-menu li { list-style: none; }
   .lang-menu a {
     display: block; padding: 8px 12px; font-size: var(--text-sm);
     color: var(--ink); border-radius: 4px; border: none;
@@ -89,6 +91,7 @@ const nav = [
   /* 히어로 위 투명 헤더에서 언어 버튼 */
   body.has-hero .hdr:not(.is-scrolled) .lang-btn { color: rgba(255,255,255,.85); border-color: rgba(255,255,255,.3); }
   body.has-hero .hdr:not(.is-scrolled) .lang-btn:hover { border-color: #fff; color: #fff; }
+  body.has-hero .hdr:not(.is-scrolled) .lang-menu a { color: var(--ink); }
 
   @media (max-width: 1024px) {
     .row { flex-direction: column; align-items: flex-start; gap: var(--s3); padding-block: var(--s4); }
