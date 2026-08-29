@@ -1,73 +1,72 @@
 ---
 import Base from '../layouts/Base.astro';
-import { counts, marketAccess, jurisdictionName, licence, gmp, eudamed, mhra } from '../data/registry';
+import { counts, marketAccess, licence, gmp, eudamed, mhra } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const supplyLabel: Record<string, { text: string; cls: string }> = {
-  yes: { text: 'Supply available', cls: 'ok' },
-  'contract-manufacture-only': { text: 'Contract manufacture only', cls: 'neutral' },
-  no: { text: 'Not yet available', cls: 'warn' },
+  yes: { text: t.table.supplyYes, cls: 'ok' },
+  'contract-manufacture-only': { text: t.table.supplyContract, cls: 'neutral' },
+  no: { text: t.table.supplyNo, cls: 'warn' },
 };
-const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdictionName[j]).join(' · ');
+const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
 ---
 
 <Base title="GANA R&D" hasHero>
-  <!-- 1. 풀스크린 히어로 — Ken Burns + 그라디언트 오버레이 + 대형 헤드라인 -->
+  <!-- 1. 풀스크린 히어로 -->
   <section class="hero">
     <div class="hero-media">
       <img src="/images/syringes-set.webp" alt="GANA R&D dermal filler syringes" />
       <div class="hero-shade" aria-hidden="true"></div>
     </div>
     <div class="container hero-inner">
-      <p class="hero-eyebrow hero-fade d1">Licensed medical device manufacturer — Seongnam, Korea</p>
+      <p class="hero-eyebrow hero-fade d1">{t.home.heroEyebrow}</p>
       <h1 class="hero-title">
-        <span class="hero-line"><span>Medical devices,</span></span>
-        <span class="hero-line"><span>made and registered.</span></span>
+        <span class="hero-line"><span>{t.home.heroTitle1}</span></span>
+        <span class="hero-line"><span>{t.home.heroTitle2}</span></span>
       </h1>
-      <p class="hero-sub hero-fade d2">Dermal fillers across four chemistries, hydrogel and foam wound dressings, and contract manufacture — every product carrying a registration number a buyer can look up.</p>
+      <p class="hero-sub hero-fade d2">{t.home.heroSub}</p>
       <div class="hero-actions hero-fade d3">
-        <a class="btn on-dark" href="/market-access">See the registrations</a>
-        <a class="hero-link" href="/contact">Contact GANA R&amp;D <span class="arr">→</span></a>
+        <a class="btn on-dark" href={localizePath('/market-access', lang)}>{t.home.heroCta}</a>
+        <a class="hero-link" href={localizePath('/contact', lang)}>{t.common.contactCta} <span class="arr">→</span></a>
       </div>
     </div>
     <div class="container hero-chips hero-fade d3">
       <ul>
-        <li>Hyaluronic acid</li>
-        <li>PLLA</li>
-        <li>PCL</li>
-        <li>Calcium</li>
-        <li>PN / PDRN</li>
-        <li>Hydrogel &amp; foam wound dressings</li>
+        {t.home.chips.map((c) => <li>{c}</li>)}
       </ul>
     </div>
-    <div class="scroll-indicator on-hero" aria-hidden="true"><span class="label">Scroll</span></div>
+    <div class="scroll-indicator on-hero" aria-hidden="true"><span class="label">{t.common.scroll}</span></div>
   </section>
 
   <!-- 2. 좌 문단 / 우 이미지 -->
   <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
-        <p class="eyebrow"><span class="no">01</span> The company</p>
-        <h2>A manufacturer, not a reseller.</h2>
-        <p>GANA R&amp;D is a licensed medical device manufacturer in Seongnam, Korea. We formulate, fill and register dermal fillers across four chemistries, manufacture hydrogel and foam wound dressings, and produce under partner brands.</p>
-        <p>Every product registration on this site carries a number a buyer can look up. GANA R&amp;D is named as manufacturer on each one.</p>
-        <a class="btn" href="/market-access">See the registrations</a>
+        <p class="eyebrow"><span class="no">01</span> {t.home.s1Eyebrow}</p>
+        <h2>{t.home.s1Title}</h2>
+        <p>{t.home.s1P1}</p>
+        <p>{t.home.s1P2}</p>
+        <a class="btn" href={localizePath('/market-access', lang)}>{t.home.s1Cta}</a>
       </div>
       <div class="visual zoom-hover" data-reveal="right"><img src="/images/vial-stone.webp" alt="" /></div>
     </div>
   </section>
 
-  <!-- 3. 숫자 행 — 다크 신뢰 섹션 + 카운트업 -->
+  <!-- 3. 숫자 행 — 다크 신뢰 섹션 -->
   <section class="dark section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p class="eyebrow"><span class="no">02</span> On the record</p>
-        <h2>The numbers behind the name</h2>
+        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+        <h2>{t.home.s2Title}</h2>
       </div>
       <div class="stats" data-reveal>
-        <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">Active product registrations with GANA R&amp;D named as manufacturer</div></div>
-        <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">Jurisdictions — {jurisdictionsList}</div></div>
-        <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">MFDS manufacturing licence number, held since 2014</div></div>
-        <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">GMP certificate {gmp.number} valid to 3 March 2027</div></div>
+        <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">{t.home.stat1}</div></div>
+        <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">{t.home.stat2} — {jurisdictionsList}</div></div>
+        <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">{t.home.stat3}</div></div>
+        <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
       </div>
     </div>
   </section>
@@ -80,27 +79,27 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
   <!-- 4. 프로포지션 3 -->
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">03</span> Who we work with</p>
-      <h2>Three ways to work with GANA R&amp;D</h2>
+      <p class="eyebrow"><span class="no">03</span> {t.home.s3Eyebrow}</p>
+      <h2>{t.home.s3Title}</h2>
     </div>
     <div class="cards" data-reveal-stagger>
       <article class="card">
-        <p class="who">Clinics · aesthetic distributors</p>
-        <h3>Medical Aesthetics</h3>
-        <p>Dermal fillers across hyaluronic acid, PLLA, PCL and calcium, registered under a single manufacturer name. A portfolio that serves different patient needs and is hard to copy.</p>
-        <a class="link" href="/aesthetics">Medical Aesthetics <span class="arr">→</span></a>
+        <p class="who">{t.home.card1Who}</p>
+        <h3>{t.home.card1Title}</h3>
+        <p>{t.home.card1Body}</p>
+        <a class="link" href={localizePath('/aesthetics', lang)}>{t.home.card1Title} <span class="arr">→</span></a>
       </article>
       <article class="card">
-        <p class="who">Hospitals · medical distribution</p>
-        <h3>Wound Care</h3>
-        <p>Hydrogel and foam wound dressings, licensed by the MFDS including domestic approval, and registered in Russia. A regulated device line, not a cosmetic.</p>
-        <a class="link" href="/wound-care">Wound Care <span class="arr">→</span></a>
+        <p class="who">{t.home.card2Who}</p>
+        <h3>{t.home.card2Title}</h3>
+        <p>{t.home.card2Body}</p>
+        <a class="link" href={localizePath('/wound-care', lang)}>{t.home.card2Title} <span class="arr">→</span></a>
       </article>
       <article class="card">
-        <p class="who">Brands · OEM / ODM partners</p>
-        <h3>Co-development &amp; Manufacturing</h3>
-        <p>From concept and formulation through regulatory development, scale-up and licensed manufacture, on our own site.</p>
-        <a class="link" href="/co-development">Co-development <span class="arr">→</span></a>
+        <p class="who">{t.home.card3Who}</p>
+        <h3>{t.home.card3Title}</h3>
+        <p>{t.home.card3Body}</p>
+        <a class="link" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span class="arr">→</span></a>
       </article>
     </div>
   </section>
@@ -108,33 +107,33 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
   <!-- 5. 증거 리스트 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">04</span> Credentials</p>
-      <h2>Credentials a buyer can verify</h2>
+      <p class="eyebrow"><span class="no">04</span> {t.home.s4Eyebrow}</p>
+      <h2>{t.home.s4Title}</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
-      <li><span class="k">Manufacturing licence</span><span>MFDS <span class="mono">{licence.number}</span> — active since {licence.since.slice(0,4)}</span></li>
-      <li><span class="k">GMP conformity</span><span><span class="mono">{gmp.number}</span> ({gmp.issuer}) — valid to 3 March 2027</span></li>
-      <li><span class="k">EU manufacturer registration</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
-      <li><span class="k">UK manufacturer registration</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
-      <li><span class="k">Chemistries under one manufacturer</span><span>Hyaluronic acid · PLLA · PCL · Calcium</span></li>
-      <li><span class="k">Manufacturing site</span><span>555 Dunchon-daero, Jungwon-gu, Seongnam-si 13215, Republic of Korea</span></li>
+      <li><span class="k">{t.home.cred1k}</span><span>MFDS <span class="mono">{licence.number}</span> — active since {licence.since.slice(0,4)}</span></li>
+      <li><span class="k">{t.home.cred2k}</span><span><span class="mono">{gmp.number}</span> ({gmp.issuer}) — valid to 3 March 2027</span></li>
+      <li><span class="k">{t.home.cred3k}</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
+      <li><span class="k">{t.home.cred4k}</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
+      <li><span class="k">{t.home.cred5k}</span><span>{t.home.cred5v}</span></li>
+      <li><span class="k">{t.home.cred6k}</span><span>{t.home.cred6v}</span></li>
     </ul>
   </section>
 
   <!-- 6. 시장접근 요약 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">05</span> Market access</p>
-      <h2>Where we can supply today</h2>
-      <p class="lead">The first question a distributor asks is whether their territory is covered. This is the current answer.</p>
+      <p class="eyebrow"><span class="no">05</span> {t.home.s5Eyebrow}</p>
+      <h2>{t.home.s5Title}</h2>
+      <p class="lead">{t.home.s5Lead}</p>
     </div>
     <div class="table-wrap" data-reveal>
       <table class="table">
-        <thead><tr><th>Territory</th><th>Status</th><th>Basis</th></tr></thead>
+        <thead><tr><th>{t.table.territory}</th><th>{t.table.status}</th><th>{t.table.basis}</th></tr></thead>
         <tbody>
           {marketAccess.map((m) => (
             <tr>
-              <td>{jurisdictionName[m.territory]}</td>
+              <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
               <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
               <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
             </tr>
@@ -142,17 +141,17 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => jurisdic
         </tbody>
       </table>
     </div>
-    <p style="margin-top: var(--s5)" data-reveal><a class="link" href="/market-access">Full registration list by jurisdiction <span class="arr">→</span></a></p>
+    <p style="margin-top: var(--s5)" data-reveal><a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a></p>
   </section>
 
   <!-- 7. CTA -->
   <section class="cta">
     <div class="container row" data-reveal>
       <div>
-        <h2>Ask for the numbers.</h2>
-        <p>Registration numbers, certificates and dossiers are available to distributors, clinics and brand partners on request.</p>
+        <h2>{t.home.ctaTitle}</h2>
+        <p>{t.home.ctaBody}</p>
       </div>
-      <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta}</a>
     </div>
   </section>
 </Base>

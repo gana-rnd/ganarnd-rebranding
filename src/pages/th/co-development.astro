@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { counts, licence, gmp, eudamed, mhra } from '../../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Base title={t.nav.coDevelopment} description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.">
+  <header class="container page-head">
+    <p class="ph-eyebrow hero-fade d1">{t.coDev.eyebrow}</p>
+    <h1><span class="hero-line"><span>{t.coDev.title}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{t.coDev.sub}</p>
+    <div class="page-visual hero-fade d3" data-reveal="scale">
+      <img src="/images/vial-marble.webp" alt="Vial on marble — GANA R&D contract manufacture" style="object-position: 50% 40%;" />
+    </div>
+  </header>
+
+  <section class="container section">
+    <div class="split">
+      <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> {t.coDev.s1Eyebrow}</p>
+        <p>{t.coDev.s1P1}</p>
+        <p>{t.coDev.s1P2}</p>
+        <a class="btn" href={localizePath('/contact', lang)}>{t.coDev.s1Cta}</a>
+      </div>
+      <div class="visual contain zoom-hover" data-reveal="right"><img src="/images/vial-marble.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">02</span> {t.coDev.s2Eyebrow}</p>
+      <h2>{t.coDev.s2Title}</h2>
+    </div>
+    <ol class="steps" data-reveal-stagger>
+      {t.coDev.steps.map((s, i) => (
+        <li>
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <h4>{s.t}</h4>
+          <p>{s.d}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container section tight alt-wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">03</span> {t.coDev.s3Eyebrow}</p>
+      <h2>{t.coDev.s3Title}</h2>
+      <p class="lead">{t.coDev.s3Lead}</p>
+    </div>
+    <ul class="kv" data-reveal-stagger>
+      <li><span class="k">{t.coDev.fac1k}</span><span>{t.coDev.fac1v}</span></li>
+      <li><span class="k">{t.coDev.fac2k}</span><span>{t.coDev.fac2v}</span></li>
+      <li><span class="k">{t.coDev.fac3k}</span><span>{t.coDev.fac3v}</span></li>
+      <li><span class="k">{t.coDev.fac4k}</span><span>{t.coDev.fac4v}</span></li>
+      <li><span class="k">{t.coDev.fac5k}</span><span>{t.coDev.fac5v}</span></li>
+      <li><span class="k">{t.coDev.fac6k}</span><span>{t.coDev.fac6v}</span></li>
+    </ul>
+  </section>
+
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">04</span> {t.coDev.s4Eyebrow}</p>
+      <h2>{t.coDev.s4Title}</h2>
+    </div>
+    <ul class="kv" data-reveal-stagger>
+      <li><span class="k">{t.coDev.q1k}</span><span>{tpl(t.coDev.q1v, { n: licence.number, y: licence.since.slice(0, 4) })}</span></li>
+      <li><span class="k">{t.coDev.q2k}</span><span>{tpl(t.coDev.q2v, { n: gmp.number })}</span></li>
+      <li><span class="k">{t.coDev.q3k}</span><span>{tpl(t.coDev.q3v, { n: eudamed.number })}</span></li>
+      <li><span class="k">{t.coDev.q4k}</span><span>{tpl(t.coDev.q4v, { n: mhra.number })}</span></li>
+      <li><span class="k">{t.coDev.q5k}</span><span>{tpl(t.coDev.q5v, { c: counts.published, j: counts.jurisdictions })}</span></li>
+      <li><span class="k">{t.coDev.q6k}</span><span>{t.coDev.q6v}</span></li>
+    </ul>
+    <div class="callout" style="margin-top: var(--s6)" data-reveal><b>{t.coDev.callout.split('.')[0]}.</b> {t.coDev.callout.split('. ').slice(1).join('. ')}</div>
+  </section>
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{t.coDev.ctaTitle}</h2>
+        <p>{t.coDev.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s6); }
+  .steps li { border-top: 2px solid var(--accent); padding-top: var(--s4); }
+  .steps .num { display: block; font-size: var(--text-xs); font-weight: 600; color: var(--accent); letter-spacing: .08em; margin-bottom: var(--s3); }
+  .steps h4 { margin-bottom: var(--s2); }
+  .steps p { font-size: var(--text-sm); color: var(--ink-2); }
+  @media (max-width: 1024px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+  .alt-wrap { background: var(--paper-2); border-radius: 2px; padding: var(--s8); }
+</style>

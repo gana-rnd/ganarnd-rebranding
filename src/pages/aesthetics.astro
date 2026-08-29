@@ -1,14 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
-import { surface, chemistryGroups, jurisdictionName, authorityName, fmtDate } from '../data/registry';
+import { surface, chemistryGroups, authorityName, fmtDate } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const groups = chemistryGroups(surface);
 ---
 
-<Base title="Medical Aesthetics" description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
+<Base title={t.nav.aesthetics} description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
   <header class="container page-head">
-    <p class="ph-eyebrow hero-fade d1">Medical Aesthetics — for clinics and aesthetic distributors</p>
-    <h1><span class="hero-line"><span>Research-led products that make clinics harder to copy.</span></span></h1>
-    <p class="ph-sub hero-fade d2">Four chemistries under one manufacturer: hyaluronic acid · PLLA · PCL · calcium · PN / PDRN.</p>
+    <p class="ph-eyebrow hero-fade d1">{t.aesthetics.eyebrow}</p>
+    <h1><span class="hero-line"><span>{t.aesthetics.title}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{t.aesthetics.sub}</p>
     <div class="page-visual hero-fade d3" data-reveal="scale">
       <img src="/images/syringes-set.webp" alt="GANA R&D filler syringes" style="object-position: 50% 42%;" />
     </div>
@@ -17,10 +21,10 @@ const groups = chemistryGroups(surface);
   <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
-        <p class="eyebrow"><span class="no">01</span> The portfolio</p>
-        <p>Many clinics offer similar products. A stronger portfolio serves different patient needs and helps a clinic stand apart. GANA R&amp;D formulates and fills across four chemical families — hyaluronic acid, PLLA, PCL and calcium — under one manufacturer name.</p>
-        <p>That range appears when a company formulates and fills across chemistries. It does not appear when a company buys one ingredient and resells it. A distributor who knows the category reads it that way straight away.</p>
-        <a class="btn" href="/contact">Request the portfolio</a>
+        <p class="eyebrow"><span class="no">01</span> {t.aesthetics.s1Eyebrow}</p>
+        <p>{t.aesthetics.s1P1}</p>
+        <p>{t.aesthetics.s1P2}</p>
+        <a class="btn" href={localizePath('/contact', lang)}>{t.aesthetics.s1Cta}</a>
       </div>
       <div class="visual contain zoom-hover" data-reveal="right"><img src="/images/vial-box.webp" alt="" /></div>
     </div>
@@ -28,9 +32,9 @@ const groups = chemistryGroups(surface);
 
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">02</span> Registered products</p>
-      <h2>Every product, with its registration</h2>
-      <p class="lead">GANA R&amp;D is named as manufacturer on each entry. Korean licences marked “export” are export-designated product licences.</p>
+      <p class="eyebrow"><span class="no">02</span> {t.aesthetics.s2Eyebrow}</p>
+      <h2>{t.aesthetics.s2Title}</h2>
+      <p class="lead">{t.aesthetics.s2Lead}</p>
     </div>
 
     {groups.map((g) => (
@@ -38,15 +42,15 @@ const groups = chemistryGroups(surface);
         <h3>{g.name}</h3>
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>Product</th><th>Jurisdiction</th><th>Registration</th><th>Granted</th><th>Scope</th></tr></thead>
+            <thead><tr><th>{t.table.product}</th><th>{t.table.jurisdiction}</th><th>{t.table.registration}</th><th>{t.table.granted}</th><th>{t.table.scope}</th></tr></thead>
             <tbody>
               {g.items.map((r) => (
                 <tr>
-                  <td>{r.product}{r.umbrella_note_en ? <div class="small muted">{r.umbrella_note_en}</div> : null}{r.product_note ? <div class="small muted">{r.product_note}</div> : null}</td>
-                  <td>{jurisdictionName[r.jurisdiction]} · {authorityName[r.jurisdiction]}</td>
+                  <td>{r.product}{r.note ? <span class="muted small"> {r.note}</span> : null}</td>
+                  <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
                   <td class="mono">{r.number}</td>
-                  <td class="tabular">{fmtDate(r.date)}</td>
-                  <td>{r.export_only === true ? 'Export' : r.export_only === false ? 'Domestic' : r.class ? `Class ${r.class}` : '—'}</td>
+                  <td>{fmtDate(r.granted)}</td>
+                  <td>{r.scope === 'export' ? t.table.export : r.scope === 'domestic' ? t.table.domestic : (r.class ?? '—')}</td>
                 </tr>
               ))}
             </tbody>
@@ -54,18 +58,17 @@ const groups = chemistryGroups(surface);
         </div>
       </div>
     ))}
-  </section>
 
-  <section class="container section tight">
-    <div class="callout" data-reveal>
-      <b>Partnership models.</b> Curated product portfolios, clinic supply, practitioner training, treatment protocols, volume pricing, network agreements and selected exclusivity.
-    </div>
+    <div class="callout" data-reveal><b>{t.aesthetics.callout.split('.')[0]}.</b> {t.aesthetics.callout.split('. ').slice(1).join('. ')}</div>
   </section>
 
   <section class="cta">
     <div class="container row" data-reveal>
-      <div><h2>Build a portfolio around it.</h2><p>Ask for the full product list with registration numbers for your territory.</p></div>
-      <a class="btn on-dark" href="/contact">Contact GANA R&amp;D</a>
+      <div>
+        <h2>{t.aesthetics.ctaTitle}</h2>
+        <p>{t.aesthetics.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta}</a>
     </div>
   </section>
 </Base>

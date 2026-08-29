@@ -1,6 +1,10 @@
 ---
-// 다크 푸터 — 법인 정체성 + 그룹 안내 (법인별 자격 귀속 원칙: 이 사이트는 GANA R&D의 자격만 말한다)
+// 다크 푸터 — 법인 정체성 + 그룹 안내
 import { manufacturer } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 ---
 
@@ -8,24 +12,20 @@ const year = new Date().getFullYear();
   <div class="container grid">
     <div>
       <p class="wordmark on-dark"><span class="g">GANA</span> <span class="r">R&amp;D</span></p>
-      <p class="note">
-        GANA R&amp;D Co., Ltd. is the medical device manufacturer of Dr. Park Group,
-        alongside GANA Cosmetic (cosmeceuticals) and Dr. Park CDMO (cell and gene therapy manufacturing).
-        This site presents GANA R&amp;D and its registrations only.
-      </p>
+      <p class="note">{t.footer.note}</p>
     </div>
     <div>
-      <p class="h">Company</p>
+      <p class="h">{t.footer.company}</p>
       <ul>
-        <li><a href="/aesthetics">Medical Aesthetics</a></li>
-        <li><a href="/wound-care">Wound Care</a></li>
-        <li><a href="/co-development">Co-development &amp; Manufacturing</a></li>
-        <li><a href="/market-access">Registrations &amp; Market Access</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href={localizePath('/aesthetics', lang)}>{t.nav.aesthetics}</a></li>
+        <li><a href={localizePath('/wound-care', lang)}>{t.nav.woundCare}</a></li>
+        <li><a href={localizePath('/co-development', lang)}>{t.nav.coDevelopment} &amp; Manufacturing</a></li>
+        <li><a href={localizePath('/market-access', lang)}>{t.nav.marketAccess}</a></li>
+        <li><a href={localizePath('/contact', lang)}>{t.nav.contact}</a></li>
       </ul>
     </div>
     <div>
-      <p class="h">Manufacturing site</p>
+      <p class="h">{t.footer.site}</p>
       <address>
         {manufacturer.legal_name_en}<br />
         555 Dunchon-daero, Jungwon-gu,<br />
@@ -36,7 +36,7 @@ const year = new Date().getFullYear();
   </div>
   <div class="container base">
     <p>&copy; {year} GANA R&amp;D Co., Ltd.</p>
-    <p>For professional and B2B audiences — distributors, clinics, hospitals and brand partners.</p>
+    <p>{t.footer.audience}</p>
   </div>
 </footer>
 

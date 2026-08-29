@@ -1,0 +1,244 @@
+---
+import Base from '../../layouts/Base.astro';
+import { counts, marketAccess, licence, gmp, eudamed, mhra } from '../../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const supplyLabel: Record<string, { text: string; cls: string }> = {
+  yes: { text: t.table.supplyYes, cls: 'ok' },
+  'contract-manufacture-only': { text: t.table.supplyContract, cls: 'neutral' },
+  no: { text: t.table.supplyNo, cls: 'warn' },
+};
+const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
+---
+
+<Base title="GANA R&D" hasHero>
+  <!-- 1. 풀스크린 히어로 -->
+  <section class="hero">
+    <div class="hero-media">
+      <img src="/images/syringes-set.webp" alt="GANA R&D dermal filler syringes" />
+      <div class="hero-shade" aria-hidden="true"></div>
+    </div>
+    <div class="container hero-inner">
+      <p class="hero-eyebrow hero-fade d1">{t.home.heroEyebrow}</p>
+      <h1 class="hero-title">
+        <span class="hero-line"><span>{t.home.heroTitle1}</span></span>
+        <span class="hero-line"><span>{t.home.heroTitle2}</span></span>
+      </h1>
+      <p class="hero-sub hero-fade d2">{t.home.heroSub}</p>
+      <div class="hero-actions hero-fade d3">
+        <a class="btn on-dark" href={localizePath('/market-access', lang)}>{t.home.heroCta}</a>
+        <a class="hero-link" href={localizePath('/contact', lang)}>{t.common.contactCta} <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="container hero-chips hero-fade d3">
+      <ul>
+        {t.home.chips.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+    <div class="scroll-indicator on-hero" aria-hidden="true"><span class="label">{t.common.scroll}</span></div>
+  </section>
+
+  <!-- 2. 좌 문단 / 우 이미지 -->
+  <section class="container section">
+    <div class="split">
+      <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> {t.home.s1Eyebrow}</p>
+        <h2>{t.home.s1Title}</h2>
+        <p>{t.home.s1P1}</p>
+        <p>{t.home.s1P2}</p>
+        <a class="btn" href={localizePath('/market-access', lang)}>{t.home.s1Cta}</a>
+      </div>
+      <div class="visual zoom-hover" data-reveal="right"><img src="/images/vial-stone.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- 3. 숫자 행 — 다크 신뢰 섹션 -->
+  <section class="dark section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+        <h2>{t.home.s2Title}</h2>
+      </div>
+      <div class="stats" data-reveal>
+        <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">{t.home.stat1}</div></div>
+        <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">{t.home.stat2} — {jurisdictionsList}</div></div>
+        <div class="stat"><div class="n" data-count="4490">4490</div><div class="l">{t.home.stat3}</div></div>
+        <div class="stat"><div class="n" data-count="2027">2027<small>Mar</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 마르퀴 밴드 -->
+  <div class="marquee-band" aria-hidden="true">
+    <span class="marquee-text">REGISTRATIONS · MANUFACTURING · REGISTRATIONS · MANUFACTURING ·&nbsp;</span>
+  </div>
+
+  <!-- 4. 프로포지션 3 -->
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">03</span> {t.home.s3Eyebrow}</p>
+      <h2>{t.home.s3Title}</h2>
+    </div>
+    <div class="cards" data-reveal-stagger>
+      <article class="card">
+        <p class="who">{t.home.card1Who}</p>
+        <h3>{t.home.card1Title}</h3>
+        <p>{t.home.card1Body}</p>
+        <a class="link" href={localizePath('/aesthetics', lang)}>{t.home.card1Title} <span class="arr">→</span></a>
+      </article>
+      <article class="card">
+        <p class="who">{t.home.card2Who}</p>
+        <h3>{t.home.card2Title}</h3>
+        <p>{t.home.card2Body}</p>
+        <a class="link" href={localizePath('/wound-care', lang)}>{t.home.card2Title} <span class="arr">→</span></a>
+      </article>
+      <article class="card">
+        <p class="who">{t.home.card3Who}</p>
+        <h3>{t.home.card3Title}</h3>
+        <p>{t.home.card3Body}</p>
+        <a class="link" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span class="arr">→</span></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5. 증거 리스트 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">04</span> {t.home.s4Eyebrow}</p>
+      <h2>{t.home.s4Title}</h2>
+    </div>
+    <ul class="kv" data-reveal-stagger>
+      <li><span class="k">{t.home.cred1k}</span><span>MFDS <span class="mono">{licence.number}</span> — active since {licence.since.slice(0,4)}</span></li>
+      <li><span class="k">{t.home.cred2k}</span><span><span class="mono">{gmp.number}</span> ({gmp.issuer}) — valid to 3 March 2027</span></li>
+      <li><span class="k">{t.home.cred3k}</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
+      <li><span class="k">{t.home.cred4k}</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
+      <li><span class="k">{t.home.cred5k}</span><span>{t.home.cred5v}</span></li>
+      <li><span class="k">{t.home.cred6k}</span><span>{t.home.cred6v}</span></li>
+    </ul>
+  </section>
+
+  <!-- 6. 시장접근 요약 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">05</span> {t.home.s5Eyebrow}</p>
+      <h2>{t.home.s5Title}</h2>
+      <p class="lead">{t.home.s5Lead}</p>
+    </div>
+    <div class="table-wrap" data-reveal>
+      <table class="table">
+        <thead><tr><th>{t.table.territory}</th><th>{t.table.status}</th><th>{t.table.basis}</th></tr></thead>
+        <tbody>
+          {marketAccess.map((m) => (
+            <tr>
+              <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
+              <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
+              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: var(--s5)" data-reveal><a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a></p>
+  </section>
+
+  <!-- 7. CTA -->
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{t.home.ctaTitle}</h2>
+        <p>{t.home.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── 풀스크린 히어로 ── */
+  .hero {
+    position: relative;
+    min-height: min(92vh, 980px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .hero-media { position: absolute; inset: 0; }
+  .hero-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+  }
+  .hero-shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 31, 58, 0.42) 0%,
+      rgba(11, 31, 58, 0.28) 30%,
+      rgba(11, 31, 58, 0.62) 62%,
+      rgba(11, 31, 58, 0.92) 100%
+    );
+  }
+  .hero-inner { position: relative; padding-bottom: var(--s6); padding-top: var(--s10); }
+  .hero-eyebrow {
+    font-size: var(--text-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: var(--s5);
+  }
+  .hero-title {
+    font-size: var(--text-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    color: #fff;
+    max-width: 14ch;
+  }
+  .hero-sub {
+    margin-top: var(--s5);
+    max-width: 56ch;
+    font-size: var(--text-lg);
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .hero-actions { display: flex; align-items: center; gap: var(--s6); margin-top: var(--s7); flex-wrap: wrap; }
+  .hero-link {
+    color: #fff; font-weight: 600; font-size: var(--text-sm);
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 4px;
+    transition: border-color 300ms var(--ease-out-expo);
+  }
+  .hero-link:hover { border-color: #fff; }
+  .hero-link .arr { display: inline-block; transition: transform 350ms var(--ease-out-expo); }
+  .hero-link:hover .arr { transform: translateX(5px); }
+
+  .hero-chips { position: relative; padding-bottom: var(--s7); }
+  .hero-chips ul {
+    list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2);
+    border-top: 1px solid rgba(255, 255, 255, 0.22); padding-top: var(--s5);
+  }
+  .hero-chips li {
+    font-size: var(--text-xs); letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    padding: 7px 14px;
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .scroll-indicator.on-hero { bottom: 24px; background: rgba(255,255,255,0.25); }
+  .scroll-indicator.on-hero::after { background: #fff; }
+  .scroll-indicator.on-hero .label { color: rgba(255,255,255,0.7); }
+
+  @media (max-width: 768px) {
+    .hero { min-height: 88vh; }
+    .hero-chips ul { gap: 6px; }
+  }
+
+  .marquee-band { border-top: 0; }
+</style>

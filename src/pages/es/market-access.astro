@@ -1,0 +1,147 @@
+---
+import Base from '../../layouts/Base.astro';
+import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy } from '../../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const supplyLabel: Record<string, { text: string; cls: string }> = {
+  yes: { text: t.table.supplyYes, cls: 'ok' },
+  'contract-manufacture-only': { text: t.table.supplyContract, cls: 'neutral' },
+  no: { text: t.table.supplyNo, cls: 'warn' },
+};
+const byJurisdiction = countBy(published, 'jurisdiction');
+const lookupUrl: Record<string, string> = {
+  KR: 'https://emedi.mfds.go.kr',
+  RU: 'https://roszdravnadzor.gov.ru/services/misearch',
+  BR: 'https://consultas.anvisa.gov.br',
+  UK: 'https://pard.mhra.gov.uk/manufacturer-details/32678',
+};
+---
+
+<Base title={t.nav.marketAccess} description="Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path.">
+  <header class="container page-head">
+    <p class="ph-eyebrow hero-fade d1">{t.marketAccess.eyebrow}</p>
+    <h1><span class="hero-line"><span>{t.marketAccess.title}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{t.marketAccess.sub}</p>
+    <div class="page-visual hero-fade d3" data-reveal="scale">
+      <img src="/images/filler-x-box.webp" alt="GANA R&D registered filler product" style="object-position: 50% 45%;" />
+    </div>
+  </header>
+
+  <!-- 시장접근 지도 -->
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">01</span> {t.marketAccess.s1Eyebrow}</p>
+    </div>
+    <div class="table-wrap" data-reveal>
+      <table class="table">
+        <thead><tr><th>{t.table.territory}</th><th>{t.table.status}</th><th>{t.table.basis}</th></tr></thead>
+        <tbody>
+          {marketAccess.map((m) => (
+            <tr>
+              <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
+              <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
+              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 유통 파트너십 -->
+  <section class="container section tight">
+    <div class="split">
+      <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">02</span> {t.marketAccess.s2Eyebrow}</p>
+        <h2>{t.marketAccess.s2Title}</h2>
+        <p>{t.marketAccess.s2P1}</p>
+        <p>{t.marketAccess.s2P2}</p>
+        <a class="btn" href={localizePath('/contact', lang)}>{t.marketAccess.s2Cta}</a>
+      </div>
+      <div class="visual zoom-hover" data-reveal="right"><img src="/images/filler-x-box.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- 제조자 자격 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">03</span> {t.marketAccess.s3Eyebrow}</p>
+      <h2>{t.marketAccess.s3Title}</h2>
+    </div>
+    <ul class="kv" data-reveal-stagger>
+      <li><span class="k">MFDS manufacturing licence</span><span>{licence.number} — active since {licence.since.slice(0, 4)} · <a class="link" href={licence.lookup} rel="noopener">MFDS lookup</a></span></li>
+      <li><span class="k">MFDS GMP conformity</span><span>{gmp.number} — valid 4 Mar 2024 to 3 Mar 2027 · <a class="link" href={gmp.lookup} rel="noopener">MFDS GMP status</a></span></li>
+      <li><span class="k">EUDAMED actor registration</span><span>{eudamed.number} — Manufacturer, active · <a class="link" href={eudamed.lookup} rel="noopener">EUDAMED search</a></span></li>
+      <li><span class="k">MHRA manufacturer registration</span><span>{mhra.number} — updated 11 Apr 2026 · <a class="link" href={mhra.lookup} rel="noopener">MHRA PARD</a></span></li>
+    </ul>
+  </section>
+
+  <!-- 등재 자료실 -->
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">04</span> {t.marketAccess.s4Eyebrow}</p>
+      <h2>{tpl(t.marketAccess.s4Title, { c: counts.published })}</h2>
+      <p class="lead">{t.marketAccess.s4Lead}</p>
+    </div>
+
+    {Object.entries(byJurisdiction).map(([jur, count]) => {
+      const items = published.filter((r) => r.jurisdiction === jur);
+      return (
+        <div class="group" data-reveal>
+          <div class="group-head">
+            <h3>{t.jurisdictions[jur as keyof typeof t.jurisdictions] ?? jur} · {authorityName[jur]} · {count}</h3>
+            {lookupUrl[jur] && <a class="link" href={lookupUrl[jur]} rel="noopener">{t.marketAccess.publicLookup} <span class="arr">→</span></a>}
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>{t.table.registration}</th><th>{t.table.product}</th><th>{t.table.category}</th><th>{t.table.granted}</th><th>{t.table.scopeClass}</th></tr></thead>
+              <tbody>
+                {items.map((r) => (
+                  <tr>
+                    <td class="mono">{r.number}</td>
+                    <td>{r.product}{r.note ? <span class="muted small"> {r.note}</span> : null}</td>
+                    <td>{r.category ?? r.type ?? ''}</td>
+                    <td>{fmtDate(r.granted)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.validity === 'indefinite' ? ' — indefinite' : ''}</td>
+                    <td>{r.scope === 'export' ? t.table.export : r.scope === 'domestic' ? t.table.domestic : ''}{r.class ? ` · ${r.class}` : ''}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    })}
+  </section>
+
+  <!-- 진행 중 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">05</span> {t.marketAccess.s5Eyebrow}</p>
+      <h2>{t.marketAccess.s5Title}</h2>
+    </div>
+    <ul class="kv" data-reveal-stagger>
+      <li><span class="k">{t.marketAccess.p1k}</span><span>{t.marketAccess.p1v}</span></li>
+      <li><span class="k">{t.marketAccess.p2k}</span><span>{t.marketAccess.p2v}</span></li>
+      <li><span class="k">{t.marketAccess.p3k}</span><span>{t.marketAccess.p3v}</span></li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{t.marketAccess.ctaTitle}</h2>
+        <p>{t.marketAccess.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.marketAccess.ctaBtn}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .group { margin-bottom: var(--s8); }
+  .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); flex-wrap: wrap; }
+  .group-head h3 { color: var(--ink); }
+</style>

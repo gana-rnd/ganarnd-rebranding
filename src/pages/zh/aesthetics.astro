@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import { surface, chemistryGroups, authorityName, fmtDate } from '../../data/registry';
+import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const groups = chemistryGroups(surface);
+---
+
+<Base title={t.nav.aesthetics} description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
+  <header class="container page-head">
+    <p class="ph-eyebrow hero-fade d1">{t.aesthetics.eyebrow}</p>
+    <h1><span class="hero-line"><span>{t.aesthetics.title}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{t.aesthetics.sub}</p>
+    <div class="page-visual hero-fade d3" data-reveal="scale">
+      <img src="/images/syringes-set.webp" alt="GANA R&D filler syringes" style="object-position: 50% 42%;" />
+    </div>
+  </header>
+
+  <section class="container section">
+    <div class="split">
+      <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> {t.aesthetics.s1Eyebrow}</p>
+        <p>{t.aesthetics.s1P1}</p>
+        <p>{t.aesthetics.s1P2}</p>
+        <a class="btn" href={localizePath('/contact', lang)}>{t.aesthetics.s1Cta}</a>
+      </div>
+      <div class="visual contain zoom-hover" data-reveal="right"><img src="/images/vial-box.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">02</span> {t.aesthetics.s2Eyebrow}</p>
+      <h2>{t.aesthetics.s2Title}</h2>
+      <p class="lead">{t.aesthetics.s2Lead}</p>
+    </div>
+
+    {groups.map((g) => (
+      <div class="group" data-reveal>
+        <h3>{g.name}</h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>{t.table.product}</th><th>{t.table.jurisdiction}</th><th>{t.table.registration}</th><th>{t.table.granted}</th><th>{t.table.scope}</th></tr></thead>
+            <tbody>
+              {g.items.map((r) => (
+                <tr>
+                  <td>{r.product}{r.note ? <span class="muted small"> {r.note}</span> : null}</td>
+                  <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
+                  <td class="mono">{r.number}</td>
+                  <td>{fmtDate(r.granted)}</td>
+                  <td>{r.scope === 'export' ? t.table.export : r.scope === 'domestic' ? t.table.domestic : (r.class ?? '—')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))}
+
+    <div class="callout" data-reveal><b>{t.aesthetics.callout.split('.')[0]}.</b> {t.aesthetics.callout.split('. ').slice(1).join('. ')}</div>
+  </section>
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{t.aesthetics.ctaTitle}</h2>
+        <p>{t.aesthetics.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .group { margin-bottom: var(--s8); }
+  .group h3 { margin-bottom: var(--s4); color: var(--ink); }
+</style>

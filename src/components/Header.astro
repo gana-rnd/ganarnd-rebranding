@@ -1,36 +1,116 @@
 ---
-// 헤더: 로고 좌 · 대메뉴 4 + Contact 우
+// 헤더: 로고 좌 · 대메뉴 4 + Contact 우 · 언어 전환기
+import { getLangFromUrl, useTranslations, localizePath, stripLangFromPath, languages } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentPath = stripLangFromPath(Astro.url.pathname);
+
 const nav = [
-  { href: '/aesthetics', label: 'Medical Aesthetics' },
-  { href: '/wound-care', label: 'Wound Care' },
-  { href: '/co-development', label: 'Co-development' },
-  { href: '/market-access', label: 'Registrations & Market Access' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/aesthetics', label: t.nav.aesthetics },
+  { href: '/wound-care', label: t.nav.woundCare },
+  { href: '/co-development', label: t.nav.coDevelopment },
+  { href: '/market-access', label: t.nav.marketAccess },
+  { href: '/contact', label: t.nav.contact },
 ];
-const path = Astro.url.pathname;
 ---
 
 <header class="hdr">
   <div class="container row">
-    <a href="/" class="wordmark" aria-label="GANA R&D — home"><span class="g">GANA</span> <span class="r">R&amp;D</span></a>
-    <nav aria-label="Primary">
-      <ul>
-        {nav.map((i) => (
-          <li><a href={i.href} aria-current={path.startsWith(i.href) ? 'page' : undefined}>{i.label}</a></li>
-        ))}
-      </ul>
-    </nav>
+    <a href={localizePath('/', lang)} class="wordmark" aria-label="GANA R&D — home"><span class="g">GANA</span> <span class="r">R&amp;D</span></a>
+    <div class="right">
+      <nav aria-label="Primary">
+        <ul>
+          {nav.map((i) => {
+            const localized = localizePath(i.href, lang);
+            return (
+              <li><a href={localized} aria-current={currentPath.startsWith(i.href) ? 'page' : undefined}>{i.label}</a></li>
+            );
+          })}
+        </ul>
+      </nav>
+      <div class="lang-switch">
+        <button class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+          {languages.find((l) => l.code === lang)?.label}
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <ul class="lang-menu" role="menu">
+          {languages.map((l) => (
+            <li role="none">
+              <a
+                role="menuitem"
+                href={localizePath(currentPath, l.code)}
+                class={l.code === lang ? 'active' : undefined}
+                hreflang={l.code}
+              >{l.name}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   </div>
 </header>
 
 <style>
   .hdr { background: var(--paper); position: sticky; top: 0; z-index: 20; }
   .row { display: flex; align-items: center; justify-content: space-between; min-height: 84px; }
+  .right { display: flex; align-items: center; gap: var(--s6); }
   nav ul { display: flex; gap: var(--s6); list-style: none; }
   nav a { font-size: var(--text-sm); font-weight: 500; color: var(--ink); padding-block: var(--s2); border-bottom: 2px solid transparent; transition: border-color var(--dur) var(--ease); }
   nav a:hover, nav a[aria-current='page'] { border-bottom-color: var(--accent); }
+
+  /* 언어 전환기 */
+  .lang-switch { position: relative; }
+  .lang-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: inherit; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em;
+    color: var(--ink-2); background: none; border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer;
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-menu {
+    position: absolute; right: 0; top: calc(100% + 8px);
+    list-style: none; background: #fff; border: 1px solid var(--line);
+    border-radius: 6px; padding: 6px; min-width: 150px;
+    box-shadow: 0 8px 24px rgba(11, 31, 58, 0.10);
+    opacity: 0; visibility: hidden; transform: translateY(-6px);
+    transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo), visibility 200ms;
+  }
+  .lang-switch.open .lang-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-menu a {
+    display: block; padding: 8px 12px; font-size: var(--text-sm);
+    color: var(--ink); border-radius: 4px; border: none;
+    transition: background var(--dur) var(--ease);
+  }
+  .lang-menu a:hover { background: var(--paper-2); }
+  .lang-menu a.active { color: var(--accent); font-weight: 600; }
+
+  /* 히어로 위 투명 헤더에서 언어 버튼 */
+  body.has-hero .hdr:not(.is-scrolled) .lang-btn { color: rgba(255,255,255,.85); border-color: rgba(255,255,255,.3); }
+  body.has-hero .hdr:not(.is-scrolled) .lang-btn:hover { border-color: #fff; color: #fff; }
+
   @media (max-width: 1024px) {
     .row { flex-direction: column; align-items: flex-start; gap: var(--s3); padding-block: var(--s4); }
+    .right { width: 100%; justify-content: space-between; }
     nav ul { flex-wrap: wrap; gap: var(--s4) var(--s5); }
   }
 </style>
+
+<script>
+  // 언어 전환 드롭다운 토글
+  document.querySelectorAll('.lang-switch').forEach((el) => {
+    const btn = el.querySelector('.lang-btn');
+    btn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = el.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.lang-switch.open').forEach((el) => {
+      el.classList.remove('open');
+      el.querySelector('.lang-btn')?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
