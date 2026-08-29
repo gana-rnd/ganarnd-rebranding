@@ -4,25 +4,23 @@ import { surface, chemistryGroups, jurisdictionName, authorityName, fmtDate } fr
 const groups = chemistryGroups(surface);
 ---
 
-<Base title="Medical Aesthetics" description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
-  <section class="container band-wrap">
-    <div class="band hero-media">
+<Base title="Medical Aesthetics" description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D." hasHero>
+  <section class="page-hero">
+    <div class="ph-media">
       <img src="/images/syringes-set.png" alt="GANA R&D filler syringes" style="object-position: 50% 42%;" />
-      <div class="overlay">
-        <h3 class="hero-fade d1">Four chemistries</h3>
-        <ul data-reveal-stagger><li>Hyaluronic acid</li><li>PLLA</li><li>PCL</li><li>Calcium</li><li>PN / PDRN</li></ul>
-      </div>
+      <div class="ph-shade" aria-hidden="true"></div>
+    </div>
+    <div class="container ph-inner">
+      <p class="ph-eyebrow hero-fade d1">Medical Aesthetics — for clinics and aesthetic distributors</p>
+      <h1><span class="hero-line"><span>Research-led products that make clinics harder to copy.</span></span></h1>
+      <p class="ph-sub hero-fade d2">Four chemistries under one manufacturer: hyaluronic acid · PLLA · PCL · calcium · PN / PDRN.</p>
     </div>
   </section>
 
-  <section class="container headline">
-    <p class="eyebrow hero-fade d1">Medical Aesthetics — for clinics and aesthetic distributors</p>
-    <h1><span class="hero-line"><span>Research-led products that make clinics harder to copy.</span></span></h1>
-  </section>
-
-  <section class="container">
+  <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> The portfolio</p>
         <p>Many clinics offer similar products. A stronger portfolio serves different patient needs and helps a clinic stand apart. GANA R&amp;D formulates and fills across four chemical families — hyaluronic acid, PLLA, PCL and calcium — under one manufacturer name.</p>
         <p>That range appears when a company formulates and fills across chemistries. It does not appear when a company buys one ingredient and resells it. A distributor who knows the category reads it that way straight away.</p>
         <a class="btn" href="/contact">Request the portfolio</a>
@@ -33,7 +31,7 @@ const groups = chemistryGroups(surface);
 
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Registered products</p>
+      <p class="eyebrow"><span class="no">02</span> Registered products</p>
       <h2>Every product, with its registration</h2>
       <p class="lead">GANA R&amp;D is named as manufacturer on each entry. Korean licences marked “export” are export-designated product licences.</p>
     </div>
@@ -76,9 +74,6 @@ const groups = chemistryGroups(surface);
 </Base>
 
 <style>
-  .band-wrap { padding-top: var(--s2); }
-  .headline { padding-block: var(--s8) var(--s7); }
-  .headline h1 { max-width: 22ch; }
   .group { margin-bottom: var(--s8); }
   .group h3 { margin-bottom: var(--s4); color: var(--ink); }
 </style>

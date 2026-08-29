@@ -10,15 +10,23 @@ const steps = [
 ];
 ---
 
-<Base title="Co-development & Manufacturing" description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.">
-  <section class="container headline">
-    <p class="eyebrow hero-fade d1">Co-development &amp; Manufacturing — for brands and OEM / ODM partners</p>
-    <h1><span class="hero-line"><span>From concept and formulation to licensed manufacture.</span></span></h1>
+<Base title="Co-development & Manufacturing" description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up." hasHero>
+  <section class="page-hero">
+    <div class="ph-media">
+      <img src="/images/vial-marble.png" alt="Vial on marble — GANA R&D contract manufacture" style="object-position: 50% 40%;" />
+      <div class="ph-shade" aria-hidden="true"></div>
+    </div>
+    <div class="container ph-inner">
+      <p class="ph-eyebrow hero-fade d1">Co-development &amp; Manufacturing — for brands and OEM / ODM partners</p>
+      <h1><span class="hero-line"><span>From concept and formulation to licensed manufacture.</span></span></h1>
+      <p class="ph-sub hero-fade d2">Development, regulatory work, scale-up and GMP production on a single licensed site in Seongnam.</p>
+    </div>
   </section>
 
-  <section class="container">
+  <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> The model</p>
         <p>A partner may hold a strong brand, market access or a clinical idea, but not the laboratories, formulation expertise or licensed manufacturing needed to turn it into a registered device.</p>
         <p>GANA R&amp;D is a licensed manufacturing site rather than a development house. The same lines that make our own products make yours, and the registrations we already hold are the track record.</p>
         <a class="btn" href="/contact">Discuss a project</a>
@@ -29,7 +37,7 @@ const steps = [
 
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Development pathway</p>
+      <p class="eyebrow"><span class="no">02</span> Development pathway</p>
       <h2>Five stages, one site</h2>
     </div>
     <ol class="steps" data-reveal-stagger>
@@ -44,7 +52,7 @@ const steps = [
 
   <section class="container section tight alt-wrap">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Facility</p>
+      <p class="eyebrow"><span class="no">03</span> Facility</p>
       <h2>Production on our own site</h2>
       <p class="lead">555 Dunchon-daero, Jungwon-gu, Seongnam — manufacturing floors 801, 802, 905 and 1106.</p>
     </div>
@@ -60,7 +68,7 @@ const steps = [
 
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Quality and registrations</p>
+      <p class="eyebrow"><span class="no">04</span> Quality and registrations</p>
       <h2>The credentials your dossier will cite</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
@@ -88,8 +96,6 @@ const steps = [
 </Base>
 
 <style>
-  .headline { padding-block: var(--s9) var(--s7); }
-  .headline h1 { max-width: 22ch; }
   .steps { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s6); }
   .steps li { border-top: 2px solid var(--accent); padding-top: var(--s4); }
   .steps .num { display: block; font-size: var(--text-xs); font-weight: 600; color: var(--accent); letter-spacing: .08em; margin-bottom: var(--s3); }

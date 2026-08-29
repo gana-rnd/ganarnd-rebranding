@@ -127,6 +127,56 @@ table { border-collapse: collapse; width: 100%; }
 .callout { background: var(--paper-2); padding: var(--s5) var(--s6); border-radius: 2px; font-size: var(--text-sm); color: var(--ink-2); }
 .callout b { color: var(--ink); }
 
+/* 서브 페이지 히어로 — 다크, 60~68vh, 이미지 + 그라디언트 */
+.page-hero {
+  position: relative;
+  min-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #fff;
+  overflow: hidden;
+  background: var(--navy);
+}
+.page-hero .ph-media { position: absolute; inset: 0; }
+.page-hero .ph-media img { width: 100%; height: 100%; object-fit: cover; }
+.page-hero .ph-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 31, 58, 0.44) 0%,
+    rgba(11, 31, 58, 0.30) 34%,
+    rgba(11, 31, 58, 0.66) 68%,
+    rgba(11, 31, 58, 0.92) 100%
+  );
+}
+.page-hero .ph-inner { position: relative; padding-block: var(--s10) var(--s8); }
+.page-hero .ph-eyebrow {
+  font-size: var(--text-sm);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: var(--s4);
+}
+.page-hero h1 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: #fff;
+  max-width: 20ch;
+}
+.page-hero .ph-sub {
+  margin-top: var(--s4);
+  max-width: 58ch;
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.82);
+}
+@media (max-width: 768px) {
+  .page-hero { min-height: 52vh; }
+  .page-hero .ph-inner { padding-block: var(--s9) var(--s7); }
+}
+
 /* 다크 섹션 — 신뢰/숫자 강조용 */
 .dark { background: var(--navy); color: var(--on-dark); }
 .dark h2, .dark h3 { color: #fff; }

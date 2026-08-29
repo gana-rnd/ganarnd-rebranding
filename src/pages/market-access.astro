@@ -17,15 +17,24 @@ const lookup: Record<string, string> = {
 };
 ---
 
-<Base title="Registrations & Market Access" description="Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path.">
-  <section class="container headline">
-    <p class="eyebrow hero-fade d1">Registrations &amp; Market Access</p>
-    <h1><span class="hero-line"><span>Where we can supply today.</span></span></h1>
-    <p class="lead hero-fade d2" style="margin-top: var(--s4)">The first question a distributor asks is whether their territory is covered. This page is the answer, followed by every registration behind it.</p>
+<Base title="Registrations & Market Access" description="Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path." hasHero>
+  <section class="page-hero">
+    <div class="ph-media">
+      <img src="/images/filler-x-box.jpg" alt="GANA R&D registered filler product" style="object-position: 50% 45%;" />
+      <div class="ph-shade" aria-hidden="true"></div>
+    </div>
+    <div class="container ph-inner">
+      <p class="ph-eyebrow hero-fade d1">Registrations &amp; Market Access</p>
+      <h1><span class="hero-line"><span>Where we can supply today.</span></span></h1>
+      <p class="ph-sub hero-fade d2">The first question a distributor asks is whether their territory is covered. This page is the answer, followed by every registration behind it.</p>
+    </div>
   </section>
 
   <!-- 시장접근 지도 -->
-  <section class="container">
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">01</span> Coverage</p>
+    </div>
     <div class="table-wrap" data-reveal>
       <table class="table">
         <thead><tr><th>Territory</th><th>Status</th><th>Basis</th></tr></thead>
@@ -46,7 +55,7 @@ const lookup: Record<string, string> = {
   <section class="container section tight">
     <div class="split">
       <div class="text" data-reveal-stagger>
-        <p class="eyebrow">Distribution partnerships</p>
+        <p class="eyebrow"><span class="no">02</span> Distribution partnerships</p>
         <h2>How we work with distributors</h2>
         <p>Territorial distribution with phased exclusivity, registration and dossier support for new markets, joint launch and market-development support, and selected joint ventures or co-equity partnerships.</p>
         <p>Registration dossiers already exist for the territories above. For a new territory, we support the local registration holder with the documentation the authority requires.</p>
@@ -59,7 +68,7 @@ const lookup: Record<string, string> = {
   <!-- 제조자 자격 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Manufacturer credentials</p>
+      <p class="eyebrow"><span class="no">03</span> Manufacturer credentials</p>
       <h2>Manufacturer of record</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
@@ -73,7 +82,7 @@ const lookup: Record<string, string> = {
   <!-- 등재 자료실 -->
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Registration library</p>
+      <p class="eyebrow"><span class="no">04</span> Registration library</p>
       <h2>{counts.published} active product registrations</h2>
       <p class="lead">GANA R&amp;D is named as manufacturer on every entry. Registration holders in Russia and Brazil are local representatives; the accurate description is “named as manufacturer”.</p>
     </div>
@@ -110,7 +119,7 @@ const lookup: Record<string, string> = {
   <!-- 진행 중 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">In progress</p>
+      <p class="eyebrow"><span class="no">05</span> In progress</p>
       <h2>What is not yet available, and why</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
@@ -129,8 +138,6 @@ const lookup: Record<string, string> = {
 </Base>
 
 <style>
-  .headline { padding-block: var(--s9) var(--s7); }
-  .headline h1 { max-width: 20ch; }
   .group { margin-bottom: var(--s8); }
   .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); flex-wrap: wrap; }
   .group-head h3 { color: var(--ink); }
