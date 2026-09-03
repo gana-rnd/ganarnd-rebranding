@@ -1,19 +1,57 @@
 ---
-// 사진 자리 — 그 자리에 맞는 실물 사진이 아직 없는 곳에 둔다.
-// 무드성 스톡 컷으로 자리를 메우지 않고, 무엇을 찍어야 하는지 명시해 둔다.
-// 실제 사진이 준비되면 이 컴포넌트를 <img>로 교체하면 된다.
+// 사진이 준비되지 않은 자리는 촬영 방향 이미지를 보여주고, 공개 전 교체 대상임을 캡션으로 밝힌다.
+// src가 없으면 기존의 촬영 지시 플레이스홀더로 폴백한다.
 interface Props {
   note: string;
   ratio?: string;
+  src?: string;
+  alt?: string;
+  caption?: string;
 }
-const { note, ratio = '4 / 3' } = Astro.props;
+const {
+  note,
+  ratio = '4 / 3',
+  src,
+  alt = '',
+  caption = 'Photography direction — replace with GANA R&D site photography before public launch',
+} = Astro.props;
 ---
 
-<div class="slot" style={`aspect-ratio: ${ratio};`} role="img" aria-label={`사진 자리: ${note}`}>
-  <p class="note">[{note}]</p>
-</div>
+{src ? (
+  <figure class="photo-direction">
+    <div class="frame" style={`aspect-ratio: ${ratio};`}>
+      <img src={src} alt={alt} loading="lazy" />
+    </div>
+    <figcaption>{caption}</figcaption>
+  </figure>
+) : (
+  <div class="slot" style={`aspect-ratio: ${ratio};`} role="img" aria-label={`사진 자리: ${note}`}>
+    <p class="note">[{note}]</p>
+  </div>
+)}
 
 <style>
+  .photo-direction { margin: 0; }
+  .frame {
+    overflow: hidden;
+    background: var(--paper-2);
+    border-radius: 2px;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out-expo);
+  }
+  .photo-direction:hover img { transform: scale(1.035); }
+  figcaption {
+    margin-top: var(--s2);
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
   .slot {
     background: #fff;
     border: 1px dashed var(--ink-3);
