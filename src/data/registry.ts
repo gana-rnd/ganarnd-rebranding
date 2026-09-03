@@ -64,6 +64,11 @@ export const licence = credentials.find((c) => c.id === 'mfds-licence')!;
 export const eudamed = credentials.find((c) => c.id === 'eudamed-srn')!;
 export const mhra = credentials.find((c) => c.id === 'mhra-man')!;
 
+/** 공급 범위 — KR 등재만 export_only 값을 가진다 (RU/BR/UK는 null → 표에서 class 등 대체 표기) */
+export function scopeOf(r: Reg): 'export' | 'domestic' | null {
+  return r.export_only === true ? 'export' : r.export_only === false ? 'domestic' : null;
+}
+
 export function fmtDate(iso: string): string {
   const d = new Date(iso);
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });

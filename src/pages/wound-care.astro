@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { tissue, authorityName, fmtDate } from '../data/registry';
+import { tissue, authorityName, fmtDate, scopeOf } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -13,9 +13,9 @@ const t = useTranslations(lang);
     <h1><span class="hero-line"><span>{t.woundCare.title}</span></span></h1>
     <p class="ph-sub hero-fade d2">{t.woundCare.sub}</p>
     <div class="page-visual photo-trio hero-fade d3" data-reveal="scale">
-      <img src="/images/gana-patch-3.webp" alt="GANA PATCH hydrogel dressing applied to skin" />
-      <img src="/images/gana-patch-2.webp" alt="GANA PATCH held between fingers" />
-      <img src="/images/gana-patch-4.webp" alt="GANA PATCH on the skin" />
+      <img src="/images/gana-patch-3.webp" alt="GANA PATCH hydrogel dressing being placed on a prepared wound site" />
+      <img src="/images/gana-patch-2.webp" alt="Foam wound dressing pressed into place with a gloved hand" />
+      <img src="/images/gana-patch-4.webp" alt="Dressing secured with tape over the application site" />
     </div>
   </header>
 
@@ -27,7 +27,7 @@ const t = useTranslations(lang);
         <p>{t.woundCare.s1P2}</p>
         <a class="btn" href={localizePath('/contact', lang)}>{t.woundCare.s1Cta}</a>
       </div>
-      <div class="visual zoom-hover" data-reveal="right"><img src="/images/gana-patch-1.webp" alt="" /></div>
+      <div class="visual zoom-hover" data-reveal="right"><img src="/images/gana-patch-1.webp" alt="Application site prepared with antiseptic through a surgical drape, before dressing" /></div>
     </div>
   </section>
 
@@ -43,11 +43,11 @@ const t = useTranslations(lang);
           {tissue.map((r) => (
             <tr>
               <td>{r.product}</td>
-              <td>{r.type}{r.class ? ` · ${r.class}` : ''}</td>
+              <td>{r.category_en ?? r.chemistry ?? ''}{r.class ? ` · ${r.class}` : ''}</td>
               <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
               <td class="mono">{r.number}</td>
-              <td>{fmtDate(r.granted)}{r.valid_to ? ` — valid to ${fmtDate(r.valid_to)}` : ''}</td>
-              <td>{r.scope === 'domestic' ? t.table.domesticApproval : r.scope === 'export' ? t.table.export : '—'}</td>
+              <td>{fmtDate(r.date)}{r.valid_to ? ` — valid to ${fmtDate(r.valid_to)}` : ''}</td>
+              <td>{scopeOf(r) === 'domestic' ? t.table.domesticApproval : scopeOf(r) === 'export' ? t.table.export : '—'}</td>
             </tr>
           ))}
         </tbody>

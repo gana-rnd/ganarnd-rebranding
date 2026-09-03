@@ -4,7 +4,8 @@ export const zh = {
     "woundCare": "伤口护理",
     "coDevelopment": "共同开发",
     "marketAccess": "注册与市场准入",
-    "contact": "联系我们"
+    "contact": "联系我们",
+    "menu": "菜单"
   },
   "footer": {
     "company": "公司",
@@ -215,6 +216,9 @@ export const zh = {
     ],
     "formMessage": "留言",
     "formSend": "发送",
+    "formSending": "发送中…",
+    "formSuccess": "谢谢——您的信息已发送。我们通常会在两个工作日内回复。",
+    "formError": "表单发送失败。请使用右侧地址或致电 +82-31-733-0242。",
     "formNote": "表单发送正在连接中。在此之前，请使用右侧的地址。",
     "sideEyebrow": "生产基地",
     "sideNote": "制造许可证 MFDS 编号 4490 · GMP KCL-ABBA-19926 · EUDAMED SRN KR-MF-000037221 · MHRA MAN_ID 32678"

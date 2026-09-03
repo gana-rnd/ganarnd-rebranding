@@ -32,11 +32,12 @@ export function useTranslations(lang: LangCode): UIStrings {
   return translations[lang] ?? en;
 }
 
-/** 경로에 언어 prefix 적용 — 기본어(en)는 prefix 없음 */
+/** 경로에 언어 prefix 적용 — 기본어(en)는 prefix 없음.
+ * 언어 홈은 '/zh/'처럼 슬래시로 끝나야 sitemap·실제 URL(디렉토리 빌드)과 일치한다. */
 export function localizePath(path: string, lang: LangCode): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
   if (lang === defaultLang) return clean;
-  return `/${lang}${clean === '/' ? '' : clean}`;
+  return `/${lang}${clean === '/' ? '/' : clean}`;
 }
 
 /** 현재 경로에서 언어 prefix를 제거한 순수 경로 */

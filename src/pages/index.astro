@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
 import { counts, marketAccess, licence, gmp, eudamed, mhra } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
@@ -12,6 +13,18 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
   no: { text: t.table.supplyNo, cls: 'warn' },
 };
 const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
+
+// 크리덴셜 값 — 번역 템플릿({n}=등록번호, mono 서체 유지를 위해 분리 렌더)
+const credDefs: { k: string; v: string; n: string; vars: Record<string, string | number> }[] = [
+  { k: t.home.cred1k, v: t.home.cred1v, n: licence.number, vars: { y: licence.since.slice(0, 4) } },
+  { k: t.home.cred2k, v: t.home.cred2v, n: gmp.number, vars: { issuer: gmp.issuer } },
+  { k: t.home.cred3k, v: t.home.cred3v, n: eudamed.number, vars: {} },
+  { k: t.home.cred4k, v: t.home.cred4v, n: mhra.number, vars: {} },
+];
+const creds = credDefs.map((c) => {
+  const [before, after = ''] = tpl(c.v, c.vars).split('{n}');
+  return { k: c.k, before, n: c.n, after };
+});
 ---
 
 <Base title="GANA R&D" hasHero>
@@ -51,7 +64,9 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
         <p>{t.home.s1P2}</p>
         <a class="btn" href={localizePath('/market-access', lang)}>{t.home.s1Cta}</a>
       </div>
-      <div class="visual zoom-hover" data-reveal="right"><img src="/images/vial-stone.webp" alt="" /></div>
+      <div data-reveal="right">
+        <PhotoSlot note="제조소 사진 — 성남 제조소 클린룸의 충전·조립 라인. 이 섹션의 '제조사, 유통사 아님' 주장을 뒷받침할 실제 생산 현장 컷" />
+      </div>
     </div>
   </section>
 
@@ -111,10 +126,9 @@ const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisd
       <h2>{t.home.s4Title}</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
-      <li><span class="k">{t.home.cred1k}</span><span>MFDS <span class="mono">{licence.number}</span> — active since {licence.since.slice(0,4)}</span></li>
-      <li><span class="k">{t.home.cred2k}</span><span><span class="mono">{gmp.number}</span> ({gmp.issuer}) — valid to 3 March 2027</span></li>
-      <li><span class="k">{t.home.cred3k}</span><span>EUDAMED SRN <span class="mono">{eudamed.number}</span> — active</span></li>
-      <li><span class="k">{t.home.cred4k}</span><span>MHRA <span class="mono">{mhra.number}</span> — UK Responsible Person appointed</span></li>
+      {creds.map((c) => (
+        <li><span class="k">{c.k}</span><span>{c.before}<span class="mono">{c.n}</span>{c.after}</span></li>
+      ))}
       <li><span class="k">{t.home.cred5k}</span><span>{t.home.cred5v}</span></li>
       <li><span class="k">{t.home.cred6k}</span><span>{t.home.cred6v}</span></li>
     </ul>

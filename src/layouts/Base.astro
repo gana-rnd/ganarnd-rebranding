@@ -11,10 +11,31 @@ const {
   description = 'GANA R&D Co., Ltd. — licensed medical device manufacturer in Seongnam, Korea. Dermal fillers, wound dressings and contract manufacturing, with registration numbers a buyer can verify.',
   hasHero = false,
 } = Astro.props;
-const fullTitle = title === 'GANA R&D' ? title : `${title} — GANA R&D`;
+const fullTitle =
+  title === 'GANA R&D'
+    ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea'
+    : `${title} — GANA R&D`;
 const lang = getLangFromUrl(Astro.url);
 const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;
+const ogImage = `${siteBase}/images/og.jpg`;
+const ogLocale: Record<string, string> = { en: 'en_US', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
+const orgSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GANA R&D Co., Ltd.',
+  url: siteBase,
+  telephone: '+82-31-733-0242',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '555 Dunchon-daero, Jungwon-gu',
+    addressLocality: 'Seongnam-si',
+    addressRegion: 'Gyeonggi-do',
+    postalCode: '13215',
+    addressCountry: 'KR',
+  },
+});
 ---
 
 <!doctype html>
@@ -28,9 +49,20 @@ const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="GANA R&D" />
+    <meta property="og:locale" content={ogLocale[lang] ?? 'en_US'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GANA R&D dermal filler syringes" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={orgSchema} />
     <!-- hreflang alternate 링크 -->
     {languages.map((l) => (
       <link rel="alternate" hreflang={l.code} href={`${siteBase}${localizePath(currentPath, l.code)}`} />

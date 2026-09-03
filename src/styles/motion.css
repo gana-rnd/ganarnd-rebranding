@@ -72,11 +72,21 @@ html.js .page-visual img {
   will-change: transform;
 }
 
-/* 히어로 텍스트 라인 마스크 리빌 */
-.hero-line { overflow: hidden; display: block; }
+/* 히어로 텍스트 라인 마스크 리빌
+ * 마스크(overflow:hidden)는 패딩 박스에서 잘리는데 line-height가 1.04로 타이트해
+ * g·y·p 디센더가 라인 박스 밖으로 나가 잘린다. 아래쪽에만 여유를 주고 같은 크기의
+ * 음수 마진으로 상쇄한다. 위쪽에는 넣지 않는다 — 인접 형제의 음수 마진끼리
+ * 상쇄(margin collapsing)되면서 줄 간격이 벌어지고 제목이 밀려 올라간다.
+ * 초기 숨김값(130%)은 늘어난 마스크 높이(1.22em)보다 커야 글자가 미리 비치지 않는다. */
+.hero-line {
+  overflow: hidden;
+  display: block;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
 html.js .hero-line > span {
   display: inline-block;
-  transform: translateY(110%);
+  transform: translateY(130%);
   transition: transform var(--dur-slow) var(--ease-out-expo);
   will-change: transform;
 }

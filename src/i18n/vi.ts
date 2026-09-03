@@ -5,6 +5,7 @@ export const vi = {
     coDevelopment: 'Hợp tác phát triển',
     marketAccess: 'Đăng ký & Tiếp cận thị trường',
     contact: 'Liên hệ',
+    menu: 'Menu',
   },
   footer: {
     company: 'Công ty',
@@ -187,6 +188,9 @@ export const vi = {
     formTypes: ['Nhà phân phối / nhà nhập khẩu', 'Phòng khám / bác sĩ', 'Bệnh viện / phân phối y tế', 'Thương hiệu / đối tác OEM / ODM', 'Khác'],
     formMessage: 'Tin nhắn',
     formSend: 'Gửi',
+    formSending: 'Đang gửi…',
+    formSuccess: 'Cảm ơn — tin nhắn của bạn đã được gửi. Chúng tôi thường phản hồi trong vòng hai ngày làm việc.',
+    formError: 'Không thể gửi biểu mẫu. Vui lòng dùng địa chỉ bên phải hoặc gọi +82-31-733-0242.',
     formNote: 'Việc gửi biểu mẫu đang được kết nối. Cho đến lúc đó, vui lòng sử dụng địa chỉ ở bên phải.',
     sideEyebrow: 'Cơ sở sản xuất',
     sideNote: 'Giấy phép sản xuất MFDS số 4490 · GMP KCL-ABBA-19926 · EUDAMED SRN KR-MF-000037221 · MHRA MAN_ID 32678',

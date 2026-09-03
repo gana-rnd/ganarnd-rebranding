@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy } from '../data/registry';
+import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -25,9 +25,6 @@ const lookupUrl: Record<string, string> = {
     <p class="ph-eyebrow hero-fade d1">{t.marketAccess.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.marketAccess.title}</span></span></h1>
     <p class="ph-sub hero-fade d2">{t.marketAccess.sub}</p>
-    <div class="page-visual hero-fade d3" data-reveal="scale">
-      <img src="/images/filler-x-box.webp" alt="GANA R&D registered filler product" style="object-position: 50% 45%;" />
-    </div>
   </header>
 
   <!-- 시장접근 지도 -->
@@ -53,15 +50,12 @@ const lookupUrl: Record<string, string> = {
 
   <!-- 유통 파트너십 -->
   <section class="container section tight">
-    <div class="split">
-      <div class="text" data-reveal-stagger>
-        <p class="eyebrow"><span class="no">02</span> {t.marketAccess.s2Eyebrow}</p>
-        <h2>{t.marketAccess.s2Title}</h2>
-        <p>{t.marketAccess.s2P1}</p>
-        <p>{t.marketAccess.s2P2}</p>
-        <a class="btn" href={localizePath('/contact', lang)}>{t.marketAccess.s2Cta}</a>
-      </div>
-      <div class="visual zoom-hover" data-reveal="right"><img src="/images/filler-x-box.webp" alt="" /></div>
+    <div class="prose" data-reveal-stagger>
+      <p class="eyebrow"><span class="no">02</span> {t.marketAccess.s2Eyebrow}</p>
+      <h2>{t.marketAccess.s2Title}</h2>
+      <p>{t.marketAccess.s2P1}</p>
+      <p>{t.marketAccess.s2P2}</p>
+      <a class="btn" href={localizePath('/contact', lang)}>{t.marketAccess.s2Cta}</a>
     </div>
   </section>
 
@@ -102,10 +96,10 @@ const lookupUrl: Record<string, string> = {
                 {items.map((r) => (
                   <tr>
                     <td class="mono">{r.number}</td>
-                    <td>{r.product}{r.note ? <span class="muted small"> {r.note}</span> : null}</td>
-                    <td>{r.category ?? r.type ?? ''}</td>
-                    <td>{fmtDate(r.granted)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.validity === 'indefinite' ? ' — indefinite' : ''}</td>
-                    <td>{r.scope === 'export' ? t.table.export : r.scope === 'domestic' ? t.table.domestic : ''}{r.class ? ` · ${r.class}` : ''}</td>
+                    <td>{r.product}{r.umbrella_note_en ? <span class="muted small"> — {r.umbrella_note_en}</span> : null}</td>
+                    <td>{r.category_en ?? r.chemistry ?? ''}</td>
+                    <td>{fmtDate(r.date)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.term === 'indefinite' ? ' — indefinite' : ''}</td>
+                    <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class].filter(Boolean).join(' · ')}</td>
                   </tr>
                 ))}
               </tbody>
@@ -141,6 +135,8 @@ const lookupUrl: Record<string, string> = {
 </Base>
 
 <style>
+  /* 사진 없는 텍스트 섹션 — split의 왼쪽 칼럼과 같은 리듬을 유지 */
+  .prose > * + * { margin-top: var(--s5); }
   .group { margin-bottom: var(--s8); }
   .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); flex-wrap: wrap; }
   .group-head h3 { color: var(--ink); }

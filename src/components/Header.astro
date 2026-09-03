@@ -19,7 +19,7 @@ const nav = [
   <div class="container row">
     <a href={localizePath('/', lang)} class="wordmark" aria-label="GANA R&D — home"><span class="g">GANA</span> <span class="r">R&amp;D</span></a>
     <div class="right">
-      <nav aria-label="Primary">
+      <nav id="site-nav" aria-label="Primary">
         <ul>
           {nav.map((i) => {
             const localized = localizePath(i.href, lang);
@@ -47,6 +47,15 @@ const nav = [
           ))}
         </ul>
       </div>
+      <button
+        class="menu-btn"
+        type="button"
+        aria-controls="site-nav"
+        aria-expanded="false"
+        aria-label={t.nav.menu}
+      >
+        <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
     </div>
   </div>
 </header>
@@ -93,27 +102,90 @@ const nav = [
   body.has-hero .hdr:not(.is-scrolled) .lang-btn:hover { border-color: #fff; color: #fff; }
   body.has-hero .hdr:not(.is-scrolled) .lang-menu a { color: var(--ink); }
 
+  /* 햄버거 버튼 — 데스크톱에선 숨김 */
+  .menu-btn {
+    display: none;
+    background: none; border: 0; cursor: pointer; padding: 10px;
+    margin-right: -10px;
+  }
+  .menu-btn .bars { display: block; width: 22px; }
+  .menu-btn .bars i {
+    display: block; height: 2px; width: 100%; background: var(--ink);
+    transition: transform 300ms var(--ease-out-expo), opacity 200ms var(--ease-out-expo), background 300ms var(--ease-out-expo);
+  }
+  .menu-btn .bars i + i { margin-top: 5px; }
+  .hdr.nav-open .menu-btn .bars i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hdr.nav-open .menu-btn .bars i:nth-child(2) { opacity: 0; }
+  .hdr.nav-open .menu-btn .bars i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .menu-btn .bars i { background: #fff; }
+
+  /* ≤1024px: 내비를 헤더 아래 흰 패널로 접기 */
   @media (max-width: 1024px) {
-    .row { flex-direction: column; align-items: flex-start; gap: var(--s3); padding-block: var(--s4); }
-    .right { width: 100%; justify-content: space-between; }
-    nav ul { flex-wrap: wrap; gap: var(--s4) var(--s5); }
+    .row { min-height: 68px; }
+    .menu-btn { display: inline-flex; }
+    nav {
+      position: absolute; left: 0; right: 0; top: 100%;
+      display: none;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 16px 32px rgba(11, 31, 58, 0.10);
+    }
+    .hdr.nav-open nav { display: block; }
+    nav ul { flex-direction: column; gap: 0; padding: var(--s3) var(--gutter) var(--s5); }
+    nav a { display: block; padding: var(--s3) 0; font-size: var(--text-base); color: var(--ink) !important; }
+    nav a::after { content: none !important; }
+    nav a[aria-current='page'] { color: var(--accent) !important; font-weight: 600; }
+    /* 패널이 열리면 헤더 자체도 불투명하게 — 히어로 위에서도 대비 확보 */
+    .hdr.nav-open { background: #fff; box-shadow: 0 1px 0 var(--line); }
+    body.has-hero .hdr.nav-open .wordmark .g { color: #3a3a3a; }
+    body.has-hero .hdr.nav-open .lang-btn { color: var(--ink-2); border-color: var(--line); }
   }
 </style>
 
 <script>
   // 언어 전환 드롭다운 토글
-  document.querySelectorAll('.lang-switch').forEach((el) => {
-    const btn = el.querySelector('.lang-btn');
-    btn?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const open = el.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-  });
-  document.addEventListener('click', () => {
+  const closeLang = () => {
     document.querySelectorAll('.lang-switch.open').forEach((el) => {
       el.classList.remove('open');
       el.querySelector('.lang-btn')?.setAttribute('aria-expanded', 'false');
     });
+  };
+  document.querySelectorAll('.lang-switch').forEach((el) => {
+    const btn = el.querySelector('.lang-btn');
+    btn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeNav();
+      const open = el.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  document.addEventListener('click', closeLang);
+
+  // 모바일 내비 토글
+  const hdr = document.querySelector('.hdr');
+  const menuBtn = document.querySelector('.menu-btn');
+  const closeNav = () => {
+    if (!hdr?.classList.contains('nav-open')) return;
+    hdr.classList.remove('nav-open');
+    menuBtn?.setAttribute('aria-expanded', 'false');
+  };
+  menuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeLang();
+    const open = hdr?.classList.toggle('nav-open') ?? false;
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', (e) => {
+    if (hdr && e.target instanceof Node && !hdr.contains(e.target)) closeNav();
+  });
+  document.querySelectorAll('#site-nav a').forEach((a) => a.addEventListener('click', closeNav));
+
+  // Esc — 열린 메뉴 전부 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const navWasOpen = hdr?.classList.contains('nav-open');
+    closeLang();
+    closeNav();
+    if (navWasOpen && menuBtn instanceof HTMLElement) menuBtn.focus();
   });
 </script>

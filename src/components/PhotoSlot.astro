@@ -1,0 +1,36 @@
+---
+// 사진 자리 — 그 자리에 맞는 실물 사진이 아직 없는 곳에 둔다.
+// 무드성 스톡 컷으로 자리를 메우지 않고, 무엇을 찍어야 하는지 명시해 둔다.
+// 실제 사진이 준비되면 이 컴포넌트를 <img>로 교체하면 된다.
+interface Props {
+  note: string;
+  ratio?: string;
+}
+const { note, ratio = '4 / 3' } = Astro.props;
+---
+
+<div class="slot" style={`aspect-ratio: ${ratio};`} role="img" aria-label={`사진 자리: ${note}`}>
+  <p class="note">[{note}]</p>
+</div>
+
+<style>
+  .slot {
+    background: #fff;
+    border: 1px dashed var(--ink-3);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--s5);
+  }
+  .note {
+    margin: 0;
+    max-width: 46ch;
+    font-family: var(--font);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--ink-2);
+    text-align: center;
+    text-wrap: balance;
+  }
+</style>

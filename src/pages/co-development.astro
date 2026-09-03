@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
 import { counts, licence, gmp, eudamed, mhra } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
@@ -12,9 +13,6 @@ const t = useTranslations(lang);
     <p class="ph-eyebrow hero-fade d1">{t.coDev.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.coDev.title}</span></span></h1>
     <p class="ph-sub hero-fade d2">{t.coDev.sub}</p>
-    <div class="page-visual hero-fade d3" data-reveal="scale">
-      <img src="/images/vial-marble.webp" alt="Vial on marble — GANA R&D contract manufacture" style="object-position: 50% 62%;" />
-    </div>
   </header>
 
   <section class="container section">
@@ -25,7 +23,9 @@ const t = useTranslations(lang);
         <p>{t.coDev.s1P2}</p>
         <a class="btn" href={localizePath('/contact', lang)}>{t.coDev.s1Cta}</a>
       </div>
-      <div class="visual contain zoom-hover" data-reveal="right"><img src="/images/vial-marble.webp" alt="" /></div>
+      <div data-reveal="right">
+        <PhotoSlot note="수탁 제조 공정 사진 — 제형 연구실, 스케일업 설비 또는 충전 라인. 컨셉부터 허가·양산까지 자사 제조소에서 한다는 이 페이지의 주장을 뒷받침할 컷" />
+      </div>
     </div>
   </section>
 

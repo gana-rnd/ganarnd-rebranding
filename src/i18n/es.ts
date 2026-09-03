@@ -5,6 +5,7 @@ export const es = {
     coDevelopment: 'Desarrollo Conjunto',
     marketAccess: 'Registros y Acceso al Mercado',
     contact: 'Contacto',
+    menu: 'Menú',
   },
   footer: {
     company: 'Empresa',
@@ -187,6 +188,9 @@ export const es = {
     formTypes: ['Distribuidor / importador', 'Clínica / médico', 'Hospital / distribución médica', 'Marca / socio OEM / ODM', 'Otro'],
     formMessage: 'Mensaje',
     formSend: 'Enviar',
+    formSending: 'Enviando…',
+    formSuccess: 'Gracias — su mensaje ha sido enviado. Normalmente respondemos en un plazo de dos días hábiles.',
+    formError: 'No se pudo enviar el formulario. Utilice la dirección de la derecha o llame al +82-31-733-0242.',
     formNote: 'Se está conectando el envío del formulario. Hasta entonces, utilice la dirección de la derecha.',
     sideEyebrow: 'Planta de fabricación',
     sideNote: 'Licencia de fabricación MFDS No. 4490 · GMP KCL-ABBA-19926 · EUDAMED SRN KR-MF-000037221 · MHRA MAN_ID 32678',
