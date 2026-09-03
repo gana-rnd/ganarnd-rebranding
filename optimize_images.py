@@ -16,20 +16,16 @@ BACKUP = os.path.join(SRC, 'original')
 os.makedirs(BACKUP, exist_ok=True)
 
 # 파일별 최대 폭 (렌더링 용도 기준)
+# 사이트에서 실제로 쓰는 사진만 둔다. 무브랜드 스톡 컷(vial-stone·vial-marble),
+# GANA COSMETIC 브랜딩이 찍힌 vial-box, 미사용 시린지 크롭 4장은 정리했으므로
+# 여기에도 두지 않는다 — 남겨두면 원본을 다시 넣었을 때 되살아난다.
 PLAN = {
-    'syringes-set.png': 1920,   # 메인 + aesthetics 히어로
-    'vial-stone.png': 1600,     # split visual / contact
-    'vial-marble.png': 1600,    # co-development
-    'vial-box.png': 1600,       # aesthetics split
-    'filler-x-box.jpg': 1600,   # market-access
+    'syringes-set.png': 1920,   # 메인 히어로
+    'filler-x-box.jpg': 1600,   # aesthetics split
     'gana-patch-1.jpg': 1400,   # wound-care split
     'gana-patch-2.jpg': 1200,   # wound-care grid
     'gana-patch-3.jpg': 1400,   # wound-care grid (large)
     'gana-patch-4.jpg': 1200,   # wound-care grid
-    'syringe-blue.png': 800,    # 소형 제품컷 (현재 미사용이지만 최적화)
-    'syringe-green.png': 800,
-    'syringe-red.png': 800,
-    'syringe-yellow.png': 800,
 }
 
 QUALITY = 82
