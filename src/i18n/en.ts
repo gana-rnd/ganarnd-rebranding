@@ -76,8 +76,8 @@ export const en = {
   },
   aesthetics: {
     eyebrow: 'Medical Aesthetics — for clinics and aesthetic distributors',
-    title: 'Research-led products that make a clinic’s offer harder to copy.',
-    sub: 'Four filler chemistries under one manufacturer — hyaluronic acid · PLLA · PCL · calcium — plus PN / PDRN.',
+    title: 'The portfolio behind a clinic that stands apart.',
+    sub: 'Hyaluronic acid, PLLA, PCL and calcium fillers, plus PN / PDRN, each registered with GANA R&D named as manufacturer.',
     s1Eyebrow: 'The portfolio',
     s1P1: 'Many clinics offer similar products. A stronger portfolio serves different patient needs and helps a clinic stand apart. GANA R&D formulates and fills across four chemical families — hyaluronic acid, PLLA, PCL and calcium — under one manufacturer name.',
     s1P2: 'A range like that only comes from formulating and filling across chemistries in-house. It does not come from buying one ingredient and reselling it. A distributor who knows the category sees the difference straight away.',
