@@ -14,6 +14,10 @@ export const en = {
     note: 'GANA R&D Co., Ltd. is the medical device manufacturer of Dr. Park Group, alongside GANA Cosmetic (cosmeceuticals) and Dr. Park CDMO (cell and gene therapy manufacturing). This site presents GANA R&D and its registrations only.',
     audience: 'For professional and B2B audiences — distributors, clinics, hospitals and brand partners.',
     copyright: '© 2026 GANA R&D Co., Ltd.',
+    legalName: 'GANA R&D Co., Ltd.',
+    addr1: '555 Dunchon-daero, Jungwon-gu,',
+    addr2: 'Seongnam-si, Gyeonggi-do 13215, Republic of Korea',
+    tel: 'Tel +82-31-733-0242',
   },
   common: {
     contactCta: 'Contact GANA R&D',
@@ -37,6 +41,7 @@ export const en = {
     stat2: 'Jurisdictions',
     stat3: 'MFDS manufacturing licence number, held since 2014',
     stat4: 'GMP certificate {gmp} valid to 3 March 2027',
+    stat4Month: 'Mar',
     s3Eyebrow: 'Who we work with',
     s3Title: 'Three ways to work with GANA R&D',
     card1Who: 'Clinics · aesthetic distributors',
@@ -214,7 +219,10 @@ export const en = {
     export: 'Export',
     domestic: 'Domestic',
     domesticApproval: 'Domestic approval',
-    class: 'Class',
+    classFmt: 'Class {c}',
+    validTo: 'valid to',
+    to: 'to',
+    indefinite: 'indefinite',
   },
   jurisdictions: {
     KR: 'South Korea',
@@ -224,6 +232,28 @@ export const en = {
     EU: 'European Union',
     US: 'United States',
   },
+  coverage: {
+    KR: 'Export — 22 export-designated + 1 domestic (GANA PATCH)',
+    RU: '8 registrations, named as manufacturer',
+    BR: 'Via local registration holder (SKINSTORE)',
+    UK: 'Brand owned by market-authorisation holder',
+    EU: 'CE expired 27 May 2024; manufacturer registration active',
+    US: 'No FDA device registration',
+  },
+  mfr: {
+    licenceK: 'MFDS manufacturing licence',
+    licenceV: '{n} — active since {y}',
+    licenceLink: 'MFDS lookup',
+    gmpK: 'MFDS GMP conformity',
+    gmpV: '{n} — valid 4 Mar 2024 to 3 Mar 2027',
+    gmpLink: 'MFDS GMP status',
+    eudamedK: 'EUDAMED actor registration',
+    eudamedV: '{n} — Manufacturer, active',
+    eudamedLink: 'EUDAMED search',
+    mhraK: 'MHRA manufacturer registration',
+    mhraV: '{n} — updated 11 Apr 2026',
+    mhraLink: 'MHRA PARD',
+  }
 };
 
 // 구조적 타입 — 모든 문자열은 string으로 넓혀서 다른 언어 번역을 허용

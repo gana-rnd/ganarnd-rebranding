@@ -1,6 +1,5 @@
 ---
 // 다크 푸터 — 법인 정체성 + 그룹 안내
-import { manufacturer } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -27,10 +26,10 @@ const year = new Date().getFullYear();
     <div>
       <p class="h">{t.footer.site}</p>
       <address>
-        {manufacturer.legal_name_en}<br />
-        555 Dunchon-daero, Jungwon-gu,<br />
-        Seongnam-si, Gyeonggi-do 13215, Republic of Korea<br />
-        Tel +82-31-733-0242
+        {t.footer.legalName}<br />
+        {t.footer.addr1}<br />
+        {t.footer.addr2}<br />
+        {t.footer.tel}
       </address>
     </div>
   </div>

@@ -147,6 +147,11 @@ table { border-collapse: collapse; width: 100%; }
 .status.neutral { color: var(--ink-2); }
 .sep { color: var(--ink-3); }
 
+/* 한국어 — 단어 중간 줄바꿈 방지, 자간 완화, 히어로 제목 폭(한글은 ch 단위로 좁게 잡힘) */
+html[lang="ko"] body { word-break: keep-all; }
+html[lang="ko"] h1, html[lang="ko"] h2, html[lang="ko"] .hero-title { letter-spacing: -0.01em; }
+html[lang="ko"] .hero-title { max-width: 18ch; }
+
 /* 콜아웃 */
 .callout { background: var(--paper-2); padding: var(--s5) var(--s6); border-radius: 2px; font-size: var(--text-sm); color: var(--ink-2); }
 .callout b { color: var(--ink); }

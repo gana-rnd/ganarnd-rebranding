@@ -20,7 +20,9 @@ const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;
 const ogImage = `${siteBase}/images/og.jpg`;
-const ogLocale: Record<string, string> = { en: 'en_US', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
+const ogLocale: Record<string, string> = { en: 'en_US', ko: 'ko_KR', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
+// 한국어 페이지에만 한글 서체(Noto Sans KR)를 추가로 싣는다. 라틴 글리프는 그대로 Manrope.
+const fontsHref = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500${lang === 'ko' ? '&family=Noto+Sans+KR:wght@400;500;600;700' : ''}&display=swap`;
 const orgSchema = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -70,7 +72,7 @@ const orgSchema = JSON.stringify({
     <link rel="alternate" hreflang="x-default" href={`${siteBase}${currentPath}`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href={fontsHref} rel="stylesheet" />
   </head>
   <body class={hasHero ? 'has-hero' : undefined}>
     <a href="#main" class="skip">Skip to content</a>

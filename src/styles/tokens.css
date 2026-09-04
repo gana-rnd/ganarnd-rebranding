@@ -25,7 +25,7 @@
   --warn: #8a5a00;
 
   /* 타이포 */
-  --font: 'Manrope', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: 'Manrope', 'Noto Sans KR', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-logo: 'Times New Roman', Times, 'Nimbus Roman', serif;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
 

@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf } from '../../data/registry';
+import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf, catLabel, umbrellaNote } from '../../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -40,7 +40,7 @@ const lookupUrl: Record<string, string> = {
             <tr>
               <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
               <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
-              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+              <td class="muted">{t.coverage[m.territory as keyof typeof t.coverage] ?? `${m.basis}${m.note ? ` — ${m.note}` : ''}`}</td>
             </tr>
           ))}
         </tbody>
@@ -66,10 +66,10 @@ const lookupUrl: Record<string, string> = {
       <h2>{t.marketAccess.s3Title}</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
-      <li><span class="k">MFDS manufacturing licence</span><span>{licence.number} — active since {licence.since.slice(0, 4)} · <a class="link" href={licence.lookup} rel="noopener">MFDS lookup</a></span></li>
-      <li><span class="k">MFDS GMP conformity</span><span>{gmp.number} — valid 4 Mar 2024 to 3 Mar 2027 · <a class="link" href={gmp.lookup} rel="noopener">MFDS GMP status</a></span></li>
-      <li><span class="k">EUDAMED actor registration</span><span>{eudamed.number} — Manufacturer, active · <a class="link" href={eudamed.lookup} rel="noopener">EUDAMED search</a></span></li>
-      <li><span class="k">MHRA manufacturer registration</span><span>{mhra.number} — updated 11 Apr 2026 · <a class="link" href={mhra.lookup} rel="noopener">MHRA PARD</a></span></li>
+      <li><span class="k">{t.mfr.licenceK}</span><span>{tpl(t.mfr.licenceV, { n: licence.number, y: licence.since.slice(0, 4) })} · <a class="link" href={licence.lookup} rel="noopener">{t.mfr.licenceLink}</a></span></li>
+      <li><span class="k">{t.mfr.gmpK}</span><span>{tpl(t.mfr.gmpV, { n: gmp.number })} · <a class="link" href={gmp.lookup} rel="noopener">{t.mfr.gmpLink}</a></span></li>
+      <li><span class="k">{t.mfr.eudamedK}</span><span>{tpl(t.mfr.eudamedV, { n: eudamed.number })} · <a class="link" href={eudamed.lookup} rel="noopener">{t.mfr.eudamedLink}</a></span></li>
+      <li><span class="k">{t.mfr.mhraK}</span><span>{tpl(t.mfr.mhraV, { n: mhra.number })} · <a class="link" href={mhra.lookup} rel="noopener">{t.mfr.mhraLink}</a></span></li>
     </ul>
   </section>
 
@@ -96,10 +96,10 @@ const lookupUrl: Record<string, string> = {
                 {items.map((r) => (
                   <tr>
                     <td class="mono">{r.number}</td>
-                    <td>{r.product}{r.umbrella_note_en ? <span class="muted small"> — {r.umbrella_note_en}</span> : null}</td>
-                    <td>{r.category_en ?? r.chemistry ?? ''}</td>
-                    <td>{fmtDate(r.date)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.term === 'indefinite' ? ' — indefinite' : ''}</td>
-                    <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? `${t.table.class} ${r.class}` : null].filter(Boolean).join(' · ')}</td>
+                    <td>{r.product}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                    <td>{catLabel(r, lang)}</td>
+                    <td>{fmtDate(r.date, lang)}{r.valid_to ? ` — ${t.table.to} ${fmtDate(r.valid_to, lang)}` : r.term === 'indefinite' ? ` — ${t.table.indefinite}` : ''}</td>
+                    <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? tpl(t.table.classFmt, { c: r.class }) : null].filter(Boolean).join(' · ')}</td>
                   </tr>
                 ))}
               </tbody>

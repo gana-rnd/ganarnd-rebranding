@@ -7,7 +7,7 @@ import os
 import re
 
 PAGES = ['index', 'aesthetics', 'wound-care', 'co-development', 'market-access', 'contact']
-LANGS = ['zh', 'es', 'th', 'vi', 'ru']
+LANGS = ['ko', 'zh', 'es', 'th', 'vi', 'ru']
 SRC = 'src/pages'
 
 for lang in LANGS:

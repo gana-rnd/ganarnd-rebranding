@@ -64,12 +64,22 @@ export const licence = credentials.find((c) => c.id === 'mfds-licence')!;
 export const eudamed = credentials.find((c) => c.id === 'eudamed-srn')!;
 export const mhra = credentials.find((c) => c.id === 'mhra-man')!;
 
+/** 표의 품목 라벨 — 한국어 페이지는 category_ko, 그 외는 category_en → chemistry 순 */
+export function catLabel(r: Reg, lang: string): string {
+  return (lang === 'ko' ? r.category_ko : null) ?? r.category_en ?? r.chemistry ?? '';
+}
+/** 총괄 허가 비고 — 한국어 페이지는 umbrella_note_ko가 있으면 우선 */
+export function umbrellaNote(r: Reg, lang: string): string | null {
+  return (lang === 'ko' ? r.umbrella_note_ko : null) ?? r.umbrella_note_en ?? null;
+}
 /** 공급 범위 — KR 등재만 export_only 값을 가진다 (RU/BR/UK는 null → 표에서 class 등 대체 표기) */
 export function scopeOf(r: Reg): 'export' | 'domestic' | null {
   return r.export_only === true ? 'export' : r.export_only === false ? 'domestic' : null;
 }
 
-export function fmtDate(iso: string): string {
+const dateLocale: Record<string, string> = { en: 'en-GB', ko: 'ko-KR', zh: 'zh-CN', es: 'es-ES', th: 'th-TH-u-ca-gregory', vi: 'vi-VN', ru: 'ru-RU' };
+/** 언어별 날짜 표기 — 태국어는 불기 대신 서기 달력으로 고정 */
+export function fmtDate(iso: string, lang = 'en'): string {
   const d = new Date(iso);
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString(dateLocale[lang] ?? 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }

@@ -85,7 +85,7 @@ const creds = credDefs.map((c) => {
         <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">{t.home.stat1}</div></div>
         <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">{t.home.stat2} — {jurisdictionsList}</div></div>
         <div class="stat"><div class="n">4490</div><div class="l">{t.home.stat3}</div></div>
-        <div class="stat"><div class="n">2027<small>Mar</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
+        <div class="stat"><div class="n">2027<small>{t.home.stat4Month}</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
       </div>
     </div>
   </section>
@@ -153,7 +153,7 @@ const creds = credDefs.map((c) => {
             <tr>
               <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
               <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
-              <td class="muted">{m.basis}{m.note ? ` — ${m.note}` : ''}</td>
+              <td class="muted">{t.coverage[m.territory as keyof typeof t.coverage] ?? `${m.basis}${m.note ? ` — ${m.note}` : ''}`}</td>
             </tr>
           ))}
         </tbody>

@@ -12,7 +12,11 @@ export const zh = {
     "site": "生产基地",
     "note": "GANA R&D Co., Ltd. 是 Dr. Park Group 旗下的医疗器械制造商，与 GANA Cosmetic（药妆）和 Dr. Park CDMO（细胞与基因治疗制造）并列。本网站仅展示 GANA R&D 及其注册信息。",
     "audience": "面向专业和 B2B 受众 — 经销商、诊所、医院和品牌合作伙伴。",
-    "copyright": "© 2026 GANA R&D Co., Ltd."
+    "copyright": "© 2026 GANA R&D Co., Ltd.",
+    legalName: 'GANA R&D Co., Ltd.',
+    addr1: '555 Dunchon-daero, Jungwon-gu,',
+    addr2: 'Seongnam-si, Gyeonggi-do 13215, Republic of Korea',
+    tel: 'Tel +82-31-733-0242'
   },
   "common": {
     "contactCta": "联系 GANA R&D",
@@ -43,6 +47,7 @@ export const zh = {
     "stat2": "司法管辖区",
     "stat3": "MFDS 制造许可证号，自 2014 年起持有",
     "stat4": "GMP 证书 {gmp}，有效期至 2027 年 3 月 3 日",
+    stat4Month: '3月',
     "s3Eyebrow": "合作伙伴",
     "s3Title": "与 GANA R&D 合作的三种方式",
     "card1Who": "诊所 · 美容经销商",
@@ -241,7 +246,10 @@ export const zh = {
     "export": "出口",
     "domestic": "国内",
     "domesticApproval": "国内批准",
-    "class": "类别"
+    classFmt: '{c} 类',
+    validTo: '有效期至',
+    to: '至',
+    indefinite: '无限期'
   },
   "jurisdictions": {
     "KR": "韩国",
@@ -250,5 +258,27 @@ export const zh = {
     "UK": "英国",
     "EU": "欧盟",
     "US": "美国"
+  },
+  coverage: {
+    KR: '仅限出口许可 22 项 + 韩国境内许可 1 项（GANA PATCH）',
+    RU: '8 项注册，均列名为制造商',
+    BR: '通过当地注册人（SKINSTORE）',
+    UK: '品牌归英国上市许可持有人所有',
+    EU: 'CE 证书已于 2024 年 5 月 27 日到期；制造商注册有效',
+    US: '无 FDA 器械注册',
+  },
+  mfr: {
+    licenceK: 'MFDS 生产许可证',
+    licenceV: '{n} — 自 {y} 年起有效',
+    licenceLink: 'MFDS 查询',
+    gmpK: 'MFDS GMP 认证',
+    gmpV: '{n} — 有效期 2024 年 3 月 4 日至 2027 年 3 月 3 日',
+    gmpLink: 'MFDS GMP 状态',
+    eudamedK: 'EUDAMED 经济运营者注册',
+    eudamedV: '{n} — 制造商，有效',
+    eudamedLink: 'EUDAMED 查询',
+    mhraK: 'MHRA 制造商注册',
+    mhraV: '{n} — 更新于 2026 年 4 月 11 日',
+    mhraLink: 'MHRA PARD',
   }
 };

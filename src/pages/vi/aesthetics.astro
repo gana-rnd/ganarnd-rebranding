@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { surface, chemistryGroups, authorityName, fmtDate, scopeOf } from '../../data/registry';
-import { getLangFromUrl, useTranslations, localizePath } from '../../i18n/utils';
+import { surface, chemistryGroups, authorityName, fmtDate, scopeOf, umbrellaNote } from '../../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -43,11 +43,11 @@ const groups = chemistryGroups(surface);
             <tbody>
               {g.items.map((r) => (
                 <tr>
-                  <td>{r.product}{r.umbrella_note_en ? <span class="muted small"> — {r.umbrella_note_en}</span> : null}</td>
+                  <td>{r.product}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
                   <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
                   <td class="mono">{r.number}</td>
-                  <td>{fmtDate(r.date)}</td>
-                  <td>{scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : (r.class ? `${t.table.class} ${r.class}` : '—')}</td>
+                  <td>{fmtDate(r.date, lang)}</td>
+                  <td>{scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : (r.class ? tpl(t.table.classFmt, { c: r.class }) : '—')}</td>
                 </tr>
               ))}
             </tbody>
