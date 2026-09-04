@@ -142,8 +142,8 @@ table { border-collapse: collapse; width: 100%; }
   .table.stack td:first-child { font-weight: 600; }
 }
 .status { white-space: nowrap; }
-.status.ok { color: var(--ok); }
-.status.warn { color: var(--warn); }
+.status.ok { color: var(--ink); }
+.status.warn { color: var(--ink-2); }
 .status.neutral { color: var(--ink-2); }
 .sep { color: var(--ink-3); }
 
