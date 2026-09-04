@@ -50,9 +50,9 @@ table { border-collapse: collapse; width: 100%; }
 .section.alt { background: var(--paper-2); }
 .section-head { margin-bottom: var(--s7); max-width: 64ch; }
 .section-head h2 { margin-bottom: var(--s3); }
-.eyebrow { font-size: var(--text-sm); color: var(--ink-3); margin-bottom: var(--s3); display: flex; align-items: center; gap: var(--s3); }
+.eyebrow { font-size: var(--text-base); color: var(--ink-2); margin-bottom: var(--s3); display: flex; align-items: center; gap: var(--s3); }
 .eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--accent); flex: none; }
-.eyebrow .no { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent); letter-spacing: 0.08em; }
+.eyebrow .no { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--accent); letter-spacing: 0.08em; }
 .lead { font-size: var(--text-lg); color: var(--ink-2); }
 .muted { color: var(--ink-2); }
 .small { font-size: var(--text-sm); }
