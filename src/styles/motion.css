@@ -168,7 +168,7 @@ html.js .is-loaded .hero-fade.d3 { transition-delay: 850ms; }
   line-height: 1;
   letter-spacing: -0.02em;
   color: transparent;
-  -webkit-text-stroke: 1px var(--line);
+  -webkit-text-stroke: 1px #d0d5dc; /* --line(#e2e5e9)보다 두 단계 진하게 — 굵기는 그대로 */
   animation: marquee-x var(--marquee-dur, 40s) linear infinite;
   will-change: transform;
 }
