@@ -91,7 +91,7 @@ export const en = {
   },
   woundCare: {
     eyebrow: 'Wound Care — for hospitals and medical distribution',
-    title: 'We already manufacture the device your market requires.',
+    title: 'Wound care from a licensed device manufacturer.',
     sub: 'Hydrogel and foam wound dressings, MFDS-licensed with domestic approval in Korea and registered in Russia.',
     s1Eyebrow: 'The device line',
     s1P1: 'Chronic wound and pressure ulcer products are regulated medical devices, not cosmetics. They are prescribed, bought by hospitals and long-term care providers, and judged on clinical evidence.',
