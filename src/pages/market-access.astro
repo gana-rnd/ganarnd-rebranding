@@ -33,7 +33,7 @@ const lookupUrl: Record<string, string> = {
       <p class="eyebrow"><span class="no">01</span> {t.marketAccess.s1Eyebrow}</p>
     </div>
     <div class="table-wrap" data-reveal>
-      <table class="table">
+      <table class="table stack">
         <thead><tr><th>{t.table.territory}</th><th>{t.table.status}</th><th>{t.table.basis}</th></tr></thead>
         <tbody>
           {marketAccess.map((m) => (
@@ -99,7 +99,7 @@ const lookupUrl: Record<string, string> = {
                     <td>{r.product}{r.umbrella_note_en ? <span class="muted small"> — {r.umbrella_note_en}</span> : null}</td>
                     <td>{r.category_en ?? r.chemistry ?? ''}</td>
                     <td>{fmtDate(r.date)}{r.valid_to ? ` — to ${fmtDate(r.valid_to)}` : r.term === 'indefinite' ? ' — indefinite' : ''}</td>
-                    <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class].filter(Boolean).join(' · ')}</td>
+                    <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? `${t.table.class} ${r.class}` : null].filter(Boolean).join(' · ')}</td>
                   </tr>
                 ))}
               </tbody>

@@ -214,6 +214,7 @@ export const th = {
     export: 'ส่งออก',
     domestic: 'ในประเทศ',
     domesticApproval: 'การอนุมัติในประเทศ',
+    class: 'Class',
   },
   jurisdictions: {
     KR: 'เกาหลีใต้',

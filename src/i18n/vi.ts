@@ -213,6 +213,7 @@ export const vi = {
     export: 'Xuất khẩu',
     domestic: 'Trong nước',
     domesticApproval: 'Phê duyệt trong nước',
+    class: 'Loại',
   },
   jurisdictions: {
     KR: 'Hàn Quốc',

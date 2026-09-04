@@ -213,6 +213,7 @@ export const es = {
     export: 'Exportación',
     domestic: 'Nacional',
     domesticApproval: 'Aprobación nacional',
+    class: 'Clase',
   },
   jurisdictions: {
     KR: 'Corea del Sur',

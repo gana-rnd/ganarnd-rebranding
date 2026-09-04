@@ -55,7 +55,7 @@ export function chemistryGroups(list: Reg[]): { name: string; items: Reg[] }[] {
     const key = order.find((o) => c.toLowerCase().startsWith(o.toLowerCase())) ?? 'Other';
     (groups[key] ??= []).push(r);
   }
-  const named: Record<string, string> = { HA: 'Hyaluronic acid', PLLA: 'PLLA', PCL: 'PCL', calcium: 'Calcium', 'PN/PDRN': 'PN / PDRN', Other: 'Other' };
+  const named: Record<string, string> = { HA: 'Hyaluronic acid', PLLA: 'PLLA', PCL: 'PCL', calcium: 'Calcium', 'PN/PDRN': 'PN / PDRN', Other: 'Other tissue-repair materials' };
   return [...order, 'Other'].filter((k) => groups[k]).map((k) => ({ name: named[k], items: groups[k] }));
 }
 

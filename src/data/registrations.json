@@ -519,7 +519,7 @@
       "category_ko": "국소폼제창상피복재",
       "class": 2,
       "depth": "tissue",
-      "product": "GANA PATCH (GANA DERM), foam",
+      "product": "GANA PATCH foam (GANA DERM)",
       "chemistry": "foam dressing",
       "export_only": true,
       "status": "active",
@@ -615,6 +615,7 @@
       "date": "2024-04-18",
       "product": "GANA PATCH, hydrogel wound dressing",
       "chemistry": "hydrogel dressing",
+      "category_en": "Topical hydrogel wound dressing",
       "depth": "tissue",
       "holder": "local representative",
       "status": "active",
@@ -688,7 +689,7 @@
       "product": "GANA V (210mg/15mL)",
       "chemistry": "PLLA",
       "depth": "surface",
-      "class": "IV (máximo risco)",
+      "class": "IV",
       "holder": "SKINSTORE S.A. (CNPJ 12.979.552/0001-72)",
       "status": "active",
       "publish": true,
@@ -705,7 +706,7 @@
       "product": "GANA X (630mg/40mL)",
       "chemistry": "PLLA",
       "depth": "surface",
-      "class": "IV (máximo risco)",
+      "class": "IV",
       "holder": "SKINSTORE S.A.",
       "status": "VERIFY",
       "verify": "유효기간 2026-08-19 경과 — 등록보유자(SKINSTORE) 갱신 여부 확인 전 게시 보류",
@@ -737,7 +738,7 @@
       "territory": "KR",
       "supply": "yes",
       "basis": "export",
-      "note": "24 export-designated + 1 domestic (GANA PATCH)"
+      "note": "22 export-designated + 1 domestic (GANA PATCH)"
     },
     {
       "territory": "RU",
@@ -758,7 +759,7 @@
     {
       "territory": "EU",
       "supply": "no",
-      "basis": "CE expired 2024-05-27; manufacturer registration active",
+      "basis": "CE expired 27 May 2024; manufacturer registration active",
       "verify": "AR mandate 2026-07-25 갱신 확인"
     },
     {

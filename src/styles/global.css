@@ -121,7 +121,26 @@ table { border-collapse: collapse; width: 100%; }
 .table { font-size: var(--text-sm); }
 .table th { text-align: left; font-weight: 600; color: var(--ink-2); font-size: var(--text-xs); padding: var(--s3); border-bottom: 1px solid var(--ink); }
 .table td { padding: var(--s3); border-bottom: 1px solid var(--line); vertical-align: top; }
-.table-wrap { overflow-x: auto; }
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* 가로 스크롤이 남아 있을 때만 가장자리 그림자가 보인다 (background-attachment: local 기법) */
+  background:
+    linear-gradient(to right, var(--paper) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), var(--paper) 70%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 48px 100%, 48px 100%, 16px 100%, 16px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+/* 3열 커버리지 표 — 좁은 화면에서는 행을 세로로 쌓는다 */
+@media (max-width: 640px) {
+  .table.stack thead { display: none; }
+  .table.stack tr { display: block; padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
+  .table.stack td { display: block; padding: 2px 0; border: 0; }
+  .table.stack td:first-child { font-weight: 600; }
+}
 .status { white-space: nowrap; }
 .status.ok { color: var(--ok); }
 .status.warn { color: var(--warn); }

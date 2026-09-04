@@ -269,6 +269,7 @@ export const ru = {
     export: 'Экспорт',
     domestic: 'Внутренний рынок',
     domesticApproval: 'Внутреннее утверждение',
+    class: 'Класс',
   },
   jurisdictions: {
     KR: 'Южная Корея',

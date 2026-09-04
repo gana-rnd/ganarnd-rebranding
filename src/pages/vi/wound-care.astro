@@ -42,11 +42,11 @@ const t = useTranslations(lang);
           {tissue.map((r) => (
             <tr>
               <td>{r.product}</td>
-              <td>{r.category_en ?? r.chemistry ?? ''}{r.class ? ` · ${r.class}` : ''}</td>
+              <td>{r.category_en ?? r.chemistry ?? ''}</td>
               <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
               <td class="mono">{r.number}</td>
               <td>{fmtDate(r.date)}{r.valid_to ? ` — valid to ${fmtDate(r.valid_to)}` : ''}</td>
-              <td>{scopeOf(r) === 'domestic' ? t.table.domesticApproval : scopeOf(r) === 'export' ? t.table.export : '—'}</td>
+              <td>{[scopeOf(r) === 'domestic' ? t.table.domesticApproval : scopeOf(r) === 'export' ? t.table.export : null, r.class ? `${t.table.class} ${r.class}` : null].filter(Boolean).join(' · ') || '—'}</td>
             </tr>
           ))}
         </tbody>

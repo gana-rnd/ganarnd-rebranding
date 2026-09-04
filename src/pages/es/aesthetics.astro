@@ -47,7 +47,7 @@ const groups = chemistryGroups(surface);
                   <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
                   <td class="mono">{r.number}</td>
                   <td>{fmtDate(r.date)}</td>
-                  <td>{scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : (r.class ?? '—')}</td>
+                  <td>{scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : (r.class ? `${t.table.class} ${r.class}` : '—')}</td>
                 </tr>
               ))}
             </tbody>

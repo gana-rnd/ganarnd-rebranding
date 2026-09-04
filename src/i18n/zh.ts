@@ -240,7 +240,8 @@ export const zh = {
     "supplyNo": "尚未提供",
     "export": "出口",
     "domestic": "国内",
-    "domesticApproval": "国内批准"
+    "domesticApproval": "国内批准",
+    "class": "类别"
   },
   "jurisdictions": {
     "KR": "韩国",
