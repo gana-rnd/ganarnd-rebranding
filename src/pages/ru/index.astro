@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PhotoSlot from '../../components/PhotoSlot.astro';
-import { counts, marketAccess, licence, gmp, eudamed, mhra } from '../../data/registry';
+import { counts, marketAccess, licence, gmp, eudamed, mhra, featured, authorityName, fmtDate, scopeOf, catLabel, umbrellaNote } from '../../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -13,6 +13,33 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
   no: { text: t.table.supplyNo, cls: 'warn' },
 };
 const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
+
+// 대표 제품 2종 — 등재 데이터는 registry.featured, 문구·사진은 여기서. 사진은 보드 리뷰용 임시(캡션에 명시).
+const productMeta = {
+  fill: {
+    img: '/images/gana-fill-syringes.webp',
+    alt: 'GANA FILL hyaluronic acid dermal filler syringes',
+    note: 'Product render — replace with GANA FILL packshot before public launch',
+    kicker: t.home.p1Kicker, body: t.home.p1Body, link: t.home.p1Link,
+  },
+  patch: {
+    img: '/images/wound-care-materials-detail.webp',
+    alt: 'Concept image of hydrogel and foam wound-dressing materials',
+    note: 'Concept visual — replace with GANA PATCH packshot before public launch',
+    kicker: t.home.p2Kicker, body: t.home.p2Body, link: t.home.p2Link,
+  },
+};
+const products = featured.map((p) => ({ ...p, ...productMeta[p.key] }));
+// 등재 한 줄 요약: 품목 · 허가일 · 범위(국내/수출) · 총괄 비고
+// 범위 라벨 — Astro 컴파일러가 프론트매터의 `.export` 프로퍼티 접근을 export 문으로 오인하므로 문자열 키로 조회
+const scopeLabel: Record<string, string> = { domestic: t.table.domesticApproval, 'export': t.table['export'] };
+const regMeta = (r: Record<string, any>) =>
+  [
+    catLabel(r, lang),
+    fmtDate(r.date, lang),
+    scopeLabel[scopeOf(r) ?? ''],
+    umbrellaNote(r, lang),
+  ].filter(Boolean).join(' · ');
 
 // 크리덴셜 값 — 번역 템플릿({n}=등록번호, mono 서체 유지를 위해 분리 렌더)
 const credDefs: { k: string; v: string; n: string; vars: Record<string, string | number> }[] = [
@@ -54,11 +81,42 @@ const creds = credDefs.map((c) => {
     <div class="scroll-indicator on-hero" aria-hidden="true"><span class="label">{t.common.scroll}</span></div>
   </section>
 
-  <!-- 2. 좌 문단 / 우 이미지 -->
+  <!-- 2. 대표 제품 2종 — 회장 지시(2026-09-15): GANA FILL · GANA PATCH를 첫 페이지에 -->
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">01</span> {t.home.productsEyebrow}</p>
+      <h2>{t.home.productsTitle}</h2>
+      <p class="lead">{t.home.productsLead}</p>
+    </div>
+    <div class="products" data-reveal-stagger>
+      {products.map((p) => (
+        <article class="product">
+          <a class="visual" href={localizePath(p.page, lang)} aria-label={p.name}>
+            <img src={p.img} alt={p.alt} loading="lazy" />
+          </a>
+          <p class="photo-note">{p.note}</p>
+          <p class="kicker">{p.kicker}</p>
+          <h3>{p.name}</h3>
+          <p class="body">{p.body}</p>
+          <ul class="facts">
+            {p.regs.map((r) => (
+              <li>
+                <span class="mono">{authorityName[r.jurisdiction] ?? r.jurisdiction} {r.number}</span>
+                <span class="meta">{regMeta(r)}</span>
+              </li>
+            ))}
+          </ul>
+          <a class="link" href={localizePath(p.page, lang)}>{p.link} <span class="arr">→</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- 3. 좌 문단 / 우 이미지 -->
   <section class="container section">
     <div class="split">
       <div class="text" data-reveal-stagger>
-        <p class="eyebrow"><span class="no">01</span> {t.home.s1Eyebrow}</p>
+        <p class="eyebrow"><span class="no">02</span> {t.home.s1Eyebrow}</p>
         <h2>{t.home.s1Title}</h2>
         <p>{t.home.s1P1}</p>
         <p>{t.home.s1P2}</p>
@@ -74,11 +132,11 @@ const creds = credDefs.map((c) => {
     </div>
   </section>
 
-  <!-- 3. 숫자 행 — 다크 신뢰 섹션 -->
+  <!-- 4. 숫자 행 — 다크 신뢰 섹션 -->
   <section class="dark section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+        <p class="eyebrow"><span class="no">03</span> {t.home.s2Eyebrow}</p>
         <h2>{t.home.s2Title}</h2>
       </div>
       <div class="stats" data-reveal>
@@ -95,10 +153,10 @@ const creds = credDefs.map((c) => {
     <span class="marquee-text">REGISTRATIONS · MANUFACTURING · REGISTRATIONS · MANUFACTURING ·&nbsp;</span>
   </div>
 
-  <!-- 4. 프로포지션 3 -->
+  <!-- 5. 프로포지션 3 -->
   <section class="container section">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">03</span> {t.home.s3Eyebrow}</p>
+      <p class="eyebrow"><span class="no">04</span> {t.home.s3Eyebrow}</p>
       <h2>{t.home.s3Title}</h2>
     </div>
     <div class="cards" data-reveal-stagger>
@@ -123,10 +181,10 @@ const creds = credDefs.map((c) => {
     </div>
   </section>
 
-  <!-- 5. 증거 리스트 -->
+  <!-- 6. 증거 리스트 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">04</span> {t.home.s4Eyebrow}</p>
+      <p class="eyebrow"><span class="no">05</span> {t.home.s4Eyebrow}</p>
       <h2>{t.home.s4Title}</h2>
     </div>
     <ul class="kv" data-reveal-stagger>
@@ -138,10 +196,10 @@ const creds = credDefs.map((c) => {
     </ul>
   </section>
 
-  <!-- 6. 시장접근 요약 -->
+  <!-- 7. 시장접근 요약 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">05</span> {t.home.s5Eyebrow}</p>
+      <p class="eyebrow"><span class="no">06</span> {t.home.s5Eyebrow}</p>
       <h2>{t.home.s5Title}</h2>
       <p class="lead">{t.home.s5Lead}</p>
     </div>
@@ -162,7 +220,7 @@ const creds = credDefs.map((c) => {
     <p style="margin-top: var(--s5)" data-reveal><a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a></p>
   </section>
 
-  <!-- 7. CTA -->
+  <!-- 8. CTA -->
   <section class="cta">
     <div class="container row" data-reveal>
       <div>
@@ -257,6 +315,31 @@ const creds = credDefs.map((c) => {
   @media (max-width: 768px) {
     .hero { min-height: 88vh; }
     .hero-chips ul { gap: 6px; }
+  }
+
+  /* ── 대표 제품 2종 ── */
+  .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s8) var(--s7); }
+  .product { display: flex; flex-direction: column; gap: var(--s3); }
+  .product .visual {
+    display: block; aspect-ratio: 4 / 3;
+    background: var(--paper-2); border-radius: 2px; overflow: hidden;
+  }
+  .product .visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out-expo); }
+  .product .visual:hover img { transform: scale(1.035); }
+  .product .photo-note {
+    font-size: 0.6875rem; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 var(--s2);
+  }
+  .product .kicker { font-size: var(--text-sm); color: var(--ink-3); margin: 0; }
+  .product h3 { font-size: var(--text-2xl); letter-spacing: -0.015em; color: var(--ink); }
+  .product .body { color: var(--ink-2); max-width: 52ch; }
+  .product .facts { list-style: none; border-top: 1px solid var(--ink); margin-top: var(--s2); }
+  .product .facts li { display: grid; gap: 2px; padding: var(--s3) 0; border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
+  .product .facts .mono { color: var(--ink); }
+  .product .facts .meta { color: var(--ink-3); font-size: var(--text-xs); }
+  .product .link { margin-top: var(--s2); }
+  @media (max-width: 768px) {
+    .products { grid-template-columns: 1fr; gap: var(--s8); }
   }
 
   .marquee-band { border-top: 0; }

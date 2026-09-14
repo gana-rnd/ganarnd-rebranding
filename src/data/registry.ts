@@ -83,3 +83,14 @@ export function fmtDate(iso: string, lang = 'en'): string {
   const d = new Date(iso);
   return d.toLocaleDateString(dateLocale[lang] ?? 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
+
+/** id로 게시 가능한 등재 한 건 찾기 — 없으면 undefined (status 변경 시 홈에서 조용히 빠지도록) */
+export function byId(id: string): Reg | undefined {
+  return published.find((r) => r.id === id);
+}
+
+/** 홈 대표 제품 2종 — 회장 지시(2026-09-15): "ganafill and gana patch are main products, use two products on first page" */
+export const featured: { key: 'fill' | 'patch'; name: string; page: string; regs: Reg[] }[] = [
+  { key: 'fill', name: 'GANA FILL', page: '/aesthetics', regs: ['kr-14-652'].map(byId).filter(Boolean) as Reg[] },
+  { key: 'patch', name: 'GANA PATCH', page: '/wound-care', regs: ['kr-20-4997', 'ru-2024-22431', 'kr-15-4197'].map(byId).filter(Boolean) as Reg[] },
+];
