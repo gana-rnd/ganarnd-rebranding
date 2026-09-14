@@ -26,7 +26,7 @@ export const zh = {
     "heroEyebrow": "持证医疗器械制造商 — 韩国城南",
     "heroTitle1": "医疗器械，",
     "heroTitle2": "制造并注册。",
-    "heroSub": "涵盖四种化学成分的真皮填充剂、水凝胶和泡沫伤口敷料以及合同制造 — 每款产品均带有买家可查询的注册号。",
+    "heroSub": "GANA FILL 与 GANA PATCH，均在我们位于城南的持证工厂自行生产并完成注册，每一款产品都有买家可查询的注册编号。",
     "heroCta": "查看注册信息",
     "chips": [
       "Hyaluronic acid",
@@ -61,7 +61,7 @@ export const zh = {
     "card3Body": "从概念和配方到监管开发、规模化生产和持证制造，均在我们自己的基地完成。",
     "productsEyebrow": "主要产品",
     "productsTitle": "两款产品，同一制造商。",
-    "productsLead": "GANA FILL 与 GANA PATCH 是 GANA R&D 的两款主要产品。二者均在我们的城南工厂生产，并各自持有买家可查询的注册编号。",
+    "productsLead": "两款主要产品均在城南工厂生产。",
     "p1Kicker": "皮肤填充剂 · 透明质酸",
     "p1Body": "自 2014 年起在韩国 MFDS 注册的透明质酸皮肤填充剂。它是如今横跨四种成分体系的填充剂产品组合的起点，在我们自己的基地生产。",
     "p1Link": "填充剂产品组合",

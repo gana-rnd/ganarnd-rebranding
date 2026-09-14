@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import PhotoSlot from '../components/PhotoSlot.astro';
-import { counts, marketAccess, licence, gmp, eudamed, mhra, featured, authorityName, fmtDate, scopeOf, catLabel, umbrellaNote } from '../data/registry';
+import { counts, marketAccess, licence, gmp, eudamed, mhra, featured, authorityName, fmtDate, scopeOf, catLabel } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -30,16 +29,10 @@ const productMeta = {
   },
 };
 const products = featured.map((p) => ({ ...p, ...productMeta[p.key] }));
-// 등재 한 줄 요약: 품목 · 허가일 · 범위(국내/수출) · 총괄 비고
-// 범위 라벨 — Astro 컴파일러가 프론트매터의 `.export` 프로퍼티 접근을 export 문으로 오인하므로 문자열 키로 조회
-const scopeLabel: Record<string, string> = { domestic: t.table.domesticApproval, 'export': t.table['export'] };
+// 등재 한 줄 요약: 품목 · 허가일 · 국내 판매 허가(해당 시). 수출 범위·총괄 비고는 각 제품 페이지 표에서.
+// (주의: 프론트매터 안에서 t.table 의 수출 범위 키를 점 표기로 접근하면 Astro 컴파일러가 모듈 선언문으로 오인한다. 주석에도 그 단어를 쓰지 말 것)
 const regMeta = (r: Record<string, any>) =>
-  [
-    catLabel(r, lang),
-    fmtDate(r.date, lang),
-    scopeLabel[scopeOf(r) ?? ''],
-    umbrellaNote(r, lang),
-  ].filter(Boolean).join(' · ');
+  [catLabel(r, lang), fmtDate(r.date, lang), scopeOf(r) === 'domestic' ? t.table.domesticApproval : null].filter(Boolean).join(' · ');
 
 // 크리덴셜 값 — 번역 템플릿({n}=등록번호, mono 서체 유지를 위해 분리 렌더)
 const credDefs: { k: string; v: string; n: string; vars: Record<string, string | number> }[] = [
@@ -55,10 +48,10 @@ const creds = credDefs.map((c) => {
 ---
 
 <Base title="GANA R&D" hasHero>
-  <!-- 1. 풀스크린 히어로 -->
+  <!-- 1. 풀스크린 히어로 — 사진은 클린룸 촬영 방향 컷(임시). 시린지 렌더는 대표 제품 패널에서 쓰므로 중복을 피한다. -->
   <section class="hero">
     <div class="hero-media">
-      <img src="/images/syringes-set.webp" alt="GANA R&D dermal filler syringes" />
+      <img src="/images/manufacturing-line-direction.webp" alt="Photography direction — cleanroom filling and inspection line at the GANA R&D site, to be replaced with site photography before public launch" />
       <div class="hero-shade" aria-hidden="true"></div>
     </div>
     <div class="container hero-inner">
@@ -112,94 +105,43 @@ const creds = credDefs.map((c) => {
     </div>
   </section>
 
-  <!-- 3. 좌 문단 / 우 이미지 -->
-  <section class="container section">
-    <div class="split">
-      <div class="text" data-reveal-stagger>
-        <p class="eyebrow"><span class="no">02</span> {t.home.s1Eyebrow}</p>
-        <h2>{t.home.s1Title}</h2>
-        <p>{t.home.s1P1}</p>
-        <p>{t.home.s1P2}</p>
-        <a class="btn" href={localizePath('/market-access', lang)}>{t.home.s1Cta}</a>
-      </div>
-      <div data-reveal="right">
-        <PhotoSlot
-          src="/images/manufacturing-line-direction.webp"
-          alt="Photography direction showing a compact cleanroom filling and inspection line"
-          note="제조소 사진 — 성남 제조소 클린룸의 충전·조립 라인. 이 섹션의 '제조사, 유통사 아님' 주장을 뒷받침할 실제 생산 현장 컷"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. 숫자 행 — 다크 신뢰 섹션 -->
+  <!-- 3. 왜 우리인가 — 회사 한 문단 + 숫자 2개 + 검증 가능한 자격 (구 02·03·05 섹션을 하나로) -->
   <section class="dark section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p class="eyebrow"><span class="no">03</span> {t.home.s2Eyebrow}</p>
-        <h2>{t.home.s2Title}</h2>
+        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+        <h2>{t.home.s1Title}</h2>
+        <p class="lead">{t.home.s1P1}</p>
       </div>
-      <div class="stats" data-reveal>
+      <div class="stats two" data-reveal>
         <div class="stat"><div class="n" data-count={counts.published}>{counts.published}</div><div class="l">{t.home.stat1}</div></div>
         <div class="stat"><div class="n" data-count={counts.jurisdictions}>{counts.jurisdictions}</div><div class="l">{t.home.stat2} — {jurisdictionsList}</div></div>
-        <div class="stat"><div class="n">4490</div><div class="l">{t.home.stat3}</div></div>
-        <div class="stat"><div class="n">2027<small>{t.home.stat4Month}</small></div><div class="l">{tpl(t.home.stat4, { gmp: gmp.number })}</div></div>
       </div>
+      <ul class="kv" data-reveal-stagger>
+        {creds.map((c) => (
+          <li><span class="k">{c.k}</span><span>{c.before}<span class="mono">{c.n}</span>{c.after}</span></li>
+        ))}
+        <li><span class="k">{t.home.cred6k}</span><span>{t.home.cred6v}</span></li>
+      </ul>
     </div>
   </section>
 
-  <!-- 마르퀴 밴드 -->
-  <div class="marquee-band" aria-hidden="true">
-    <span class="marquee-text">REGISTRATIONS · MANUFACTURING · REGISTRATIONS · MANUFACTURING ·&nbsp;</span>
-  </div>
-
-  <!-- 5. 프로포지션 3 -->
-  <section class="container section">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">04</span> {t.home.s3Eyebrow}</p>
-      <h2>{t.home.s3Title}</h2>
-    </div>
-    <div class="cards" data-reveal-stagger>
-      <article class="card">
-        <p class="who">{t.home.card1Who}</p>
-        <h3>{t.home.card1Title}</h3>
-        <p>{t.home.card1Body}</p>
-        <a class="link" href={localizePath('/aesthetics', lang)}>{t.home.card1Title} <span class="arr">→</span></a>
-      </article>
-      <article class="card">
-        <p class="who">{t.home.card2Who}</p>
-        <h3>{t.home.card2Title}</h3>
-        <p>{t.home.card2Body}</p>
-        <a class="link" href={localizePath('/wound-care', lang)}>{t.home.card2Title} <span class="arr">→</span></a>
-      </article>
-      <article class="card">
-        <p class="who">{t.home.card3Who}</p>
+  <!-- 4. 공동개발·제조 — 세 번째 고객군은 한 줄로 -->
+  <section class="container section tight">
+    <div class="codev" data-reveal>
+      <p class="who">{t.home.card3Who}</p>
+      <div>
         <h3>{t.home.card3Title}</h3>
         <p>{t.home.card3Body}</p>
-        <a class="link" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span class="arr">→</span></a>
-      </article>
+      </div>
+      <a class="link" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span class="arr">→</span></a>
     </div>
   </section>
 
-  <!-- 6. 증거 리스트 -->
+  <!-- 5. 시장접근 요약 -->
   <section class="container section tight">
     <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">05</span> {t.home.s4Eyebrow}</p>
-      <h2>{t.home.s4Title}</h2>
-    </div>
-    <ul class="kv" data-reveal-stagger>
-      {creds.map((c) => (
-        <li><span class="k">{c.k}</span><span>{c.before}<span class="mono">{c.n}</span>{c.after}</span></li>
-      ))}
-      <li><span class="k">{t.home.cred5k}</span><span>{t.home.cred5v}</span></li>
-      <li><span class="k">{t.home.cred6k}</span><span>{t.home.cred6v}</span></li>
-    </ul>
-  </section>
-
-  <!-- 7. 시장접근 요약 -->
-  <section class="container section tight">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">06</span> {t.home.s5Eyebrow}</p>
+      <p class="eyebrow"><span class="no">03</span> {t.home.s5Eyebrow}</p>
       <h2>{t.home.s5Title}</h2>
       <p class="lead">{t.home.s5Lead}</p>
     </div>
@@ -220,7 +162,7 @@ const creds = credDefs.map((c) => {
     <p style="margin-top: var(--s5)" data-reveal><a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a></p>
   </section>
 
-  <!-- 8. CTA -->
+  <!-- 6. CTA -->
   <section class="cta">
     <div class="container row" data-reveal>
       <div>
@@ -248,7 +190,7 @@ const creds = credDefs.map((c) => {
   .hero-media img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 50% 38%;
+    object-position: 50% 45%;
   }
   .hero-shade {
     position: absolute; inset: 0;
@@ -337,10 +279,29 @@ const creds = credDefs.map((c) => {
   .product .facts li { display: grid; gap: 2px; padding: var(--s3) 0; border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
   .product .facts .mono { color: var(--ink); }
   .product .facts .meta { color: var(--ink-3); font-size: var(--text-xs); }
-  .product .link { margin-top: var(--s2); }
+  /* 두 패널의 등재 수가 달라도 링크는 같은 높이에 */
+  .product .link { margin-top: auto; padding-top: var(--s3); }
   @media (max-width: 768px) {
     .products { grid-template-columns: 1fr; gap: var(--s8); }
   }
 
-  .marquee-band { border-top: 0; }
+  /* ── 다크 '왜 우리인가' 블록: 숫자 2개 + 자격 목록 ── */
+  .dark .lead { color: rgba(255, 255, 255, 0.78); }
+  .stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; margin-bottom: var(--s7); }
+  .dark .kv { border-top-color: rgba(255, 255, 255, 0.16); }
+  .dark .kv li { border-bottom-color: rgba(255, 255, 255, 0.16); color: #fff; }
+  .dark .kv .k { color: rgba(255, 255, 255, 0.6); }
+
+  /* ── 공동개발 한 줄 ── */
+  .codev {
+    display: grid; grid-template-columns: 280px minmax(0, 1fr) auto; gap: var(--s6); align-items: start;
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); padding-block: var(--s6);
+  }
+  .codev .who { font-size: var(--text-sm); color: var(--ink-3); margin: 0; }
+  .codev h3 { font-size: var(--text-xl); margin-bottom: var(--s2); }
+  .codev p { font-size: var(--text-sm); color: var(--ink-2); max-width: 64ch; }
+  .codev .link { white-space: nowrap; padding-top: 2px; }
+  @media (max-width: 900px) {
+    .codev { grid-template-columns: 1fr; gap: var(--s3); }
+  }
 </style>
