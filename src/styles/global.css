@@ -240,6 +240,7 @@ html[lang='ko'] .hero-title { max-width: 13ch; }
 .cta h2 { color: #fff; max-width: 18ch; }
 .cta p { margin-top: var(--s3); color: rgba(255,255,255,.7); }
 .cta .row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--s7); flex-wrap: wrap; }
+main:has(> .cta:last-child) { padding-bottom: clamp(80px, 9vw, 144px); }
 
 @media (max-width: 640px) {
   .section { padding-block: var(--s9); }
@@ -247,4 +248,5 @@ html[lang='ko'] .hero-title { max-width: 13ch; }
   .section-head { margin-bottom: var(--s7); }
   .btn { width: 100%; }
   .cta .btn { width: auto; }
+  main:has(> .cta:last-child) { padding-bottom: var(--s8); }
 }

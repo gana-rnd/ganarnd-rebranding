@@ -38,6 +38,7 @@ const creds = credDefs.map((c) => {
   const [before, after = ''] = tpl(c.v, c.vars).split('{n}');
   return { k: c.k, before, n: c.n, after };
 });
+const licenceCount = Number(licence.number.replace(/\D/g, ''));
 ---
 
 <Base title="GANA R&D" hasHero>
@@ -60,33 +61,6 @@ const creds = credDefs.map((c) => {
       </div>
     </div>
     <div class="scroll-indicator" aria-hidden="true"><span class="label">{t.common.scroll}</span></div>
-  </section>
-
-  <section class="proof-shell">
-    <div class="container">
-      <div class="proof-grid hero-fade d3">
-        <div class="proof-intro">
-          <span class="proof-line"></span>
-          <p>{t.home.s2Eyebrow}</p>
-        </div>
-        <div class="proof-item">
-          <strong class="tabular" data-count={counts.published}>{counts.published}</strong>
-          <span>{t.home.stat1}</span>
-        </div>
-        <div class="proof-item">
-          <strong class="tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
-          <span>{t.home.stat2}<br />{jurisdictionsList}</span>
-        </div>
-        <div class="proof-item">
-          <strong class="mono">{licence.number}</strong>
-          <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
-        </div>
-      </div>
-      <div class="capability-row" aria-label="Manufacturing platforms">
-        <span class="capability-label">GANA R&amp;D</span>
-        <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
-      </div>
-    </div>
   </section>
 
   <section class="container section products-section">
@@ -127,36 +101,61 @@ const creds = credDefs.map((c) => {
   </section>
 
   <section class="dark section evidence">
-    <div class="container evidence-layout">
-      <div class="evidence-copy" data-reveal>
-        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
-        <h2>{t.home.s1Title}</h2>
-        <p class="lead">{t.home.s1P1}</p>
-        <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
+    <div class="container evidence-shell">
+      <div class="record-rail" data-reveal-stagger>
+        <div class="record-intro">
+          <span class="record-line"></span>
+          <p>{t.home.s2Eyebrow}</p>
+        </div>
+        <div class="record-metric">
+          <strong class="record-number tabular" data-count={counts.published}>{counts.published}</strong>
+          <span>{t.home.stat1}</span>
+        </div>
+        <div class="record-metric">
+          <strong class="record-number tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
+          <span>{t.home.stat2}<br />{jurisdictionsList}</span>
+        </div>
+        <div class="record-metric licence-metric">
+          <strong class="record-number mono"><span class="record-prefix">No.</span> <span data-count={licenceCount}>{licenceCount}</span></strong>
+          <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
+        </div>
       </div>
-      <div class="credential-grid" data-reveal-stagger>
-        {creds.map((c, index) => (
-          <article class="credential">
-            <span class="credential-no">0{index + 1}</span>
-            <p class="credential-label">{c.k}</p>
-            <p class="credential-value">{c.before}<span class="mono">{c.n}</span>{c.after}</p>
+      <div class="record-capabilities" data-reveal aria-label="Manufacturing platforms">
+        <span class="capability-label">GANA R&amp;D</span>
+        <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
+      </div>
+
+      <div class="evidence-layout">
+        <div class="evidence-copy" data-reveal>
+          <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+          <h2>{t.home.s1Title}</h2>
+          <p class="lead">{t.home.s1P1}</p>
+          <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
+        </div>
+        <div class="credential-grid" data-reveal-stagger>
+          {creds.map((c, index) => (
+            <article class="credential">
+              <span class="credential-no">0{index + 1}</span>
+              <p class="credential-label">{c.k}</p>
+              <p class="credential-value">{c.before}<span class="mono">{c.n}</span>{c.after}</p>
+            </article>
+          ))}
+          <article class="credential facility">
+            <span class="credential-no">05</span>
+            <p class="credential-label">{t.home.cred6k}</p>
+            <p class="credential-value">{t.home.cred6v}</p>
           </article>
-        ))}
-        <article class="credential facility">
-          <span class="credential-no">05</span>
-          <p class="credential-label">{t.home.cred6k}</p>
-          <p class="credential-value">{t.home.cred6v}</p>
-        </article>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="container section codev-section">
-    <div class="codev-panel" data-reveal>
-      <div class="codev-visual">
-        <img src="/images/formulation-process-direction.webp" alt="GANA R&D formulation and manufacturing process" loading="lazy" />
-      </div>
-      <div class="codev-copy">
+  <section class="codev-section">
+    <div class="codev-visual" aria-hidden="true">
+      <img src="/images/formulation-process-direction.webp" alt="" loading="lazy" />
+    </div>
+    <div class="container codev-inner">
+      <div class="codev-copy" data-reveal="right">
         <p class="eyebrow"><span class="no">03</span> {t.home.card3Who}</p>
         <h2>{t.home.card3Title}</h2>
         <p>{t.home.card3Body}</p>
@@ -223,21 +222,7 @@ const creds = credDefs.map((c) => {
   .hero-link:hover .arr { transform: translateX(5px); }
   .scroll-indicator { right: var(--gutter); bottom: 34px; }
 
-  .proof-shell { position: relative; z-index: 3; background: var(--paper); }
-  .proof-grid { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; margin-top: -62px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); }
-  .proof-intro, .proof-item { min-height: 124px; padding: 24px 28px; border-right: 1px solid var(--line); }
-  .proof-grid > :last-child { border-right: 0; }
-  .proof-intro { display: flex; flex-direction: column; justify-content: space-between; color: var(--accent-2); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-  .proof-line { width: 36px; height: 1px; background: var(--accent); }
-  .proof-item { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: end; }
-  .proof-item strong { color: var(--ink); font-size: clamp(2rem, 3vw, 3.5rem); font-weight: 500; line-height: .9; letter-spacing: -.05em; }
-  .proof-item strong.mono { font-size: clamp(1.25rem, 1.8vw, 1.8rem); letter-spacing: -.04em; }
-  .proof-item span { max-width: 24ch; color: var(--ink-3); font-size: .72rem; line-height: 1.45; }
-  .capability-row { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; padding: 28px 0 0; }
   .capability-label { font-family: var(--font-mono); font-size: .66rem; font-weight: 500; letter-spacing: .12em; color: var(--ink-3); }
-  .capability-row ul { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; }
-  .capability-row li { position: relative; color: var(--ink-2); font-size: var(--text-sm); }
-  .capability-row li:not(:last-child)::after { content: '·'; position: absolute; right: -15px; color: var(--accent); }
 
   .section-intro { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: var(--s8); align-items: end; margin-bottom: var(--s8); }
   .section-intro h2 { max-width: 13ch; }
@@ -265,9 +250,25 @@ const creds = credDefs.map((c) => {
   .facts .meta { color: var(--ink-3); }
   .product-copy .link { margin-top: var(--s3); }
 
-  .evidence { position: relative; overflow: hidden; }
+  .evidence { position: relative; overflow: hidden; padding-top: 0; }
   .evidence::after { content: 'GANA R&D'; position: absolute; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
-  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.35fr); gap: clamp(64px, 10vw, 150px); }
+  .evidence-shell { position: relative; z-index: 1; }
+  .record-rail { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; border-bottom: 1px solid rgba(255,255,255,.17); }
+  .record-intro, .record-metric { min-height: 144px; padding: 30px 28px; border-right: 1px solid rgba(255,255,255,.17); }
+  .record-intro { padding-left: 0; display: flex; flex-direction: column; justify-content: space-between; color: rgba(255,255,255,.58); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .record-line { width: 36px; height: 1px; background: var(--accent); }
+  .record-metric { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(14px, 2vw, 24px); align-items: end; }
+  .record-rail > :last-child { border-right: 0; }
+  .record-number { color: #fff; font-size: clamp(2.4rem, 3.4vw, 4rem); font-weight: 500; line-height: .88; letter-spacing: -.06em; }
+  .record-number.mono { font-size: clamp(1.4rem, 2.1vw, 2.15rem); letter-spacing: -.04em; white-space: nowrap; }
+  .record-prefix { color: rgba(255,255,255,.68); font-family: var(--font); font-size: .72em; font-weight: 500; letter-spacing: -.03em; }
+  .record-metric > span { max-width: 24ch; color: rgba(255,255,255,.55); font-size: .72rem; line-height: 1.48; }
+  .record-capabilities { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; min-height: 76px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,.17); }
+  .record-capabilities .capability-label { color: rgba(255,255,255,.42); }
+  .record-capabilities ul { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; }
+  .record-capabilities li { position: relative; color: rgba(255,255,255,.68); font-size: var(--text-sm); }
+  .record-capabilities li:not(:last-child)::after { content: '·'; position: absolute; right: -15px; color: var(--accent); }
+  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.35fr); gap: clamp(64px, 10vw, 150px); padding-top: clamp(84px, 9vw, 132px); }
   .evidence-copy { position: sticky; top: 120px; align-self: start; }
   .evidence-copy h2 { max-width: 11ch; }
   .evidence-copy .lead { margin-top: var(--s5); color: rgba(255,255,255,.7); }
@@ -279,11 +280,13 @@ const creds = credDefs.map((c) => {
   .credential-label { margin-top: var(--s6); color: rgba(255,255,255,.52); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .credential-value { margin-top: var(--s2); color: #fff; font-size: var(--text-sm); line-height: 1.55; }
 
-  .codev-panel { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); min-height: 580px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
-  .codev-visual { min-height: 480px; overflow: hidden; }
-  .codev-visual img { width: 100%; height: 100%; object-fit: cover; }
-  .codev-copy { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: clamp(42px, 7vw, 92px); }
-  .codev-copy h2 { max-width: 10ch; }
+  .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); overflow: hidden; background: var(--paper-2); }
+  .codev-section::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.04) 36%, rgba(245,247,246,.74) 56%, #f5f7f6 72%, #f5f7f6 100%); pointer-events: none; }
+  .codev-visual { position: absolute; z-index: 0; inset: 0; overflow: hidden; }
+  .codev-visual img { width: min(76vw, 1220px); height: 100%; object-fit: cover; object-position: center 48%; transform: scale(1.015); }
+  .codev-inner { position: relative; z-index: 2; min-height: inherit; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(380px, .88fr); align-items: center; }
+  .codev-copy { grid-column: 2; display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding-block: clamp(72px, 9vw, 128px); padding-left: clamp(30px, 5vw, 84px); }
+  .codev-copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 4.7vw, 4.8rem); }
   .codev-copy > p:not(.eyebrow) { margin-top: var(--s5); color: var(--ink-2); }
   .codev-copy .btn { margin-top: var(--s7); }
 
@@ -295,14 +298,16 @@ const creds = credDefs.map((c) => {
   .cta-kicker { margin-bottom: var(--s4); color: var(--accent) !important; font-family: var(--font-mono); font-size: .67rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
 
   @media (max-width: 1024px) {
-    .proof-grid { grid-template-columns: repeat(3, 1fr); }
-    .proof-intro { display: none; }
-    .proof-grid > :nth-child(3) { border-right: 0; }
-    .capability-row { grid-template-columns: 1fr; }
+    .record-rail { grid-template-columns: repeat(3, 1fr); }
+    .record-intro { display: none; }
+    .record-capabilities { grid-template-columns: 1fr; gap: var(--s3); }
     .evidence-layout { grid-template-columns: 1fr; }
     .evidence-copy { position: static; }
-    .codev-panel { grid-template-columns: 1fr; }
-    .codev-visual { min-height: 420px; }
+    .codev-section { min-height: 760px; }
+    .codev-section::after { background: linear-gradient(180deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.05) 31%, rgba(245,247,246,.88) 52%, #f5f7f6 64%, #f5f7f6 100%); }
+    .codev-visual img { width: 100%; height: 58%; object-position: center; }
+    .codev-inner { grid-template-columns: 1fr; align-items: end; }
+    .codev-copy { grid-column: 1; max-width: 720px; padding: 380px 0 72px; }
   }
   @media (max-width: 768px) {
     .hero { min-height: 820px; }
@@ -311,13 +316,13 @@ const creds = credDefs.map((c) => {
     .hero-actions { align-items: flex-start; flex-direction: column; gap: var(--s5); }
     .hero-actions .btn { width: auto; }
     .scroll-indicator { display: none; }
-    .proof-grid { grid-template-columns: 1fr; margin-top: -76px; }
-    .proof-item { min-height: auto; padding: 18px 20px; border-right: 0; border-bottom: 1px solid var(--line); }
-    .proof-grid > :last-child { border-bottom: 0; }
-    .proof-item strong { font-size: 2.25rem; }
-    .proof-item strong.mono { font-size: 1.3rem; }
-    .capability-row { padding-top: var(--s5); }
-    .capability-row ul { gap: 7px 18px; }
+    .record-rail { grid-template-columns: 1fr; }
+    .record-metric { min-height: 112px; padding: 22px 0; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+    .record-rail > :last-child { border-bottom: 0; }
+    .record-number { font-size: 2.6rem; }
+    .record-number.mono { font-size: 1.55rem; }
+    .record-capabilities { padding-block: 22px; }
+    .record-capabilities ul { gap: 7px 18px; }
     .section-intro { grid-template-columns: 1fr; gap: var(--s5); }
     .section-intro .lead { justify-self: start; }
     .products { grid-template-columns: 1fr; }
@@ -325,8 +330,9 @@ const creds = credDefs.map((c) => {
     .credential.facility { grid-column: auto; }
     .credential { min-height: auto; }
     .credential-label { margin-top: var(--s5); }
-    .codev-panel { min-height: 0; }
-    .codev-visual { min-height: 300px; }
+    .codev-section { min-height: 720px; }
+    .codev-copy { padding: 340px 0 64px; }
+    .codev-copy h2 { font-size: clamp(2.35rem, 11vw, 3.8rem); max-width: 12ch; }
   }
   @media (max-width: 520px) {
     .hero { min-height: 760px; }
