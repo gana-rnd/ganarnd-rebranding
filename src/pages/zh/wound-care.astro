@@ -66,6 +66,7 @@ const t = useTranslations(lang);
 </Base>
 
 <style>
-  /* 팩샷 파일에 여백이 이미 들어 있어 contain 프레임의 안쪽 패딩은 뺀다 */
-  .split .visual.contain.packshot img { padding: 0; }
+  .split .visual.contain.packshot { background: linear-gradient(145deg, #fff 0%, var(--paper-2) 100%); }
+  .split .visual.contain.packshot img { padding: 0; transition: transform 600ms var(--ease-out-expo); }
+  .split .visual.contain.packshot:hover img { transform: scale(1.025); }
 </style>

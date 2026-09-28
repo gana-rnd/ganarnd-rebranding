@@ -71,18 +71,25 @@ const t = useTranslations(lang);
 </Base>
 
 <style>
-  .split.top { align-items: start; }
-  .form { display: flex; flex-direction: column; gap: var(--s4); }
+  .split.top { grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 0; align-items: stretch; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-sm); }
+  .form { display: flex; flex-direction: column; gap: var(--s5); padding: clamp(30px, 5vw, 68px); }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
-  label { display: flex; flex-direction: column; gap: var(--s2); font-size: var(--text-sm); font-weight: 600; color: var(--ink-2); }
-  input, select, textarea { font: inherit; font-weight: 400; color: var(--ink); padding: 11px 12px; border: 1px solid var(--line); border-radius: 2px; background: #fff; transition: border-color 300ms var(--ease-out-expo), box-shadow 300ms var(--ease-out-expo); }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
-  address { font-style: normal; line-height: 1.8; }
+  label { display: flex; flex-direction: column; gap: var(--s2); font-size: var(--text-xs); font-weight: 700; letter-spacing: .04em; color: var(--ink-2); }
+  input, select, textarea { width: 100%; min-height: 52px; font: inherit; font-weight: 400; color: var(--ink); padding: 13px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper-2); transition: border-color 220ms var(--ease), background 220ms var(--ease), box-shadow 220ms var(--ease); }
+  textarea { min-height: 160px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(154,128,80,.12); }
+  .form .btn { margin-top: var(--s2); align-self: flex-start; }
+  .side { padding: clamp(30px, 5vw, 68px); background: var(--navy); color: rgba(255,255,255,.72); }
+  .side .eyebrow { color: rgba(255,255,255,.56); }
+  .side address { color: #fff; }
+  .side .muted { color: rgba(255,255,255,.58); }
+  address { font-style: normal; line-height: 1.9; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   .form-status:not(:empty) { padding-top: var(--s2); }
   .form-status.is-success { color: var(--ok); }
   .form-status.is-error { color: var(--warn); }
-  @media (max-width: 640px) { .row2 { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .split.top { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .row2 { grid-template-columns: 1fr; } .form .btn { width: 100%; } }
 </style>
 
 <script>
