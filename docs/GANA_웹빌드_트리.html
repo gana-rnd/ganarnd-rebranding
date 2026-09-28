@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>GANA 웹 빌드 트리</title>
+<style>
+ :root{--ink:#1a1a1a;--navy:#0B1F3A;--ok:#1B6B3A;--okbg:#EAF5EE;--warn:#8A5A00;--warnbg:#FFF4DC;--und:#6b6b6b;--undbg:#F2F2F2;--line:#B8BFC9}
+ body{font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;font-size:13px;color:var(--ink);background:#fff;margin:0;padding:24px 28px;line-height:1.45}
+ h1{font-size:20px;color:var(--navy);margin:0 0 4px}
+ .sub{color:#555;margin:0 0 14px;font-size:12px}
+ .legend{display:flex;gap:14px;margin:0 0 18px;font-size:12px;flex-wrap:wrap}
+ .chip{display:inline-block;padding:2px 8px;border-radius:3px;border:1.5px solid}
+ .c-ok{border-color:var(--ok);background:var(--okbg);color:var(--ok)}
+ .c-warn{border-color:var(--warn);background:var(--warnbg);color:var(--warn)}
+ .c-und{border-color:var(--und);background:var(--undbg);color:var(--und);border-style:dashed}
+ .wrap{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+ ul.tree,ul.tree ul{list-style:none;margin:0;padding-left:22px;position:relative}
+ ul.tree{padding-left:0}
+ ul.tree ul::before{content:"";position:absolute;left:6px;top:0;bottom:10px;border-left:1.5px solid var(--line)}
+ ul.tree li{position:relative;padding:3px 0 3px 12px}
+ ul.tree ul li::before{content:"";position:absolute;left:-16px;top:14px;width:20px;border-top:1.5px solid var(--line)}
+ .node{display:inline-block;padding:4px 10px;border-radius:4px;border:1.5px solid var(--ok);background:var(--okbg)}
+ .node.site{font-weight:700;font-size:14px;border-width:2px}
+ .node.warn{border-color:var(--warn);background:var(--warnbg)}
+ .node.plain{border-color:var(--line);background:#fff}
+ .buyer{color:#555;font-size:11.5px;margin-left:6px}
+ .blk{display:inline-block;margin-left:8px;font-size:11px;color:var(--warn);border:1px solid var(--warn);border-radius:3px;padding:1px 6px;background:#fff}
+ .sm{font-size:11.5px;color:#444}
+ .und{border:2px dashed var(--und);background:var(--undbg);border-radius:6px;padding:12px 14px}
+ .und h2{font-size:14px;margin:0 0 8px;color:var(--und)}
+ .und h3{font-size:12.5px;margin:12px 0 4px;color:var(--navy)}
+ .und ul{margin:0;padding-left:16px}
+ .und li{margin:2px 0;font-size:12px}
+ .arrow{color:var(--warn);font-weight:700}
+ .rules{margin-top:16px;border-top:1.5px solid var(--navy);padding-top:8px}
+ .rules b{color:var(--navy)}
+</style>
+</head>
+<body>
+<h1>GANA 웹 빌드 — 구조 트리</h1>
+<p class="sub">2026-08-20 기준 · 찰스 합의 + 기획서 v2 확정분만 · 세부는 미결정 묶음에</p>
+<div class="legend">
+ <span class="chip c-ok">확정</span>
+ <span class="chip c-warn">확정이나 착수 차단됨</span>
+ <span class="chip c-und">미결정 묶음</span>
+</div>
+
+<div class="wrap">
+<ul class="tree">
+ <li><span class="node site">① 현행 사이트 정리 <span class="sm">(P0 · 비용 0 · 결정 불요)</span></span><span class="blk">차단: 도메인·호스팅 접근권</span>
+  <ul>
+   <li><span class="node plain">"Russia FDA" → 실제 등록번호</span></li>
+   <li><span class="node plain">만료 CE·ISO 배지 내림 · 현행 GMP <span class="sm">KCL-ABBA-19926</span> 게시</span></li>
+   <li><span class="node plain">SSL 정상화 · 도메인 이메일</span></li>
+  </ul>
+ </li>
+
+ <li><span class="node site">② GANA R&amp;D <span class="sm">— 허가 의료기기 제조사 · EN 먼저</span></span>
+  <ul>
+   <li><span class="node">근거 스트립</span> <span class="sm">36건·5관할 · MFDS 4490 · GMP ~2027-03 · EUDAMED SRN · MHRA MAN_ID · HA·PLLA·PCL·칼슘</span></li>
+   <li><span class="node">Medical Aesthetics</span><span class="buyer">구매자: 클리닉 · 미용유통</span> <span class="sm">— 필러 (DP+ 제외)</span></li>
+   <li><span class="node">Wound Care</span><span class="buyer">구매자: 병원 · 의료유통</span> <span class="sm">— GANA PATCH: 제인20-4997 국내 · 제인15-4197 폼 · РЗН 2024/22431 (Shield 제외)</span></li>
+   <li><span class="node">Co-development &amp; Manufacturing</span> <span class="sm">— OEM/ODM · 스케일업 · 허가 생산</span></li>
+   <li><span class="node">Registrations &amp; Market Access</span>
+    <ul>
+     <li><span class="node plain">시장접근 지도 — 관할별 공급 가능 여부</span></li>
+     <li><span class="node plain">유통 파트너십 블록 (반 페이지) — 지역 · 등록 지원 · 독점 구조 · 문의</span></li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+
+ <li><span class="node site warn">③ 게이트웨이 <span class="sm">— 단순 기업 사이트</span></span><span class="blk">차단: 그룹명 (박사님)</span>
+  <ul>
+   <li><span class="node plain">founder-led 스토리 · 3개 운영사로 안내 · 신사업에 신뢰 대여</span></li>
+  </ul>
+ </li>
+
+ <li><span class="node site warn">④ Dr. Park AAV / CDMO</span><span class="blk">차단: 공식 용량 수치 (박사님)</span>
+  <ul>
+   <li><span class="node">AAV Co-development</span> <span class="sm">— FROM INVENTION TO SCALE</span></li>
+   <li><span class="node">AAV Manufacturing</span> <span class="sm">— 2025-08 준공 · engineering batches now · cGMP 2026 → 임상 공급</span></li>
+   <li><span class="node">Strategic / Sovereign</span> <span class="sm">— BUILDING SOVEREIGN CAPACITY</span></li>
+  </ul>
+ </li>
+
+ <li><span class="node site">⑤ GANA Cosmetics <span class="sm">— 리프레시만 · 디자인 체계 = 그룹 표준</span></span>
+  <ul>
+   <li><span class="node">Cosmetic Product Development</span> · <span class="node">OEM / ODM / Private Label</span> · <span class="node">Market &amp; Distribution</span></li>
+   <li><span class="node plain">자체 근거 기반 · R&amp;D 자격 차용 금지</span></li>
+  </ul>
+ </li>
+</ul>
+
+<div class="und">
+ <h2>미결정 묶음</h2>
+ <h3>인프라 <span class="arrow">→ ① ② 착수</span></h3>
+ <ul>
+  <li>도메인 전략: .co.kr 유지 / .com 신규 / gana.co.kr 매입</li>
+  <li>후이즈 접근 · 등록인 개인→법인</li>
+  <li>DNS 호스트 · 메일 공급자</li>
+  <li>스택 (정적 / 노코드 / WP) + 호스팅</li>
+ </ul>
+ <h3>박사님 결정 <span class="arrow">→ ③ ④</span></h3>
+ <ul>
+  <li>그룹명: Dr. Park Group vs GANA</li>
+  <li>용량 수치: 5,000L/batch vs 200,000L</li>
+ </ul>
+ <h3>콘텐츠</h3>
+ <ul>
+  <li>공통 페이지 목록 (Home · About · Contact …)</li>
+  <li>제품 페이지 구성 (성분별 / 제품별 / 허가별)</li>
+  <li>유통 블록 문안 · 등재 자료실 표시 범위</li>
+  <li>사진 (현재 카톡 스크린샷) · 시설 촬영</li>
+  <li>영문 카피 · 창업자/연혁 원고</li>
+  <li>브랜드 인용 가부 (BELVISO · REVACOLL · MESOTEN · UK Class III)</li>
+ </ul>
+ <h3>디자인 · 언어</h3>
+ <ul>
+  <li>코스메틱 디자인 원본 확보 → 공통 스타일 가이드</li>
+  <li>EN 이후 언어 순서</li>
+ </ul>
+</div>
+</div>
+
+<div class="rules sm">
+ <b>전 사이트 공통 규칙 (확정)</b> &nbsp; 등록번호 = 근거 · 층별 시제(표면·조직 완료형 / 세포 진행형) · 부록 E 금지어 · KoraVie Shield·DP+ 비공개(EU 2a까지) · 법인별 자격 귀속 · 확정 전 용량 수치 미게시
+</div>
+</body>
+</html>

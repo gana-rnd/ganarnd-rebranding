@@ -4,3 +4,10 @@ dist/
 .vercel/
 .env
 .DS_Store
+
+# Office lock/temp files
+~$*
+
+# Raw media assets (280MB, videos, Premiere autosaves) - not versioned
+# Anchored to repo root so the site's public/images/ stays tracked
+/images/
