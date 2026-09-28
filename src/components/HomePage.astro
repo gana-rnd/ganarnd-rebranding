@@ -62,27 +62,29 @@ const creds = credDefs.map((c) => {
 
   <section class="proof-shell">
     <div class="container">
-      <div class="proof-grid hero-fade d3">
-        <div class="proof-intro">
-          <span class="proof-line"></span>
-          <p>{t.home.s2Eyebrow}</p>
+      <div class="proof-panel hero-fade d3">
+        <div class="proof-grid">
+          <div class="proof-intro">
+            <span class="proof-line"></span>
+            <p>{t.home.s2Eyebrow}</p>
+          </div>
+          <div class="proof-item">
+            <strong class="tabular" data-count={counts.published}>{counts.published}</strong>
+            <span>{t.home.stat1}</span>
+          </div>
+          <div class="proof-item">
+            <strong class="tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
+            <span>{t.home.stat2}<br />{jurisdictionsList}</span>
+          </div>
+          <div class="proof-item">
+            <strong class="mono">{licence.number}</strong>
+            <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
+          </div>
         </div>
-        <div class="proof-item">
-          <strong class="tabular" data-count={counts.published}>{counts.published}</strong>
-          <span>{t.home.stat1}</span>
+        <div class="capability-row" aria-label="Manufacturing platforms">
+          <span class="capability-label">GANA R&amp;D</span>
+          <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
         </div>
-        <div class="proof-item">
-          <strong class="tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
-          <span>{t.home.stat2}<br />{jurisdictionsList}</span>
-        </div>
-        <div class="proof-item">
-          <strong class="mono">{licence.number}</strong>
-          <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
-        </div>
-      </div>
-      <div class="capability-row" aria-label="Manufacturing platforms">
-        <span class="capability-label">GANA R&amp;D</span>
-        <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
       </div>
     </div>
   </section>
@@ -222,7 +224,8 @@ const creds = credDefs.map((c) => {
   .scroll-indicator { right: var(--gutter); bottom: 34px; }
 
   .proof-shell { position: relative; z-index: 3; background: var(--paper); }
-  .proof-grid { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; margin-top: -62px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+  .proof-panel { margin-top: -62px; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 24px 70px rgba(13,29,42,.11); }
+  .proof-grid { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; }
   .proof-intro, .proof-item { min-height: 124px; padding: 24px 28px; border-right: 1px solid var(--line); }
   .proof-grid > :last-child { border-right: 0; }
   .proof-intro { display: flex; flex-direction: column; justify-content: space-between; color: var(--accent-2); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
@@ -231,7 +234,7 @@ const creds = credDefs.map((c) => {
   .proof-item strong { color: var(--ink); font-size: clamp(2rem, 3vw, 3.5rem); font-weight: 500; line-height: .9; letter-spacing: -.05em; }
   .proof-item strong.mono { font-size: clamp(1.25rem, 1.8vw, 1.8rem); letter-spacing: -.04em; }
   .proof-item span { max-width: 24ch; color: var(--ink-3); font-size: .72rem; line-height: 1.45; }
-  .capability-row { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; padding: 28px 0 0; }
+  .capability-row { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; min-height: 68px; padding: 18px 28px; border-top: 1px solid var(--line); background: #fafbf9; }
   .capability-label { font-family: var(--font-mono); font-size: .66rem; font-weight: 500; letter-spacing: .12em; color: var(--ink-3); }
   .capability-row ul { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; }
   .capability-row li { position: relative; color: var(--ink-2); font-size: var(--text-sm); }
@@ -290,7 +293,6 @@ const creds = credDefs.map((c) => {
   @media (max-width: 1024px) {
     .proof-grid { grid-template-columns: repeat(3, 1fr); }
     .proof-intro { display: none; }
-    .proof-grid > :nth-child(3) { border-right: 0; }
     .capability-row { grid-template-columns: 1fr; }
     .evidence-layout { grid-template-columns: 1fr; }
     .evidence-copy { position: static; }
@@ -304,12 +306,13 @@ const creds = credDefs.map((c) => {
     .hero-actions { align-items: flex-start; flex-direction: column; gap: var(--s5); }
     .hero-actions .btn { width: auto; }
     .scroll-indicator { display: none; }
-    .proof-grid { grid-template-columns: 1fr; margin-top: -76px; }
+    .proof-panel { margin-top: -76px; }
+    .proof-grid { grid-template-columns: 1fr; }
     .proof-item { min-height: auto; padding: 18px 20px; border-right: 0; border-bottom: 1px solid var(--line); }
     .proof-grid > :last-child { border-bottom: 0; }
     .proof-item strong { font-size: 2.25rem; }
     .proof-item strong.mono { font-size: 1.3rem; }
-    .capability-row { padding-top: var(--s5); }
+    .capability-row { padding: 20px; }
     .capability-row ul { gap: 7px 18px; }
     .section-intro { grid-template-columns: 1fr; gap: var(--s5); }
     .section-intro .lead { justify-self: start; }

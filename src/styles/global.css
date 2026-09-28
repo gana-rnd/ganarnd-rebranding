@@ -235,11 +235,13 @@ html[lang='ko'] .hero-title { max-width: 13ch; }
 .dark .stat { border-color: rgba(255,255,255,.16); }
 
 /* Closing CTA */
-.cta { position: relative; overflow: hidden; background: var(--navy); color: #fff; padding-block: var(--s9); }
-.cta::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--accent); }
-.cta h2 { color: #fff; max-width: 18ch; }
-.cta p { margin-top: var(--s3); color: rgba(255,255,255,.7); }
+.cta { position: relative; overflow: hidden; background: #eee9df; color: var(--ink); padding-block: var(--s10); }
+.cta::before { content: ''; position: absolute; inset: 0 0 auto; height: 1px; background: rgba(154,128,80,.55); }
+.cta h2 { color: var(--ink); max-width: 18ch; }
+.cta p { margin-top: var(--s3); color: var(--ink-2); }
 .cta .row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--s7); flex-wrap: wrap; }
+.cta .btn.on-dark { background: var(--ink); color: #fff; border-color: var(--ink); }
+.cta .btn.on-dark:hover { background: var(--accent-2); border-color: var(--accent-2); }
 
 @media (max-width: 640px) {
   .section { padding-block: var(--s9); }
