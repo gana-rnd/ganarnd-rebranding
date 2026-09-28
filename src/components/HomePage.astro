@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { counts, marketAccess, licence, gmp, eudamed, mhra, featured, authorityName, fmtDate, scopeOf, catLabel } from '../data/registry';
-import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
+import { counts, marketAccess, licence, gmp, featured, authorityName, fmtDate, scopeOf, catLabel } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -10,7 +10,6 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
   'contract-manufacture-only': { text: t.table.supplyContract, cls: 'neutral' },
   no: { text: t.table.supplyNo, cls: 'warn' },
 };
-const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
 const productMeta = {
   fill: {
     img: '/images/gana-fill-syringes.webp',
@@ -28,17 +27,8 @@ const productMeta = {
 const products = featured.map((p) => ({ ...p, ...productMeta[p.key] }));
 const regMeta = (r: Record<string, any>) =>
   [catLabel(r, lang), fmtDate(r.date, lang), scopeOf(r) === 'domestic' ? t.table.domesticApproval : null].filter(Boolean).join(' · ');
-const credDefs: { k: string; v: string; n: string; vars: Record<string, string | number> }[] = [
-  { k: t.home.cred1k, v: t.home.cred1v, n: licence.number, vars: { y: licence.since.slice(0, 4) } },
-  { k: t.home.cred2k, v: t.home.cred2v, n: gmp.number, vars: { issuer: gmp.issuer } },
-  { k: t.home.cred3k, v: t.home.cred3v, n: eudamed.number, vars: {} },
-  { k: t.home.cred4k, v: t.home.cred4v, n: mhra.number, vars: {} },
-];
-const creds = credDefs.map((c) => {
-  const [before, after = ''] = tpl(c.v, c.vars).split('{n}');
-  return { k: c.k, before, n: c.n, after };
-});
 const licenceCount = Number(licence.number.replace(/\D/g, ''));
+const gmpYear = Number(gmp.valid_to.slice(0, 4));
 ---
 
 <Base title="GANA R&D" hasHero>
@@ -101,30 +91,7 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
   </section>
 
   <section class="dark section evidence">
-    <div class="container evidence-shell">
-      <div class="record-rail" data-reveal-stagger>
-        <div class="record-intro">
-          <span class="record-line"></span>
-          <p>{t.home.s2Eyebrow}</p>
-        </div>
-        <div class="record-metric">
-          <strong class="record-number tabular" data-count={counts.published}>{counts.published}</strong>
-          <span>{t.home.stat1}</span>
-        </div>
-        <div class="record-metric">
-          <strong class="record-number tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
-          <span>{t.home.stat2}<br />{jurisdictionsList}</span>
-        </div>
-        <div class="record-metric licence-metric">
-          <strong class="record-number mono"><span class="record-prefix">No.</span> <span data-count={licenceCount}>{licenceCount}</span></strong>
-          <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
-        </div>
-      </div>
-      <div class="record-capabilities" data-reveal aria-label="Manufacturing platforms">
-        <span class="capability-label">GANA R&amp;D</span>
-        <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
-      </div>
-
+    <div class="container">
       <div class="evidence-layout">
         <div class="evidence-copy" data-reveal>
           <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
@@ -133,17 +100,25 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
           <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
         </div>
         <div class="credential-grid" data-reveal-stagger>
-          {creds.map((c, index) => (
-            <article class="credential">
-              <span class="credential-no">0{index + 1}</span>
-              <p class="credential-label">{c.k}</p>
-              <p class="credential-value">{c.before}<span class="mono">{c.n}</span>{c.after}</p>
-            </article>
-          ))}
-          <article class="credential facility">
-            <span class="credential-no">05</span>
-            <p class="credential-label">{t.home.cred6k}</p>
-            <p class="credential-value">{t.home.cred6v}</p>
+          <article class="credential metric-credential">
+            <span class="credential-no">01</span>
+            <strong class="credential-number tabular" data-count={counts.published}>{counts.published}</strong>
+            <p class="credential-label">{t.home.stat1}</p>
+          </article>
+          <article class="credential metric-credential">
+            <span class="credential-no">02</span>
+            <strong class="credential-number tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
+            <p class="credential-label">{t.home.stat2}</p>
+          </article>
+          <article class="credential metric-credential">
+            <span class="credential-no">03</span>
+            <strong class="credential-number mono"><span class="credential-prefix">No.</span> <span data-count={licenceCount}>{licenceCount}</span></strong>
+            <p class="credential-label">{t.home.cred1k} · {licence.since.slice(0, 4)}—</p>
+          </article>
+          <article class="credential metric-credential">
+            <span class="credential-no">04</span>
+            <strong class="credential-number mono"><span class="credential-prefix">GMP</span> <span data-count={gmpYear}>{gmpYear}</span></strong>
+            <p class="credential-label">{t.home.cred2k} · {gmp.issuer}</p>
           </article>
         </div>
       </div>
@@ -222,8 +197,6 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
   .hero-link:hover .arr { transform: translateX(5px); }
   .scroll-indicator { right: var(--gutter); bottom: 34px; }
 
-  .capability-label { font-family: var(--font-mono); font-size: .66rem; font-weight: 500; letter-spacing: .12em; color: var(--ink-3); }
-
   .section-intro { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: var(--s8); align-items: end; margin-bottom: var(--s8); }
   .section-intro h2 { max-width: 13ch; }
   .section-intro .lead { justify-self: end; }
@@ -250,35 +223,21 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
   .facts .meta { color: var(--ink-3); }
   .product-copy .link { margin-top: var(--s3); }
 
-  .evidence { position: relative; overflow: hidden; padding-top: 0; }
+  .evidence { position: relative; overflow: hidden; }
   .evidence::after { content: 'GANA R&D'; position: absolute; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
-  .evidence-shell { position: relative; z-index: 1; }
-  .record-rail { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; border-bottom: 1px solid rgba(255,255,255,.17); }
-  .record-intro, .record-metric { min-height: 144px; padding: 30px 28px; border-right: 1px solid rgba(255,255,255,.17); }
-  .record-intro { padding-left: 0; display: flex; flex-direction: column; justify-content: space-between; color: rgba(255,255,255,.58); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-  .record-line { width: 36px; height: 1px; background: var(--accent); }
-  .record-metric { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(14px, 2vw, 24px); align-items: end; }
-  .record-rail > :last-child { border-right: 0; }
-  .record-number { color: #fff; font-size: clamp(2.4rem, 3.4vw, 4rem); font-weight: 500; line-height: .88; letter-spacing: -.06em; }
-  .record-number.mono { font-size: clamp(1.4rem, 2.1vw, 2.15rem); letter-spacing: -.04em; white-space: nowrap; }
-  .record-prefix { color: rgba(255,255,255,.68); font-family: var(--font); font-size: .72em; font-weight: 500; letter-spacing: -.03em; }
-  .record-metric > span { max-width: 24ch; color: rgba(255,255,255,.55); font-size: .72rem; line-height: 1.48; }
-  .record-capabilities { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; min-height: 76px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,.17); }
-  .record-capabilities .capability-label { color: rgba(255,255,255,.42); }
-  .record-capabilities ul { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; }
-  .record-capabilities li { position: relative; color: rgba(255,255,255,.68); font-size: var(--text-sm); }
-  .record-capabilities li:not(:last-child)::after { content: '·'; position: absolute; right: -15px; color: var(--accent); }
-  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.35fr); gap: clamp(64px, 10vw, 150px); padding-top: clamp(84px, 9vw, 132px); }
+  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.35fr); gap: clamp(64px, 10vw, 150px); }
   .evidence-copy { position: sticky; top: 120px; align-self: start; }
   .evidence-copy h2 { max-width: 11ch; }
   .evidence-copy .lead { margin-top: var(--s5); color: rgba(255,255,255,.7); }
   .evidence-link { display: inline-flex; gap: 8px; margin-top: var(--s7); padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.35); color: #fff; font-size: var(--text-sm); font-weight: 700; }
   .credential-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.18); border-left: 1px solid rgba(255,255,255,.18); }
-  .credential { min-height: 190px; padding: var(--s5); border-right: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(255,255,255,.18); }
-  .credential.facility { grid-column: 1 / -1; min-height: auto; }
+  .credential { min-height: 238px; padding: clamp(26px, 3vw, 40px); border-right: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(255,255,255,.18); }
+  .metric-credential { display: flex; flex-direction: column; align-items: flex-start; }
   .credential-no { display: block; color: var(--accent); font-family: var(--font-mono); font-size: .65rem; letter-spacing: .08em; }
-  .credential-label { margin-top: var(--s6); color: rgba(255,255,255,.52); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-  .credential-value { margin-top: var(--s2); color: #fff; font-size: var(--text-sm); line-height: 1.55; }
+  .credential-number { margin-top: auto; color: #fff; font-size: clamp(3rem, 5vw, 5.25rem); font-weight: 500; line-height: .88; letter-spacing: -.065em; }
+  .credential-number.mono { font-size: clamp(1.75rem, 2.7vw, 2.8rem); letter-spacing: -.05em; white-space: nowrap; }
+  .credential-prefix { color: rgba(255,255,255,.58); font-family: var(--font); font-size: .64em; font-weight: 500; letter-spacing: -.03em; }
+  .credential-label { margin-top: var(--s4); color: rgba(255,255,255,.52); font-size: .7rem; font-weight: 700; line-height: 1.45; letter-spacing: .08em; text-transform: uppercase; }
 
   .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); overflow: hidden; background: var(--paper-2); }
   .codev-section::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.04) 36%, rgba(245,247,246,.74) 56%, #f5f7f6 72%, #f5f7f6 100%); pointer-events: none; }
@@ -298,9 +257,6 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
   .cta-kicker { margin-bottom: var(--s4); color: var(--accent) !important; font-family: var(--font-mono); font-size: .67rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
 
   @media (max-width: 1024px) {
-    .record-rail { grid-template-columns: repeat(3, 1fr); }
-    .record-intro { display: none; }
-    .record-capabilities { grid-template-columns: 1fr; gap: var(--s3); }
     .evidence-layout { grid-template-columns: 1fr; }
     .evidence-copy { position: static; }
     .codev-section { min-height: 760px; }
@@ -316,20 +272,12 @@ const licenceCount = Number(licence.number.replace(/\D/g, ''));
     .hero-actions { align-items: flex-start; flex-direction: column; gap: var(--s5); }
     .hero-actions .btn { width: auto; }
     .scroll-indicator { display: none; }
-    .record-rail { grid-template-columns: 1fr; }
-    .record-metric { min-height: 112px; padding: 22px 0; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.14); }
-    .record-rail > :last-child { border-bottom: 0; }
-    .record-number { font-size: 2.6rem; }
-    .record-number.mono { font-size: 1.55rem; }
-    .record-capabilities { padding-block: 22px; }
-    .record-capabilities ul { gap: 7px 18px; }
     .section-intro { grid-template-columns: 1fr; gap: var(--s5); }
     .section-intro .lead { justify-self: start; }
     .products { grid-template-columns: 1fr; }
-    .credential-grid { grid-template-columns: 1fr; }
-    .credential.facility { grid-column: auto; }
-    .credential { min-height: auto; }
-    .credential-label { margin-top: var(--s5); }
+    .credential { min-height: 180px; padding: var(--s5); }
+    .credential-number { font-size: 3rem; }
+    .credential-number.mono { font-size: 1.65rem; }
     .codev-section { min-height: 720px; }
     .codev-copy { padding: 340px 0 64px; }
     .codev-copy h2 { font-size: clamp(2.35rem, 11vw, 3.8rem); max-width: 12ch; }
