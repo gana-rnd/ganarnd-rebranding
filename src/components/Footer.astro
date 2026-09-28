@@ -1,6 +1,6 @@
 ---
-// 다크 푸터 — 법인 정체성 + 그룹 안내
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { licence, gmp } from '../data/registry';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -8,12 +8,13 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="ftr">
-  <div class="container grid">
-    <div>
+  <div class="container top">
+    <div class="brand-block">
       <p class="wordmark on-dark"><span class="g">GANA</span> <span class="r">R&amp;D</span></p>
+      <p class="statement">{t.home.heroTitle1} {t.home.heroTitle2}</p>
       <p class="note">{t.footer.note}</p>
     </div>
-    <div>
+    <div class="nav-block">
       <p class="h">{t.footer.company}</p>
       <ul>
         <li><a href={localizePath('/aesthetics', lang)}>{t.nav.aesthetics}</a></li>
@@ -23,7 +24,7 @@ const year = new Date().getFullYear();
         <li><a href={localizePath('/contact', lang)}>{t.nav.contact}</a></li>
       </ul>
     </div>
-    <div>
+    <div class="site-block">
       <p class="h">{t.footer.site}</p>
       <address>
         {t.footer.legalName}<br />
@@ -33,6 +34,11 @@ const year = new Date().getFullYear();
       </address>
     </div>
   </div>
+  <div class="container credentials" aria-label="Manufacturer credentials">
+    <span>MFDS {licence.number}</span>
+    <span>GMP {gmp.number}</span>
+    <span>Seongnam · Republic of Korea</span>
+  </div>
   <div class="container base">
     <p>&copy; {year} GANA R&amp;D Co., Ltd.</p>
     <p>{t.footer.audience}</p>
@@ -40,14 +46,18 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .ftr { background: var(--navy); color: #c9d3e2; margin-top: var(--s10); padding-block: var(--s8) var(--s6); }
-  .grid { display: grid; grid-template-columns: 2fr 1fr 1.4fr; gap: var(--s8); }
-    .note { font-size: var(--text-sm); max-width: 52ch; }
-  .h { font-size: var(--text-sm); font-weight: 600; color: #ffffff; margin-bottom: var(--s4); }
-  ul { list-style: none; display: flex; flex-direction: column; gap: var(--s2); }
-  a { font-size: var(--text-sm); transition: color var(--dur) var(--ease); }
+  .ftr { background: #091722; color: #bac4ca; padding-block: clamp(72px, 9vw, 120px) var(--s6); }
+  .top { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(160px, .75fr) minmax(260px, 1fr); gap: clamp(48px, 8vw, 120px); }
+  .brand-block { max-width: 580px; }
+  .statement { margin-top: var(--s5); max-width: 18ch; color: #fff; font-size: var(--text-xl); font-weight: 500; line-height: 1.3; letter-spacing: -.035em; }
+  .note { margin-top: var(--s5); max-width: 54ch; font-size: var(--text-sm); color: #98a7b0; }
+  .h { margin-bottom: var(--s5); color: #fff; font-size: .69rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  ul { list-style: none; display: flex; flex-direction: column; gap: var(--s3); }
+  a { width: fit-content; font-size: var(--text-sm); transition: color 180ms var(--ease); }
   a:hover { color: #fff; }
-  address { font-style: normal; font-size: var(--text-sm); }
-  .base { display: flex; justify-content: space-between; gap: var(--s4); margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid rgba(255,255,255,.12); font-size: var(--text-xs); color: #8ea0bd; }
-  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; gap: var(--s6); } .base { flex-direction: column; } }
+  address { font-style: normal; font-size: var(--text-sm); color: #bac4ca; }
+  .credentials { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s7); margin-top: var(--s8); padding-block: var(--s5); border-block: 1px solid rgba(255,255,255,.12); color: #d9dfe2; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; }
+  .base { display: flex; justify-content: space-between; gap: var(--s4); padding-top: var(--s5); color: #758792; font-size: var(--text-xs); }
+  @media (max-width: 900px) { .top { grid-template-columns: 1fr 1fr; } .brand-block { grid-column: 1 / -1; } }
+  @media (max-width: 640px) { .top { grid-template-columns: 1fr; } .brand-block { grid-column: auto; } .base { flex-direction: column; } }
 </style>

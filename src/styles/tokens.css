@@ -1,59 +1,78 @@
-/* GANA R&D — 디자인 토큰
- * 레퍼런스: Lonza (흰 바탕 · 액센트 하나 · 산세리프 · 화면폭 사진 밴드 · 여백).
- * 액센트는 파랑(Lonza). 로고만 세리프 차콜/빨강. 장식 모션 0, 텍스처 0, 뱃지 0.
+/* GANA R&D — enterprise design tokens
+ * Ink + brass + off-white. Evidence-first, editorial, restrained.
  */
 :root {
-  /* 뉴트럴 */
   --paper: #ffffff;
-  --paper-2: #f4f5f7;
-  --band: #e6e9ee;
-  --ink: #1d2126;
-  --ink-2: #4b5159;
-  --ink-3: #6b7380;
-  --line: #e2e5e9;
-  --heading: #1b3fbf;
+  --paper-2: #f5f7f6;
+  --paper-3: #ecefed;
+  --band: #e7ebe8;
+  --ink: #16222c;
+  --ink-2: #46535d;
+  --ink-3: #71808a;
+  --line: #dce2de;
+  --line-strong: #bcc7c1;
+  --heading: #16222c;
 
-  /* 액센트 — 파랑 하나. 로고 빨강은 워드마크 전용 */
-  --accent: #1b3fbf;
-  --accent-2: #1533a0;
-  --navy: #0b1f3a;
+  --accent: #9a8050;
+  --accent-2: #735f36;
+  --accent-soft: #eee8dc;
+  --navy: #0d1d2a;
+  --navy-2: #142b3b;
   --logo-red: #c8202a;
-  --on-dark: #ffffff;
+  --on-dark: #f7f9f8;
 
-  /* 기능 색 — 텍스트 색으로만 씀 */
-  --ok: #1f6b45;
-  --warn: #8a5a00;
+  --ok: #2f6b4f;
+  --warn: #8b6530;
 
-  /* 타이포 */
   --font: 'Manrope', 'Noto Sans KR', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-logo: 'Times New Roman', Times, 'Nimbus Roman', serif;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
 
-  --text-xs: 0.8125rem;
-  --text-sm: 0.9375rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
   --text-base: 1rem;
-  --text-lg: 1.1875rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 2rem;
-  --text-3xl: 2.5rem;
-  --text-4xl: 3rem;
-  /* 프리미엄 디스플레이 스케일 */
-  --text-display: clamp(2.75rem, 6.4vw, 5.5rem);
-  --text-h1: clamp(2.25rem, 4.6vw, 4rem);
-  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-lg: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-xl: clamp(1.35rem, 1.9vw, 1.75rem);
+  --text-2xl: clamp(1.8rem, 2.8vw, 2.7rem);
+  --text-3xl: clamp(2.5rem, 4.8vw, 4.75rem);
+  --text-4xl: clamp(3rem, 6vw, 6rem);
+  --text-display: clamp(3.15rem, 7.7vw, 7.5rem);
+  --text-h1: clamp(2.8rem, 6vw, 6.2rem);
+  --text-h2: clamp(2.1rem, 4vw, 4rem);
 
-  --leading-tight: 1.15;
-  --leading-body: 1.6;
+  --leading-tight: 1.06;
+  --leading-body: 1.68;
 
-  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
-  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --s10: 128px;
+  --s11: 160px;
 
-  --content-max: 1440px;
-  --gutter: 40px;
+  --content-max: 1320px;
+  --text-max: 760px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(13, 29, 42, 0.05), 0 8px 24px rgba(13, 29, 42, 0.05);
+  --shadow-lg: 0 30px 90px rgba(13, 29, 42, 0.14);
 
   --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
   --dur: 180ms;
 }
+
 @media (max-width: 768px) {
-  :root { --gutter: 20px; --text-4xl: 2.25rem; --text-3xl: 2rem; }
+  :root {
+    --s9: 72px;
+    --s10: 88px;
+    --s11: 104px;
+  }
 }

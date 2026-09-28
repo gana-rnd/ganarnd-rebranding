@@ -1,6 +1,4 @@
 ---
-// 사진이 준비되지 않은 자리는 촬영 방향 이미지를 보여주고, 공개 전 교체 대상임을 캡션으로 밝힌다.
-// src가 없으면 기존의 촬영 지시 플레이스홀더로 폴백한다.
 interface Props {
   note: string;
   ratio?: string;
@@ -13,7 +11,7 @@ const {
   ratio = '4 / 3',
   src,
   alt = '',
-  caption = 'Photography direction — replace with GANA R&D site photography before public launch',
+  caption,
 } = Astro.props;
 ---
 
@@ -22,53 +20,21 @@ const {
     <div class="frame" style={`aspect-ratio: ${ratio};`}>
       <img src={src} alt={alt} loading="lazy" />
     </div>
-    <figcaption>{caption}</figcaption>
+    {caption && <figcaption>{caption}</figcaption>}
   </figure>
 ) : (
-  <div class="slot" style={`aspect-ratio: ${ratio};`} role="img" aria-label={`사진 자리: ${note}`}>
-    <p class="note">[{note}]</p>
+  <div class="slot" style={`aspect-ratio: ${ratio};`} role="img" aria-label={note}>
+    <span aria-hidden="true">GANA R&amp;D</span>
   </div>
 )}
 
 <style>
   .photo-direction { margin: 0; }
-  .frame {
-    overflow: hidden;
-    background: var(--paper-2);
-    border-radius: 2px;
-  }
-  .frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 1.2s var(--ease-out-expo);
-  }
-  .photo-direction:hover img { transform: scale(1.035); }
-  figcaption {
-    margin-top: var(--s2);
-    font-size: 0.6875rem;
-    line-height: 1.45;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  .slot {
-    background: #fff;
-    border: 1px dashed var(--ink-3);
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--s5);
-  }
-  .note {
-    margin: 0;
-    max-width: 46ch;
-    font-family: var(--font);
-    font-size: var(--text-sm);
-    line-height: 1.7;
-    color: var(--ink-2);
-    text-align: center;
-    text-wrap: balance;
-  }
+  .frame { position: relative; overflow: hidden; background: var(--paper-2); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .frame::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(22,34,44,.08); border-radius: inherit; pointer-events: none; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 650ms var(--ease-out-expo); }
+  .photo-direction:hover img { transform: scale(1.025); }
+  figcaption { margin-top: var(--s3); font-size: var(--text-xs); line-height: 1.5; color: var(--ink-3); }
+  .slot { display: grid; place-items: center; background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink-3); }
+  .slot span { font-family: var(--font-logo); font-size: var(--text-xl); letter-spacing: -.03em; }
 </style>

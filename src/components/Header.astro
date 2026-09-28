@@ -1,167 +1,136 @@
 ---
-// 헤더: 로고 좌 · 대메뉴 4 + Contact 우 · 언어 전환기
 import { getLangFromUrl, useTranslations, localizePath, stripLangFromPath, languages } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const currentPath = stripLangFromPath(Astro.url.pathname);
-
 const nav = [
   { href: '/aesthetics', label: t.nav.aesthetics },
   { href: '/wound-care', label: t.nav.woundCare },
   { href: '/co-development', label: t.nav.coDevelopment },
   { href: '/market-access', label: t.nav.marketAccess },
-  { href: '/contact', label: t.nav.contact },
+  { href: '/contact', label: t.nav.contact, cta: true },
 ];
+const primaryLabel: Record<string, string> = {
+  en: 'Primary navigation', ko: '주요 메뉴', zh: '主导航', es: 'Navegación principal',
+  th: 'เมนูหลัก', vi: 'Điều hướng chính', ru: 'Основная навигация',
+};
+const languageLabel: Record<string, string> = {
+  en: 'Language', ko: '언어 선택', zh: '选择语言', es: 'Seleccionar idioma',
+  th: 'เลือกภาษา', vi: 'Chọn ngôn ngữ', ru: 'Выбрать язык',
+};
 ---
 
 <header class="hdr">
   <div class="container row">
-    <a href={localizePath('/', lang)} class="wordmark" aria-label="GANA R&D — home"><span class="g">GANA</span> <span class="r">R&amp;D</span></a>
+    <a href={localizePath('/', lang)} class="brand" aria-label="GANA R&D — home">
+      <span class="wordmark"><span class="g">GANA</span> <span class="r">R&amp;D</span></span>
+      <span class="brand-descriptor">Medical Device<br />Manufacturer</span>
+    </a>
     <div class="right">
-      <nav id="site-nav" aria-label="Primary">
+      <nav id="site-nav" aria-label={primaryLabel[lang] ?? primaryLabel.en}>
         <ul>
           {nav.map((i) => {
             const localized = localizePath(i.href, lang);
             return (
-              <li><a href={localized} aria-current={currentPath.startsWith(i.href) ? 'page' : undefined}>{i.label}</a></li>
+              <li class:list={{ 'nav-cta-item': i.cta }}>
+                <a class:list={{ 'nav-link': true, 'nav-cta': i.cta }} href={localized} aria-current={currentPath.startsWith(i.href) ? 'page' : undefined}>{i.label}</a>
+              </li>
             );
           })}
         </ul>
       </nav>
       <div class="lang-switch">
-        <button class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
-          {languages.find((l) => l.code === lang)?.label}
+        <button class="lang-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label={languageLabel[lang] ?? languageLabel.en}>
+          <span>{languages.find((l) => l.code === lang)?.label}</span>
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>
         <ul class="lang-menu" role="menu">
           {languages.map((l) => (
             <li role="none">
-              <a
-                role="menuitem"
-                href={localizePath(currentPath, l.code)}
-                class={l.code === lang ? 'active' : undefined}
-                hreflang={l.code}
-              >{l.name}</a>
+              <a role="menuitem" tabindex="-1" href={localizePath(currentPath, l.code)} class={l.code === lang ? 'active' : undefined} hreflang={l.code}>{l.name}</a>
             </li>
           ))}
         </ul>
       </div>
-      <button
-        class="menu-btn"
-        type="button"
-        aria-controls="site-nav"
-        aria-expanded="false"
-        aria-label={t.nav.menu}
-      >
-        <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      <button class="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label={t.nav.menu}>
+        <span class="bars" aria-hidden="true"><i></i><i></i></span>
       </button>
     </div>
   </div>
 </header>
 
 <style>
-  .hdr { background: var(--paper); position: sticky; top: 0; z-index: 20; }
+  .hdr { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); border-bottom: 1px solid rgba(22,34,44,.08); transition: background 260ms var(--ease), box-shadow 260ms var(--ease), border-color 260ms var(--ease); }
   .row { display: flex; align-items: center; justify-content: space-between; min-height: 84px; }
-  .right { display: flex; align-items: center; gap: var(--s6); }
-  nav ul { display: flex; gap: var(--s6); list-style: none; }
-  nav a { font-size: var(--text-sm); font-weight: 500; color: var(--ink); padding-block: var(--s2); border-bottom: 2px solid transparent; transition: border-color var(--dur) var(--ease); }
-  nav a:hover, nav a[aria-current='page'] { border-bottom-color: var(--accent); }
+  .brand { display: inline-flex; align-items: center; gap: 15px; flex: none; }
+  .brand-descriptor { padding-left: 15px; border-left: 1px solid var(--line-strong); font-size: .59rem; font-weight: 700; line-height: 1.35; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); }
+  .right { display: flex; align-items: center; gap: 24px; }
+  nav ul { display: flex; align-items: center; gap: clamp(18px, 2vw, 34px); list-style: none; }
+  .nav-link { position: relative; display: inline-flex; align-items: center; min-height: 42px; color: var(--ink); font-size: .82rem; font-weight: 600; letter-spacing: -.015em; }
+  .nav-link:not(.nav-cta)::after { content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 300ms var(--ease-out-expo); }
+  .nav-link:hover::after, .nav-link[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  .nav-cta { min-height: 40px; padding-inline: 18px; border: 1px solid rgba(22,34,44,.35); border-radius: 999px; transition: color 220ms var(--ease), background 220ms var(--ease), border-color 220ms var(--ease); }
+  .nav-cta:hover, .nav-cta[aria-current='page'] { color: #fff; background: var(--ink); border-color: var(--ink); }
 
-  /* 언어 전환기 */
   .lang-switch { position: relative; z-index: 30; }
-  .lang-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    font: inherit; font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em;
-    color: var(--ink-2); background: none; border: 1px solid var(--line);
-    border-radius: 999px; padding: 7px 14px; cursor: pointer;
-    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
-  }
-  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .lang-menu {
-    position: absolute; right: 0; top: calc(100% + 8px);
-    list-style: none; background: #fff; border: 1px solid var(--line);
-    border-radius: 6px; padding: 6px; min-width: 150px;
-    box-shadow: 0 8px 24px rgba(11, 31, 58, 0.10);
-    display: none;
-    opacity: 0; transform: translateY(-6px);
-    transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo);
-  }
-  .lang-switch.open .lang-menu { display: block; opacity: 1; transform: translateY(0); }
-  .lang-menu li { list-style: none; }
-  .lang-menu a {
-    display: block; padding: 8px 12px; font-size: var(--text-sm);
-    color: var(--ink); border-radius: 4px; border: none;
-    transition: background var(--dur) var(--ease);
-  }
-  .lang-menu a:hover { background: var(--paper-2); }
-  .lang-menu a.active { color: var(--accent); font-weight: 600; }
+  .lang-btn { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 13px; color: var(--ink-2); background: transparent; border: 0; border-radius: 999px; font-size: var(--text-xs); font-weight: 700; letter-spacing: .08em; cursor: pointer; transition: color 180ms var(--ease), background 180ms var(--ease); }
+  .lang-btn:hover, .lang-switch.open .lang-btn { color: var(--ink); background: var(--paper-2); }
+  .lang-btn svg { transition: transform 200ms var(--ease); }
+  .lang-switch.open .lang-btn svg { transform: rotate(180deg); }
+  .lang-menu { position: absolute; right: 0; top: calc(100% + 10px); width: 184px; list-style: none; background: rgba(255,255,255,.98); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; box-shadow: var(--shadow-lg); display: none; }
+  .lang-switch.open .lang-menu { display: block; }
+  .lang-menu a { display: flex; align-items: center; justify-content: space-between; min-height: 40px; padding: 8px 12px; border-radius: 8px; color: var(--ink); font-size: var(--text-sm); transition: background 180ms var(--ease); }
+  .lang-menu a:hover, .lang-menu a:focus-visible { background: var(--paper-2); }
+  .lang-menu a.active { color: var(--accent-2); font-weight: 700; }
+  .lang-menu a.active::after { content: '•'; color: var(--accent); }
 
-  /* 히어로 위 투명 헤더에서 언어 버튼 */
-  body.has-hero .hdr:not(.is-scrolled) .lang-btn { color: rgba(255,255,255,.85); border-color: rgba(255,255,255,.3); }
-  body.has-hero .hdr:not(.is-scrolled) .lang-btn:hover { border-color: #fff; color: #fff; }
-  body.has-hero .hdr:not(.is-scrolled) .lang-menu a { color: var(--ink); }
+  .menu-btn { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; background: transparent; border: 0; border-radius: 50%; cursor: pointer; }
+  .bars { display: block; width: 22px; }
+  .bars i { display: block; height: 1.5px; width: 100%; background: currentColor; transition: transform 260ms var(--ease-out-expo); }
+  .bars i + i { margin-top: 7px; }
+  .hdr.nav-open .bars i:first-child { transform: translateY(4.25px) rotate(45deg); }
+  .hdr.nav-open .bars i:last-child { transform: translateY(-4.25px) rotate(-45deg); }
 
-  /* 햄버거 버튼 — 데스크톱에선 숨김 */
-  .menu-btn {
-    display: none;
-    background: none; border: 0; cursor: pointer; padding: 10px;
-    margin-right: -10px;
-  }
-  .menu-btn .bars { display: block; width: 22px; }
-  .menu-btn .bars i {
-    display: block; height: 2px; width: 100%; background: var(--ink);
-    transition: transform 300ms var(--ease-out-expo), opacity 200ms var(--ease-out-expo), background 300ms var(--ease-out-expo);
-  }
-  .menu-btn .bars i + i { margin-top: 5px; }
-  .hdr.nav-open .menu-btn .bars i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hdr.nav-open .menu-btn .bars i:nth-child(2) { opacity: 0; }
-  .hdr.nav-open .menu-btn .bars i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .menu-btn .bars i { background: #fff; }
+  body.has-hero .hdr { position: fixed; left: 0; right: 0; }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: linear-gradient(to bottom, rgba(8,20,29,.56), transparent); border-color: transparent; }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .wordmark .g,
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-link,
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .lang-btn,
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .menu-btn { color: #fff; }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-descriptor { color: rgba(255,255,255,.64); border-color: rgba(255,255,255,.28); }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-cta { border-color: rgba(255,255,255,.48); }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-cta:hover { color: var(--ink); background: #fff; border-color: #fff; }
+  .hdr.is-scrolled { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 8px 30px rgba(13,29,42,.06); }
+  .hdr.is-scrolled .row { min-height: 70px; }
 
-  /* ≤1024px: 내비를 헤더 아래 흰 패널로 접기 */
-  @media (max-width: 1024px) {
-    .row { min-height: 68px; }
+  @media (max-width: 1120px) {
+    .row { min-height: 72px; }
+    .brand-descriptor { display: none; }
     .menu-btn { display: inline-flex; }
-    nav {
-      position: absolute; left: 0; right: 0; top: 100%;
-      display: none;
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 16px 32px rgba(11, 31, 58, 0.10);
-    }
+    .right { gap: 8px; }
+    nav { position: absolute; left: 0; right: 0; top: 100%; display: none; padding: 0 var(--gutter) var(--s6); background: rgba(255,255,255,.98); border-bottom: 1px solid var(--line); box-shadow: 0 24px 50px rgba(13,29,42,.12); }
     .hdr.nav-open nav { display: block; }
-    nav ul { flex-direction: column; gap: 0; padding: var(--s3) var(--gutter) var(--s5); }
-    nav a { display: block; padding: var(--s3) 0; font-size: var(--text-base); color: var(--ink) !important; }
-    nav a::after { content: none !important; }
-    nav a[aria-current='page'] { color: var(--accent) !important; font-weight: 600; }
-    /* 패널이 열리면 헤더 자체도 불투명하게 — 히어로 위에서도 대비 확보 */
-    .hdr.nav-open { background: #fff; box-shadow: 0 1px 0 var(--line); }
-    body.has-hero .hdr.nav-open .wordmark .g { color: #3a3a3a; }
-    body.has-hero .hdr.nav-open .lang-btn { color: var(--ink-2); border-color: var(--line); }
+    nav ul { flex-direction: column; align-items: stretch; gap: 0; padding-top: var(--s3); }
+    .nav-link { width: 100%; min-height: 58px; border-bottom: 1px solid var(--line); color: var(--ink) !important; font-size: 1.05rem; }
+    .nav-link::after { content: none !important; }
+    .nav-cta { margin-top: var(--s4); justify-content: center; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: #fff !important; }
+    .hdr.nav-open { background: #fff; border-color: var(--line); }
+    body.has-hero .hdr.nav-open .wordmark .g, body.has-hero .hdr.nav-open .menu-btn { color: var(--ink); }
+  }
+  @media (max-width: 420px) {
+    .wordmark { font-size: 1.65rem; }
+    .lang-btn { padding-inline: 9px; }
   }
 </style>
 
 <script>
-  // 언어 전환 드롭다운 토글
   const closeLang = () => {
     document.querySelectorAll('.lang-switch.open').forEach((el) => {
       el.classList.remove('open');
       el.querySelector('.lang-btn')?.setAttribute('aria-expanded', 'false');
     });
   };
-  document.querySelectorAll('.lang-switch').forEach((el) => {
-    const btn = el.querySelector('.lang-btn');
-    btn?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      closeNav();
-      const open = el.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-  });
-  document.addEventListener('click', closeLang);
-
-  // 모바일 내비 토글
   const hdr = document.querySelector('.hdr');
   const menuBtn = document.querySelector('.menu-btn');
   const closeNav = () => {
@@ -169,20 +138,55 @@ const nav = [
     hdr.classList.remove('nav-open');
     menuBtn?.setAttribute('aria-expanded', 'false');
   };
-  menuBtn?.addEventListener('click', (e) => {
-    e.stopPropagation();
+  document.querySelectorAll('.lang-switch').forEach((el) => {
+    const btn = el.querySelector<HTMLButtonElement>('.lang-btn');
+    const items = Array.from(el.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]'));
+    const openMenu = () => {
+      closeNav();
+      el.classList.add('open');
+      btn?.setAttribute('aria-expanded', 'true');
+    };
+    btn?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const wasOpen = el.classList.contains('open');
+      closeLang();
+      if (!wasOpen) openMenu();
+    });
+    btn?.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key !== 'ArrowDown') return;
+      event.preventDefault();
+      openMenu();
+      items[0]?.focus();
+    });
+    el.addEventListener('keydown', (event) => {
+      const keyEvent = event as KeyboardEvent;
+      const active = document.activeElement as HTMLAnchorElement | null;
+      const index = active ? items.indexOf(active) : -1;
+      if (keyEvent.key === 'Escape') {
+        closeLang();
+        btn?.focus();
+      } else if (keyEvent.key === 'ArrowDown') {
+        keyEvent.preventDefault();
+        items[(index + 1 + items.length) % items.length]?.focus();
+      } else if (keyEvent.key === 'ArrowUp') {
+        keyEvent.preventDefault();
+        items[(index - 1 + items.length) % items.length]?.focus();
+      }
+    });
+  });
+  document.addEventListener('click', closeLang);
+  menuBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
     closeLang();
     const open = hdr?.classList.toggle('nav-open') ?? false;
     menuBtn.setAttribute('aria-expanded', String(open));
   });
-  document.addEventListener('click', (e) => {
-    if (hdr && e.target instanceof Node && !hdr.contains(e.target)) closeNav();
+  document.addEventListener('click', (event) => {
+    if (hdr && event.target instanceof Node && !hdr.contains(event.target)) closeNav();
   });
-  document.querySelectorAll('#site-nav a').forEach((a) => a.addEventListener('click', closeNav));
-
-  // Esc — 열린 메뉴 전부 닫기
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
+  document.querySelectorAll('#site-nav a').forEach((link) => link.addEventListener('click', closeNav));
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
     const navWasOpen = hdr?.classList.contains('nav-open');
     closeLang();
     closeNav();
