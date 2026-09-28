@@ -92,32 +92,39 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
 
   <section class="dark evidence">
     <div class="container">
-      <div class="evidence-layout">
-        <div class="evidence-copy" data-reveal>
+      <div class="evidence-head" data-reveal>
+        <div class="evidence-title">
           <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
           <h2>{t.home.s1Title}</h2>
+        </div>
+        <div class="evidence-summary">
           <p class="lead">{t.home.s1P1}</p>
           <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
         </div>
-        <div class="evidence-metrics" data-reveal-stagger aria-label="Manufacturing credentials">
-          <article class="evidence-metric">
-            <span class="metric-index">01</span>
-            <strong class="metric-number tabular" data-count={counts.published}>{counts.published}</strong>
+      </div>
+
+      <div class="evidence-dashboard" data-reveal-stagger aria-label="Manufacturing credentials">
+        <article class="proof-primary">
+          <span class="proof-index">01</span>
+          <div class="proof-primary-body">
+            <strong class="proof-total tabular" data-count={counts.published}>{counts.published}</strong>
             <p>{t.home.stat1}</p>
+          </div>
           </article>
-          <article class="evidence-metric">
-            <span class="metric-index">02</span>
-            <strong class="metric-number tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
+        <div class="proof-ledger">
+          <article class="proof-cell">
+            <span class="proof-index">02</span>
+            <strong class="proof-number tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
             <p>{t.home.stat2}</p>
           </article>
-          <article class="evidence-metric">
-            <span class="metric-index">03</span>
-            <strong class="metric-number mono"><span class="metric-prefix">No.</span> <span data-count={licenceCount}>{licenceCount}</span></strong>
+          <article class="proof-cell">
+            <span class="proof-index">03</span>
+            <strong class="proof-number mono"><span class="proof-prefix">No.</span> <span data-count={licenceCount}>{licenceCount}</span></strong>
             <p>{t.home.cred1k} · {licence.since.slice(0, 4)}—</p>
           </article>
-          <article class="evidence-metric">
-            <span class="metric-index">04</span>
-            <strong class="metric-number mono"><span class="metric-prefix">GMP</span> <span data-count={gmpYear}>{gmpYear}</span></strong>
+          <article class="proof-cell">
+            <span class="proof-index">04</span>
+            <strong class="proof-number mono"><span class="proof-prefix">GMP</span> <span data-count={gmpYear}>{gmpYear}</span></strong>
             <p>{t.home.cred2k} · {gmp.issuer}</p>
           </article>
         </div>
@@ -223,20 +230,28 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   .facts .meta { color: var(--ink-3); }
   .product-copy .link { margin-top: var(--s3); }
 
-  .evidence { position: relative; overflow: hidden; scroll-margin-top: 96px; margin-bottom: clamp(88px, 10vw, 164px); padding-block: clamp(100px, 11vw, 168px); }
-  .evidence::after { content: 'GANA R&D'; position: absolute; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
-  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(300px, .84fr) minmax(0, 1.16fr); align-items: center; gap: clamp(64px, 9vw, 144px); }
-  .evidence-copy { align-self: center; max-width: 480px; }
-  .evidence-copy h2 { max-width: 8.5ch; font-size: clamp(3.05rem, 4.9vw, 5.7rem); line-height: .98; letter-spacing: -.065em; }
-  .evidence-copy .lead { margin-top: var(--s5); color: rgba(255,255,255,.7); }
+  .evidence { position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 96px; margin-bottom: clamp(88px, 10vw, 164px); padding-block: clamp(100px, 11vw, 168px); }
+  .evidence::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 84% 35%, rgba(36, 76, 102, .28), transparent 31%), linear-gradient(115deg, rgba(255,255,255,.025), transparent 44%); }
+  .evidence::after { content: 'GANA R&D'; position: absolute; z-index: -1; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
+  .evidence-head { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .72fr); gap: clamp(48px, 9vw, 148px); align-items: end; padding-bottom: clamp(46px, 6vw, 84px); border-bottom: 1px solid rgba(255,255,255,.2); }
+  .evidence-title h2 { max-width: 10ch; font-size: clamp(3rem, 5vw, 5.8rem); line-height: .98; letter-spacing: -.065em; }
+  .evidence-summary { max-width: 500px; padding-bottom: 4px; }
+  .evidence-summary .lead { color: rgba(255,255,255,.7); }
   .evidence-link { display: inline-flex; gap: 8px; margin-top: var(--s7); padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.35); color: #fff; font-size: var(--text-sm); font-weight: 700; }
-  .evidence-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.19); border-left: 1px solid rgba(255,255,255,.19); }
-  .evidence-metric { min-height: clamp(220px, 21vw, 310px); display: flex; flex-direction: column; align-items: flex-start; padding: clamp(26px, 3.4vw, 46px); border-right: 1px solid rgba(255,255,255,.19); border-bottom: 1px solid rgba(255,255,255,.19); }
-  .metric-index { color: var(--accent); font-family: var(--font-mono); font-size: .65rem; font-weight: 500; letter-spacing: .1em; }
-  .metric-number { margin-top: auto; color: #fff; font-size: clamp(3.7rem, 5.8vw, 6.25rem); font-weight: 500; line-height: .86; letter-spacing: -.07em; }
-  .metric-number.mono { font-size: clamp(1.7rem, 2.8vw, 3.05rem); letter-spacing: -.055em; white-space: nowrap; }
-  .metric-prefix { color: rgba(255,255,255,.57); font-family: var(--font); font-size: .63em; font-weight: 500; letter-spacing: -.02em; }
-  .evidence-metric p { margin-top: var(--s4); max-width: 26ch; color: rgba(255,255,255,.52); font-size: .69rem; font-weight: 700; line-height: 1.45; letter-spacing: .085em; text-transform: uppercase; }
+  .evidence-dashboard { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(320px, .95fr) minmax(0, 1.35fr); border-bottom: 1px solid rgba(255,255,255,.2); }
+  .proof-primary { position: relative; min-height: clamp(390px, 35vw, 490px); display: flex; flex-direction: column; padding: clamp(30px, 4.4vw, 64px); overflow: hidden; border-right: 1px solid rgba(255,255,255,.2); background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.01)); }
+  .proof-primary::after { content: ''; position: absolute; width: 58%; aspect-ratio: 1; right: -20%; bottom: -38%; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; box-shadow: 0 0 0 48px rgba(255,255,255,.025), 0 0 0 96px rgba(255,255,255,.014); }
+  .proof-primary-body { position: relative; z-index: 1; display: flex; flex: 1; flex-direction: column; justify-content: flex-end; }
+  .proof-index { color: var(--accent); font-family: var(--font-mono); font-size: .65rem; font-weight: 500; letter-spacing: .1em; }
+  .proof-total { color: #fff; font-size: clamp(7rem, 11vw, 12rem); font-weight: 500; line-height: .76; letter-spacing: -.085em; }
+  .proof-primary p { max-width: 26ch; margin-top: var(--s5); color: rgba(255,255,255,.6); font-size: var(--text-sm); line-height: 1.45; }
+  .proof-ledger { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .proof-cell { min-height: clamp(390px, 35vw, 490px); display: flex; flex-direction: column; padding: clamp(26px, 3.3vw, 48px); border-right: 1px solid rgba(255,255,255,.2); }
+  .proof-cell:last-child { border-right: 0; }
+  .proof-number { margin-top: auto; color: #fff; font-size: clamp(3.25rem, 5vw, 5.5rem); font-weight: 500; line-height: .86; letter-spacing: -.07em; }
+  .proof-number.mono { font-size: clamp(1.55rem, 2.5vw, 2.8rem); letter-spacing: -.055em; white-space: nowrap; }
+  .proof-prefix { color: rgba(255,255,255,.57); font-family: var(--font); font-size: .63em; font-weight: 500; letter-spacing: -.02em; }
+  .proof-cell p { min-height: 3.1em; margin-top: var(--s4); color: rgba(255,255,255,.54); font-size: .68rem; font-weight: 700; line-height: 1.45; letter-spacing: .075em; text-transform: uppercase; }
 
   .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); overflow: hidden; background: var(--paper-2); }
   .codev-section::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.04) 36%, rgba(245,247,246,.74) 56%, #f5f7f6 72%, #f5f7f6 100%); pointer-events: none; }
@@ -256,7 +271,14 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   .cta-kicker { margin-bottom: var(--s4); color: var(--accent) !important; font-family: var(--font-mono); font-size: .67rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
 
   @media (max-width: 1024px) {
-    .evidence-layout { grid-template-columns: minmax(260px, .86fr) minmax(0, 1.14fr); gap: var(--s7); }
+    .evidence-head { gap: var(--s7); }
+    .evidence-dashboard { grid-template-columns: minmax(280px, .86fr) minmax(0, 1.14fr); }
+    .proof-primary, .proof-cell { min-height: 370px; }
+    .proof-primary { padding: var(--s6); }
+    .proof-cell { padding: var(--s5); }
+    .proof-total { font-size: clamp(6rem, 11vw, 9rem); }
+    .proof-number { font-size: clamp(2.8rem, 5vw, 4.5rem); }
+    .proof-number.mono { font-size: clamp(1.35rem, 2.5vw, 2.1rem); }
     .codev-section { min-height: 760px; }
     .codev-section::after { background: linear-gradient(180deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.05) 31%, rgba(245,247,246,.88) 52%, #f5f7f6 64%, #f5f7f6 100%); }
     .codev-visual img { width: 100%; height: 58%; object-position: center; }
@@ -271,25 +293,32 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
     .hero-actions .btn { width: auto; }
     .scroll-indicator { display: none; }
     .evidence { margin-bottom: var(--s9); padding-block: var(--s9); }
-    .evidence-layout { grid-template-columns: 1fr; gap: var(--s8); }
-    .evidence-copy { max-width: 640px; }
-    .evidence-copy h2 { max-width: 11ch; font-size: clamp(2.65rem, 10vw, 4.15rem); }
-    .evidence-metric { min-height: 200px; padding: var(--s5); }
-    .metric-number { font-size: clamp(3.15rem, 14vw, 4.35rem); }
-    .metric-number.mono { font-size: clamp(1.42rem, 6.2vw, 1.9rem); }
-    .evidence-metric p { margin-top: var(--s3); font-size: .63rem; letter-spacing: .065em; }
+    .evidence-head { grid-template-columns: 1fr; gap: var(--s5); padding-bottom: var(--s7); }
+    .evidence-title h2 { max-width: 11ch; font-size: clamp(2.65rem, 10vw, 4.2rem); }
+    .evidence-summary { max-width: 640px; }
+    .evidence-link { margin-top: var(--s5); }
+    .evidence-dashboard { grid-template-columns: 1fr; }
+    .proof-primary { min-height: 330px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+    .proof-total { font-size: clamp(6.5rem, 24vw, 8.5rem); }
+    .proof-ledger { min-height: 0; }
+    .proof-cell { min-height: 225px; padding: var(--s5); }
+    .proof-number { font-size: clamp(3.1rem, 12vw, 4.4rem); }
+    .proof-number.mono { font-size: clamp(1.42rem, 5.5vw, 1.85rem); }
+    .proof-cell p { min-height: 0; margin-top: var(--s3); font-size: .63rem; letter-spacing: .055em; }
     .section-intro { grid-template-columns: 1fr; gap: var(--s5); }
     .section-intro .lead { justify-self: start; }
     .products { grid-template-columns: 1fr; }
-    .credential-grid { grid-template-columns: 1fr; }
-    .credential.facility { grid-column: auto; }
-    .credential { min-height: auto; }
-    .credential-label { margin-top: var(--s5); }
     .codev-section { min-height: 720px; }
     .codev-copy { padding: 340px 0 64px; }
     .codev-copy h2 { font-size: clamp(2.35rem, 11vw, 3.8rem); max-width: 12ch; }
   }
   @media (max-width: 520px) {
+    .proof-ledger { grid-template-columns: 1fr; }
+    .proof-cell { min-height: 156px; display: grid; grid-template-columns: minmax(104px, .55fr) minmax(0, 1.45fr); grid-template-rows: auto 1fr; align-items: end; column-gap: var(--s4); padding: 22px var(--s5); border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+    .proof-cell:last-child { border-bottom: 0; }
+    .proof-cell .proof-index { grid-column: 1 / -1; align-self: start; }
+    .proof-cell .proof-number { grid-column: 1; margin-top: 0; }
+    .proof-cell p { grid-column: 2; margin: 0; align-self: end; }
     .hero { min-height: 760px; }
     .hero-title { font-size: clamp(2.9rem, 13.4vw, 4.05rem); line-height: 1.08; max-width: 8.8ch; }
     .hero-line { overflow: visible; }
