@@ -11,17 +11,17 @@ const {
   description = 'GANA R&D Co., Ltd. — licensed medical device manufacturer in Seongnam, Korea. Dermal fillers, wound dressings and contract manufacturing, with registration numbers a buyer can verify.',
   hasHero = false,
 } = Astro.props;
-const fullTitle =
-  title === 'GANA R&D'
-    ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea'
-    : `${title} — GANA R&D`;
+const fullTitle = title === 'GANA R&D' ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea' : `${title} — GANA R&D`;
 const lang = getLangFromUrl(Astro.url);
 const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;
 const ogImage = `${siteBase}/images/og.jpg`;
 const ogLocale: Record<string, string> = { en: 'en_US', ko: 'ko_KR', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
-// 한국어 페이지에만 한글 서체(Noto Sans KR)를 추가로 싣는다. 라틴 글리프는 그대로 Manrope.
+const skipLabel: Record<string, string> = {
+  en: 'Skip to content', ko: '본문으로 건너뛰기', zh: '跳至主要内容', es: 'Saltar al contenido',
+  th: 'ข้ามไปยังเนื้อหา', vi: 'Chuyển đến nội dung', ru: 'Перейти к содержимому',
+};
 const fontsHref = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500${lang === 'ko' ? '&family=Noto+Sans+KR:wght@400;500;600;700' : ''}&display=swap`;
 const orgSchema = JSON.stringify({
   '@context': 'https://schema.org',
@@ -45,8 +45,7 @@ const orgSchema = JSON.stringify({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- JS 활성 표시: 이 한 줄이 실행되어야만 motion.css의 숨김 초기 상태가 적용된다.
-         JS가 아예 안 돌면 콘텐츠는 그대로 전부 보인다. -->
+    <meta name="theme-color" content="#0d1d2a" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
@@ -61,90 +60,64 @@ const orgSchema = JSON.stringify({
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="GANA R&D dermal filler syringes" />
+    <meta property="og:image:alt" content="GANA R&D medical device manufacturing" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
-    <script type="application/ld+json" set:html={orgSchema} />
-    <!-- hreflang alternate 링크 -->
-    {languages.map((l) => (
-      <link rel="alternate" hreflang={l.code} href={`${siteBase}${localizePath(currentPath, l.code)}`} />
-    ))}
+    <script is:inline type="application/ld+json" set:html={orgSchema} />
+    {languages.map((l) => <link rel="alternate" hreflang={l.code} href={`${siteBase}${localizePath(currentPath, l.code)}`} />)}
     <link rel="alternate" hreflang="x-default" href={`${siteBase}${currentPath}`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href={fontsHref} rel="stylesheet" />
   </head>
   <body class={hasHero ? 'has-hero' : undefined}>
-    <a href="#main" class="skip">Skip to content</a>
+    <a href="#main" class="skip">{skipLabel[lang] ?? skipLabel.en}</a>
     <Header />
     <main id="main"><slot /></main>
     <Footer />
-    <!-- 모션 런타임: 인라인으로 이식해 외부 파일 로드 실패 가능성을 제거 -->
     <script is:inline>
     (() => {
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const boot = () => document.body.classList.add('is-loaded');
+      if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', boot, { once: true });
+      else requestAnimationFrame(boot);
 
-      /* ── 히어로 로드 시퀀스 ── */
-      const boot = () => { document.body.classList.add('is-loaded'); };
-      if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        requestAnimationFrame(boot);
+      const reveals = document.querySelectorAll('[data-reveal], [data-reveal-stagger]');
+      if (reduced || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('is-in'));
       } else {
-        window.addEventListener('DOMContentLoaded', boot, { once: true });
+        const revealIO = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('is-in');
+            revealIO.unobserve(entry.target);
+          }
+        }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+        reveals.forEach((el) => revealIO.observe(el));
       }
 
-      if (reduced) {
-        document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => el.classList.add('is-in'));
-        return;
+      const counters = document.querySelectorAll('[data-count]');
+      if (!reduced && 'IntersectionObserver' in window) {
+        const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+        const countIO = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const el = entry.target;
+            const target = parseFloat(el.dataset.count);
+            const start = performance.now();
+            const tick = (now) => {
+              const p = Math.min((now - start) / 1100, 1);
+              el.firstChild.nodeValue = String(Math.round(target * easeOut(p)));
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            if (el.firstChild?.nodeType === Node.TEXT_NODE) el.firstChild.nodeValue = '0';
+            requestAnimationFrame(tick);
+            countIO.unobserve(el);
+          }
+        }, { threshold: .45 });
+        counters.forEach((el) => countIO.observe(el));
       }
 
-      /* ── 스크롤 리빌 (IntersectionObserver) ── */
-      const revealIO = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-in');
-              revealIO.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-      );
-      document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => revealIO.observe(el));
-
-      /* ── 숫자 카운트업 ── */
-      const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
-      const animateCount = (el) => {
-        const target = parseFloat(el.dataset.count);
-        const dur = 1600;
-        const start = performance.now();
-        const tick = (now) => {
-          const p = Math.min((now - start) / dur, 1);
-          const val = Math.round(target * easeOutExpo(p));
-          el.firstChild.nodeValue = String(val);
-          if (p < 1) requestAnimationFrame(tick);
-          else el.firstChild.nodeValue = String(target);
-        };
-        requestAnimationFrame(tick);
-      };
-      const countIO = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              animateCount(entry.target);
-              countIO.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.4 }
-      );
-      document.querySelectorAll('[data-count]').forEach((el) => {
-        if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
-          el.firstChild.nodeValue = '0';
-        }
-        countIO.observe(el);
-      });
-
-      /* ── 헤더 스크롤 상태 ── */
       const hdr = document.querySelector('.hdr');
       if (hdr) {
         let ticking = false;
@@ -152,59 +125,18 @@ const orgSchema = JSON.stringify({
           if (ticking) return;
           ticking = true;
           requestAnimationFrame(() => {
-            hdr.classList.toggle('is-scrolled', window.scrollY > 24);
+            hdr.classList.toggle('is-scrolled', window.scrollY > 28);
             ticking = false;
           });
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
       }
-
-      /* ── CTA 패럴랙스 글로우 ── */
-      const cta = document.querySelector('.cta');
-      if (cta) {
-        let ctaTicking = false;
-        const onCtaScroll = () => {
-          if (ctaTicking) return;
-          ctaTicking = true;
-          requestAnimationFrame(() => {
-            const rect = cta.getBoundingClientRect();
-            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-            const clamped = Math.max(0, Math.min(1, progress));
-            cta.style.setProperty('--cta-parallax', `${(clamped - 0.5) * 120}px`);
-            ctaTicking = false;
-          });
-        };
-        window.addEventListener('scroll', onCtaScroll, { passive: true });
-        onCtaScroll();
-      }
-
-      /* ── 이미지 패럴랙스 (data-parallax) ── */
-      const parallaxEls = document.querySelectorAll('[data-parallax]');
-      if (parallaxEls.length) {
-        let pTicking = false;
-        const onPScroll = () => {
-          if (pTicking) return;
-          pTicking = true;
-          requestAnimationFrame(() => {
-            for (const el of parallaxEls) {
-              const rect = el.getBoundingClientRect();
-              if (rect.bottom < 0 || rect.top > window.innerHeight) continue;
-              const speed = parseFloat(el.dataset.parallax) || 0.08;
-              const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed;
-              el.style.transform = `translateY(${offset.toFixed(1)}px)`;
-            }
-            pTicking = false;
-          });
-        };
-        window.addEventListener('scroll', onPScroll, { passive: true });
-        onPScroll();
-      }
     })();
     </script>
     <style>
-      .skip { position: absolute; left: -999px; }
-      .skip:focus { left: var(--gutter); top: var(--s2); z-index: 30; background: var(--navy); color: #fff; padding: var(--s2) var(--s3); font-size: var(--text-sm); }
+      .skip { position: fixed; left: var(--gutter); top: -100px; z-index: 100; background: #fff; color: var(--ink); padding: 10px 16px; border-radius: 999px; box-shadow: var(--shadow-lg); font-size: var(--text-sm); font-weight: 700; transition: top 180ms var(--ease); }
+      .skip:focus { top: 12px; }
     </style>
   </body>
 </html>

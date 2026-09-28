@@ -1,0 +1,332 @@
+---
+import Base from '../layouts/Base.astro';
+import { counts, marketAccess, licence, gmp, eudamed, mhra, featured, authorityName, fmtDate, scopeOf, catLabel } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const supplyLabel: Record<string, { text: string; cls: string }> = {
+  yes: { text: t.table.supplyYes, cls: 'ok' },
+  'contract-manufacture-only': { text: t.table.supplyContract, cls: 'neutral' },
+  no: { text: t.table.supplyNo, cls: 'warn' },
+};
+const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
+const productMeta = {
+  fill: {
+    img: '/images/gana-fill-syringes.webp',
+    alt: 'GANA FILL hyaluronic acid dermal filler syringes',
+    kicker: t.home.p1Kicker, body: t.home.p1Body, link: t.home.p1Link,
+  },
+  patch: {
+    img: '/images/wound-care-materials-detail.webp',
+    alt: 'GANA PATCH hydrogel and foam wound dressing materials',
+    kicker: t.home.p2Kicker, body: t.home.p2Body, link: t.home.p2Link,
+  },
+};
+const products = featured.map((p) => ({ ...p, ...productMeta[p.key] }));
+const regMeta = (r: Record<string, any>) =>
+  [catLabel(r, lang), fmtDate(r.date, lang), scopeOf(r) === 'domestic' ? t.table.domesticApproval : null].filter(Boolean).join(' · ');
+const credDefs: { k: string; v: string; n: string; vars: Record<string, string | number> }[] = [
+  { k: t.home.cred1k, v: t.home.cred1v, n: licence.number, vars: { y: licence.since.slice(0, 4) } },
+  { k: t.home.cred2k, v: t.home.cred2v, n: gmp.number, vars: { issuer: gmp.issuer } },
+  { k: t.home.cred3k, v: t.home.cred3v, n: eudamed.number, vars: {} },
+  { k: t.home.cred4k, v: t.home.cred4v, n: mhra.number, vars: {} },
+];
+const creds = credDefs.map((c) => {
+  const [before, after = ''] = tpl(c.v, c.vars).split('{n}');
+  return { k: c.k, before, n: c.n, after };
+});
+---
+
+<Base title="GANA R&D" hasHero>
+  <section class="hero">
+    <div class="hero-media" aria-hidden="true">
+      <img src="/images/manufacturing-line-direction.webp" alt="" fetchpriority="high" />
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <p class="hero-eyebrow hero-fade d1"><span></span>{t.home.heroEyebrow}</p>
+      <h1 class="hero-title">
+        <span class="hero-line"><span>{t.home.heroTitle1}</span></span>
+        <span class="hero-line"><span>{t.home.heroTitle2}</span></span>
+      </h1>
+      <p class="hero-sub hero-fade d2">{t.home.heroSub}</p>
+      <div class="hero-actions hero-fade d3">
+        <a class="btn on-dark" href={localizePath('/market-access', lang)}>{t.home.heroCta} <span aria-hidden="true">↗</span></a>
+        <a class="hero-link" href={localizePath('/contact', lang)}>{t.common.contactCta} <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true"><span class="label">{t.common.scroll}</span></div>
+  </section>
+
+  <section class="proof-shell">
+    <div class="container">
+      <div class="proof-grid hero-fade d3">
+        <div class="proof-intro">
+          <span class="proof-line"></span>
+          <p>{t.home.s2Eyebrow}</p>
+        </div>
+        <div class="proof-item">
+          <strong class="tabular" data-count={counts.published}>{counts.published}</strong>
+          <span>{t.home.stat1}</span>
+        </div>
+        <div class="proof-item">
+          <strong class="tabular" data-count={counts.jurisdictions}>{counts.jurisdictions}</strong>
+          <span>{t.home.stat2}<br />{jurisdictionsList}</span>
+        </div>
+        <div class="proof-item">
+          <strong class="mono">{licence.number}</strong>
+          <span>{t.home.cred1k}<br />{licence.since.slice(0, 4)}—</span>
+        </div>
+      </div>
+      <div class="capability-row" aria-label="Manufacturing platforms">
+        <span class="capability-label">GANA R&amp;D</span>
+        <ul>{t.home.chips.map((chip) => <li>{chip}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section products-section">
+    <div class="section-intro" data-reveal>
+      <div>
+        <p class="eyebrow"><span class="no">01</span> {t.home.productsEyebrow}</p>
+        <h2>{t.home.productsTitle}</h2>
+      </div>
+      <p class="lead">{t.home.productsLead}</p>
+    </div>
+    <div class="products" data-reveal-stagger>
+      {products.map((p, index) => (
+        <article class="product-card">
+          <a class="product-visual" href={localizePath(p.page, lang)} aria-label={p.name}>
+            <img src={p.img} alt={p.alt} loading="lazy" />
+            <span class="product-index">0{index + 1}</span>
+            <span class="product-family">{p.kicker}</span>
+          </a>
+          <div class="product-copy">
+            <div class="product-heading">
+              <h3>{p.name}</h3>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <p class="body">{p.body}</p>
+            <ul class="facts">
+              {p.regs.map((r) => (
+                <li>
+                  <span class="mono">{authorityName[r.jurisdiction] ?? r.jurisdiction} {r.number}</span>
+                  <span class="meta">{regMeta(r)}</span>
+                </li>
+              ))}
+            </ul>
+            <a class="link" href={localizePath(p.page, lang)}>{p.link} <span class="arr">→</span></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="dark section evidence">
+    <div class="container evidence-layout">
+      <div class="evidence-copy" data-reveal>
+        <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+        <h2>{t.home.s1Title}</h2>
+        <p class="lead">{t.home.s1P1}</p>
+        <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
+      </div>
+      <div class="credential-grid" data-reveal-stagger>
+        {creds.map((c, index) => (
+          <article class="credential">
+            <span class="credential-no">0{index + 1}</span>
+            <p class="credential-label">{c.k}</p>
+            <p class="credential-value">{c.before}<span class="mono">{c.n}</span>{c.after}</p>
+          </article>
+        ))}
+        <article class="credential facility">
+          <span class="credential-no">05</span>
+          <p class="credential-label">{t.home.cred6k}</p>
+          <p class="credential-value">{t.home.cred6v}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section codev-section">
+    <div class="codev-panel" data-reveal>
+      <div class="codev-visual">
+        <img src="/images/formulation-process-direction.webp" alt="GANA R&D formulation and manufacturing process" loading="lazy" />
+      </div>
+      <div class="codev-copy">
+        <p class="eyebrow"><span class="no">03</span> {t.home.card3Who}</p>
+        <h2>{t.home.card3Title}</h2>
+        <p>{t.home.card3Body}</p>
+        <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="market-section section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <div>
+          <p class="eyebrow"><span class="no">04</span> {t.home.s5Eyebrow}</p>
+          <h2>{t.home.s5Title}</h2>
+        </div>
+        <div class="intro-side">
+          <p class="lead">{t.home.s5Lead}</p>
+          <a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a>
+        </div>
+      </div>
+      <div class="table-wrap market-table" data-reveal>
+        <table class="table stack">
+          <thead><tr><th>{t.table.territory}</th><th>{t.table.status}</th><th>{t.table.basis}</th></tr></thead>
+          <tbody>
+            {marketAccess.map((m) => (
+              <tr>
+                <td>{t.jurisdictions[m.territory as keyof typeof t.jurisdictions] ?? m.territory}</td>
+                <td><span class={`status ${supplyLabel[m.supply].cls}`}>{supplyLabel[m.supply].text}</span></td>
+                <td class="muted">{t.coverage[m.territory as keyof typeof t.coverage] ?? `${m.basis}${m.note ? ` — ${m.note}` : ''}`}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <p class="cta-kicker">GANA R&amp;D · SEONGNAM</p>
+        <h2>{t.home.ctaTitle}</h2>
+        <p>{t.home.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{t.common.contactCta} <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; min-height: min(88svh, 940px); display: flex; align-items: flex-end; color: #fff; overflow: hidden; background: var(--navy); }
+  .hero-media, .hero-shade, .hero-grid { position: absolute; inset: 0; }
+  .hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; transform: scale(1.01); }
+  .hero-shade { background: linear-gradient(90deg, rgba(5,18,28,.92) 0%, rgba(8,24,36,.68) 48%, rgba(8,24,36,.2) 82%), linear-gradient(0deg, rgba(5,18,28,.62), transparent 52%); }
+  .hero-grid { opacity: .13; background-image: linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px); background-size: 25% 100%, 100% 25%; mask-image: linear-gradient(90deg, #000, transparent 72%); }
+  .hero-inner { position: relative; z-index: 1; padding-top: 170px; padding-bottom: clamp(110px, 12vw, 160px); }
+  .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: var(--s6); color: rgba(255,255,255,.72); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .hero-eyebrow span { width: 34px; height: 1px; background: var(--accent); }
+  .hero-title { max-width: 12ch; color: #fff; font-weight: 500; line-height: 1.02; letter-spacing: -.06em; }
+  .hero-sub { margin-top: var(--s6); max-width: 60ch; color: rgba(255,255,255,.76); font-size: var(--text-lg); }
+  .hero-actions { display: flex; align-items: center; gap: var(--s6); margin-top: var(--s7); flex-wrap: wrap; }
+  .hero-link { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-size: var(--text-sm); font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 4px; }
+  .hero-link .arr { transition: transform 260ms var(--ease-out-expo); }
+  .hero-link:hover .arr { transform: translateX(5px); }
+  .scroll-indicator { right: var(--gutter); bottom: 34px; }
+
+  .proof-shell { position: relative; z-index: 3; background: var(--paper); }
+  .proof-grid { display: grid; grid-template-columns: .8fr 1.25fr 1fr 1fr; margin-top: -62px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+  .proof-intro, .proof-item { min-height: 124px; padding: 24px 28px; border-right: 1px solid var(--line); }
+  .proof-grid > :last-child { border-right: 0; }
+  .proof-intro { display: flex; flex-direction: column; justify-content: space-between; color: var(--accent-2); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .proof-line { width: 36px; height: 1px; background: var(--accent); }
+  .proof-item { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: end; }
+  .proof-item strong { color: var(--ink); font-size: clamp(2rem, 3vw, 3.5rem); font-weight: 500; line-height: .9; letter-spacing: -.05em; }
+  .proof-item strong.mono { font-size: clamp(1.25rem, 1.8vw, 1.8rem); letter-spacing: -.04em; }
+  .proof-item span { max-width: 24ch; color: var(--ink-3); font-size: .72rem; line-height: 1.45; }
+  .capability-row { display: grid; grid-template-columns: .8fr 3.25fr; gap: var(--s5); align-items: center; padding: 28px 0 0; }
+  .capability-label { font-family: var(--font-mono); font-size: .66rem; font-weight: 500; letter-spacing: .12em; color: var(--ink-3); }
+  .capability-row ul { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; }
+  .capability-row li { position: relative; color: var(--ink-2); font-size: var(--text-sm); }
+  .capability-row li:not(:last-child)::after { content: '·'; position: absolute; right: -15px; color: var(--accent); }
+
+  .section-intro { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: var(--s8); align-items: end; margin-bottom: var(--s8); }
+  .section-intro h2 { max-width: 13ch; }
+  .section-intro .lead { justify-self: end; }
+  .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
+  .product-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  .product-visual { position: relative; display: block; aspect-ratio: 5 / 3.7; overflow: hidden; background: var(--paper-2); }
+  .product-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(13,29,42,.05), rgba(13,29,42,.2)); pointer-events: none; }
+  .product-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease-out-expo); }
+  .product-card:hover .product-visual img { transform: scale(1.025); }
+  .product-index { position: absolute; z-index: 1; top: 20px; left: 22px; color: #fff; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; }
+  .product-family { position: absolute; z-index: 1; right: 20px; bottom: 18px; max-width: 70%; padding: 8px 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(8,24,36,.52); backdrop-filter: blur(10px); color: #fff; font-size: .68rem; font-weight: 600; }
+  .product-copy { display: flex; flex-direction: column; gap: var(--s4); padding: clamp(26px, 4vw, 44px); }
+  .product-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); }
+  .product-heading h3 { color: var(--ink); font-size: var(--text-2xl); font-weight: 500; }
+  .product-heading > span { color: var(--accent); font-size: 1.25rem; }
+  .product-copy .body { color: var(--ink-2); }
+  .facts { list-style: none; margin-top: var(--s2); border-top: 1px solid var(--line-strong); }
+  .facts li { display: grid; grid-template-columns: minmax(150px, .8fr) 1.4fr; gap: var(--s4); padding: 14px 0; border-bottom: 1px solid var(--line); font-size: var(--text-xs); }
+  .facts .meta { color: var(--ink-3); }
+  .product-copy .link { margin-top: var(--s3); }
+
+  .evidence { position: relative; overflow: hidden; }
+  .evidence::after { content: 'GANA R&D'; position: absolute; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
+  .evidence-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(280px, .85fr) minmax(0, 1.35fr); gap: clamp(64px, 10vw, 150px); }
+  .evidence-copy { position: sticky; top: 120px; align-self: start; }
+  .evidence-copy h2 { max-width: 11ch; }
+  .evidence-copy .lead { margin-top: var(--s5); color: rgba(255,255,255,.7); }
+  .evidence-link { display: inline-flex; gap: 8px; margin-top: var(--s7); padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.35); color: #fff; font-size: var(--text-sm); font-weight: 700; }
+  .credential-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.18); border-left: 1px solid rgba(255,255,255,.18); }
+  .credential { min-height: 190px; padding: var(--s5); border-right: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(255,255,255,.18); }
+  .credential.facility { grid-column: 1 / -1; min-height: auto; }
+  .credential-no { display: block; color: var(--accent); font-family: var(--font-mono); font-size: .65rem; letter-spacing: .08em; }
+  .credential-label { margin-top: var(--s6); color: rgba(255,255,255,.52); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .credential-value { margin-top: var(--s2); color: #fff; font-size: var(--text-sm); line-height: 1.55; }
+
+  .codev-panel { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); min-height: 580px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
+  .codev-visual { min-height: 480px; overflow: hidden; }
+  .codev-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .codev-copy { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: clamp(42px, 7vw, 92px); }
+  .codev-copy h2 { max-width: 10ch; }
+  .codev-copy > p:not(.eyebrow) { margin-top: var(--s5); color: var(--ink-2); }
+  .codev-copy .btn { margin-top: var(--s7); }
+
+  .market-section { background: var(--paper-2); border-top: 1px solid var(--line); }
+  .intro-side { display: grid; gap: var(--s5); justify-items: start; }
+  .market-table { box-shadow: none; }
+  .market-table .table th { background: #fff; }
+  .market-table .table td:first-child { font-weight: 700; }
+  .cta-kicker { margin-bottom: var(--s4); color: var(--accent) !important; font-family: var(--font-mono); font-size: .67rem; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
+
+  @media (max-width: 1024px) {
+    .proof-grid { grid-template-columns: repeat(3, 1fr); }
+    .proof-intro { display: none; }
+    .proof-grid > :nth-child(3) { border-right: 0; }
+    .capability-row { grid-template-columns: 1fr; }
+    .evidence-layout { grid-template-columns: 1fr; }
+    .evidence-copy { position: static; }
+    .codev-panel { grid-template-columns: 1fr; }
+    .codev-visual { min-height: 420px; }
+  }
+  @media (max-width: 768px) {
+    .hero { min-height: 820px; }
+    .hero-shade { background: linear-gradient(90deg, rgba(5,18,28,.88), rgba(8,24,36,.48)), linear-gradient(0deg, rgba(5,18,28,.7), transparent 56%); }
+    .hero-inner { padding-top: 140px; padding-bottom: 150px; }
+    .hero-actions { align-items: flex-start; flex-direction: column; gap: var(--s5); }
+    .hero-actions .btn { width: auto; }
+    .scroll-indicator { display: none; }
+    .proof-grid { grid-template-columns: 1fr; margin-top: -76px; }
+    .proof-item { min-height: auto; padding: 18px 20px; border-right: 0; border-bottom: 1px solid var(--line); }
+    .proof-grid > :last-child { border-bottom: 0; }
+    .proof-item strong { font-size: 2.25rem; }
+    .proof-item strong.mono { font-size: 1.3rem; }
+    .capability-row { padding-top: var(--s5); }
+    .capability-row ul { gap: 7px 18px; }
+    .section-intro { grid-template-columns: 1fr; gap: var(--s5); }
+    .section-intro .lead { justify-self: start; }
+    .products { grid-template-columns: 1fr; }
+    .credential-grid { grid-template-columns: 1fr; }
+    .credential.facility { grid-column: auto; }
+    .credential { min-height: auto; }
+    .credential-label { margin-top: var(--s5); }
+    .codev-panel { min-height: 0; }
+    .codev-visual { min-height: 300px; }
+  }
+  @media (max-width: 520px) {
+    .hero { min-height: 760px; }
+    .hero-title { font-size: clamp(2.9rem, 13.4vw, 4.05rem); line-height: 1.08; max-width: 8.8ch; }
+    .hero-line { overflow: visible; }
+    .hero-sub { font-size: 1rem; }
+    .facts li { grid-template-columns: 1fr; gap: 3px; }
+    .product-family { max-width: calc(100% - 84px); }
+  }
+</style>
