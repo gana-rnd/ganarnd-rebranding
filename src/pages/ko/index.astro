@@ -13,18 +13,21 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
 };
 const jurisdictionsList = Object.keys(counts.byJurisdiction).map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j).join(' · ');
 
-// 대표 제품 2종 — 등재 데이터는 registry.featured, 문구·사진은 여기서. 사진은 보드 리뷰용 임시(캡션에 명시).
+// 대표 제품 2종 — 등재 데이터는 registry.featured, 문구·사진은 여기서.
+// GANA FILL은 보드 리뷰용 임시 렌더(캡션에 명시), GANA PATCH는 2021 카탈로그 실물 팩샷(흰 배경 → contain 프레임).
 const productMeta = {
   fill: {
     img: '/images/gana-fill-syringes.webp',
     alt: 'GANA FILL hyaluronic acid dermal filler syringes',
     note: 'Product render — replace with GANA FILL packshot before public launch',
+    contain: false,
     kicker: t.home.p1Kicker, body: t.home.p1Body, link: t.home.p1Link,
   },
   patch: {
-    img: '/images/wound-care-materials-detail.webp',
-    alt: 'Concept image of hydrogel and foam wound-dressing materials',
-    note: 'Concept visual — replace with GANA PATCH packshot before public launch',
+    img: '/images/gana-patch-packshot.webp',
+    alt: 'GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D',
+    note: '',
+    contain: true,
     kicker: t.home.p2Kicker, body: t.home.p2Body, link: t.home.p2Link,
   },
 };
@@ -84,10 +87,10 @@ const creds = credDefs.map((c) => {
     <div class="products" data-reveal-stagger>
       {products.map((p) => (
         <article class="product">
-          <a class="visual" href={localizePath(p.page, lang)} aria-label={p.name}>
+          <a class:list={['visual', { contain: p.contain }]} href={localizePath(p.page, lang)} aria-label={p.name}>
             <img src={p.img} alt={p.alt} loading="lazy" />
           </a>
-          <p class="photo-note">{p.note}</p>
+          {p.note && <p class="photo-note">{p.note}</p>}
           <p class="kicker">{p.kicker}</p>
           <h3>{p.name}</h3>
           <p class="body">{p.body}</p>
@@ -268,6 +271,8 @@ const creds = credDefs.map((c) => {
   }
   .product .visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out-expo); }
   .product .visual:hover img { transform: scale(1.035); }
+  /* 흰 배경 팩샷: 회색 판 대신 흰 바탕 + 헤어라인 (aesthetics의 .visual.contain과 같은 처리) */
+  .product .visual.contain { background: #fff; border: 1px solid var(--line); }
   .product .photo-note {
     font-size: 0.6875rem; line-height: 1.45; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--ink-3); margin: 0 0 var(--s2);

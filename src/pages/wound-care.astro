@@ -26,7 +26,7 @@ const t = useTranslations(lang);
         <p>{t.woundCare.s1P2}</p>
         <a class="btn" href={localizePath('/contact', lang)}>{t.woundCare.s1Cta}</a>
       </div>
-      <div class="visual zoom-hover" data-reveal="right"><img src="/images/wound-care-materials-detail.webp" alt="Concept image of hydrogel and foam dressing material samples" /></div>
+      <div class="visual contain packshot zoom-hover" data-reveal="right"><img src="/images/gana-patch-packshot.webp" alt="GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D" /></div>
     </div>
   </section>
 
@@ -65,3 +65,8 @@ const t = useTranslations(lang);
     </div>
   </section>
 </Base>
+
+<style>
+  /* 팩샷 파일에 여백이 이미 들어 있어 contain 프레임의 안쪽 패딩은 뺀다 */
+  .split .visual.contain.packshot img { padding: 0; }
+</style>
