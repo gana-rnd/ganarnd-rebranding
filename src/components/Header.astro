@@ -24,7 +24,7 @@ const languageLabel: Record<string, string> = {
 <header class="hdr">
   <div class="container row">
     <a href={localizePath('/', lang)} class="brand" aria-label="GANA R&D — home">
-      <span class="wordmark"><span class="g">GANA</span> <span class="r">R&amp;D</span></span>
+      <span class="brand-logo-frame"><img class="brand-logo" src="/images/brand/gana-rnd-official-logo.png" width="720" height="206" alt="" /></span>
       <span class="brand-descriptor">Medical Device<br />Manufacturer</span>
     </a>
     <div class="right">
@@ -64,6 +64,8 @@ const languageLabel: Record<string, string> = {
   .hdr { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); border-bottom: 1px solid rgba(22,34,44,.08); transition: background 260ms var(--ease), box-shadow 260ms var(--ease), border-color 260ms var(--ease); }
   .row { display: flex; align-items: center; justify-content: space-between; min-height: 84px; }
   .brand { display: inline-flex; align-items: center; gap: 15px; flex: none; }
+  .brand-logo-frame { display: inline-flex; align-items: center; justify-content: center; padding: 6px 9px; border-radius: 2px; transition: background 260ms var(--ease), box-shadow 260ms var(--ease); }
+  .brand-logo { display: block; width: clamp(126px, 10.5vw, 156px); height: auto; }
   .brand-descriptor { padding-left: 15px; border-left: 1px solid var(--line-strong); font-size: .59rem; font-weight: 700; line-height: 1.35; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); }
   .right { display: flex; align-items: center; gap: 24px; }
   nav ul { display: flex; align-items: center; gap: clamp(18px, 2vw, 34px); list-style: none; }
@@ -94,7 +96,7 @@ const languageLabel: Record<string, string> = {
 
   body.has-hero .hdr { position: fixed; left: 0; right: 0; }
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: linear-gradient(to bottom, rgba(8,20,29,.56), transparent); border-color: transparent; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .wordmark .g,
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-logo-frame { background: rgba(255,255,255,.96); box-shadow: 0 5px 20px rgba(0,0,0,.1); }
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-link,
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .lang-btn,
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .menu-btn { color: #fff; }
@@ -116,10 +118,11 @@ const languageLabel: Record<string, string> = {
     .nav-link::after { content: none !important; }
     .nav-cta { margin-top: var(--s4); justify-content: center; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: #fff !important; }
     .hdr.nav-open { background: #fff; border-color: var(--line); }
-    body.has-hero .hdr.nav-open .wordmark .g, body.has-hero .hdr.nav-open .menu-btn { color: var(--ink); }
+    body.has-hero .hdr.nav-open .menu-btn { color: var(--ink); }
   }
   @media (max-width: 420px) {
-    .wordmark { font-size: 1.65rem; }
+    .brand-logo-frame { padding: 5px 7px; }
+    .brand-logo { width: 118px; }
     .lang-btn { padding-inline: 9px; }
   }
 </style>
