@@ -17,12 +17,12 @@ const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;
 const ogImage = `${siteBase}/images/og.jpg`;
-const ogLocale: Record<string, string> = { en: 'en_US', ko: 'ko_KR', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
+const ogLocale: Record<string, string> = { en: 'en_US', zh: 'zh_CN', es: 'es_ES', th: 'th_TH', vi: 'vi_VN', ru: 'ru_RU' };
 const skipLabel: Record<string, string> = {
-  en: 'Skip to content', ko: '본문으로 건너뛰기', zh: '跳至主要内容', es: 'Saltar al contenido',
+  en: 'Skip to content', zh: '跳至主要内容', es: 'Saltar al contenido',
   th: 'ข้ามไปยังเนื้อหา', vi: 'Chuyển đến nội dung', ru: 'Перейти к содержимому',
 };
-const fontsHref = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500${lang === 'ko' ? '&family=Noto+Sans+KR:wght@400;500;600;700' : ''}&display=swap`;
+const fontsHref = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap`;
 const orgSchema = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',

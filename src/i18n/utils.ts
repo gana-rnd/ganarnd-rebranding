@@ -1,6 +1,5 @@
 // GANA R&D i18n 유틸리티
 import { en, type UIStrings } from './en';
-import { ko } from './ko';
 import { zh } from './zh';
 import { es } from './es';
 import { th } from './th';
@@ -9,7 +8,6 @@ import { ru } from './ru';
 
 export const languages = [
   { code: 'en', label: 'EN', name: 'English' },
-  { code: 'ko', label: 'KO', name: '한국어' },
   { code: 'zh', label: 'ZH', name: '中文' },
   { code: 'es', label: 'ES', name: 'Español' },
   { code: 'th', label: 'TH', name: 'ภาษาไทย' },
@@ -21,7 +19,7 @@ export type LangCode = (typeof languages)[number]['code'];
 export const defaultLang: LangCode = 'en';
 export const langCodes: LangCode[] = languages.map((l) => l.code);
 
-const translations: Record<LangCode, UIStrings> = { en, ko, zh, es, th, vi, ru };
+const translations: Record<LangCode, UIStrings> = { en, zh, es, th, vi, ru };
 
 /** URL에서 언어 코드 추출 — /zh/... → zh, /... → en */
 export function getLangFromUrl(url: URL): LangCode {

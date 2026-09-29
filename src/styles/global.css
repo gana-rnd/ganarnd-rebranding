@@ -210,9 +210,6 @@ body:not(.has-hero) .table td:last-child { padding-right: 0; }
 .sep { color: var(--ink-3); }
 
 /* Korean typography */
-html[lang='ko'] body { word-break: keep-all; }
-html[lang='ko'] h1, html[lang='ko'] h2, html[lang='ko'] .hero-title { letter-spacing: -.045em; }
-html[lang='ko'] .hero-title { max-width: 13ch; }
 
 .callout { padding: var(--s6); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius-sm); background: var(--paper-2); font-size: var(--text-sm); color: var(--ink-2); }
 .callout b { color: var(--ink); }
