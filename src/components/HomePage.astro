@@ -90,11 +90,25 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
     </div>
   </section>
 
+  <section class="codev-section">
+    <div class="codev-visual" aria-hidden="true">
+      <img src="/images/formulation-process-direction.webp" alt="" loading="lazy" />
+    </div>
+    <div class="container codev-inner">
+      <div class="codev-copy" data-reveal="right">
+        <p class="eyebrow"><span class="no">02</span> {t.home.card3Who}</p>
+        <h2>{t.home.card3Title}</h2>
+        <p>{t.home.card3Body}</p>
+        <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
   <section class="dark evidence">
     <div class="container">
       <div class="evidence-head" data-reveal>
         <div class="evidence-title">
-          <p class="eyebrow"><span class="no">02</span> {t.home.s2Eyebrow}</p>
+          <p class="eyebrow"><span class="no">03</span> {t.home.s2Eyebrow}</p>
           <h2>{t.home.s1Title}</h2>
         </div>
         <div class="evidence-summary">
@@ -128,20 +142,6 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
             <p>{t.home.cred2k} · {gmp.issuer}</p>
           </article>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="codev-section">
-    <div class="codev-visual" aria-hidden="true">
-      <img src="/images/formulation-process-direction.webp" alt="" loading="lazy" />
-    </div>
-    <div class="container codev-inner">
-      <div class="codev-copy" data-reveal="right">
-        <p class="eyebrow"><span class="no">03</span> {t.home.card3Who}</p>
-        <h2>{t.home.card3Title}</h2>
-        <p>{t.home.card3Body}</p>
-        <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -230,7 +230,7 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   .facts .meta { color: var(--ink-3); }
   .product-copy .link { margin-top: var(--s3); }
 
-  .evidence { position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 96px; margin-bottom: clamp(88px, 10vw, 164px); padding-block: clamp(100px, 11vw, 168px); }
+  .evidence { position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 96px; padding-block: clamp(100px, 11vw, 168px); }
   .evidence::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 84% 35%, rgba(36, 76, 102, .28), transparent 31%), linear-gradient(115deg, rgba(255,255,255,.025), transparent 44%); }
   .evidence::after { content: 'GANA R&D'; position: absolute; z-index: -1; right: -1vw; bottom: -5vw; color: rgba(255,255,255,.025); font-family: var(--font-logo); font-size: clamp(8rem, 18vw, 18rem); line-height: 1; white-space: nowrap; pointer-events: none; }
   .evidence-head { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .72fr); gap: clamp(48px, 9vw, 148px); align-items: end; padding-bottom: clamp(46px, 6vw, 84px); border-bottom: 1px solid rgba(255,255,255,.2); }
@@ -253,7 +253,7 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   .proof-prefix { color: rgba(255,255,255,.57); font-family: var(--font); font-size: .63em; font-weight: 500; letter-spacing: -.02em; }
   .proof-cell p { min-height: 3.1em; margin-top: var(--s4); color: rgba(255,255,255,.54); font-size: .68rem; font-weight: 700; line-height: 1.45; letter-spacing: .075em; text-transform: uppercase; }
 
-  .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); overflow: hidden; background: var(--paper-2); }
+  .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); margin-bottom: clamp(88px, 10vw, 164px); overflow: hidden; background: var(--paper-2); }
   .codev-section::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.04) 36%, rgba(245,247,246,.74) 56%, #f5f7f6 72%, #f5f7f6 100%); pointer-events: none; }
   .codev-visual { position: absolute; z-index: 0; inset: 0; overflow: hidden; }
   .codev-visual img { width: min(76vw, 1220px); height: 100%; object-fit: cover; object-position: center 48%; transform: scale(1.015); }
@@ -292,7 +292,8 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
     .hero-actions { align-items: flex-start; flex-direction: column; gap: var(--s5); }
     .hero-actions .btn { width: auto; }
     .scroll-indicator { display: none; }
-    .evidence { margin-bottom: var(--s9); padding-block: var(--s9); }
+    .evidence { padding-block: var(--s9); }
+    .codev-section { margin-bottom: var(--s9); }
     .evidence-head { grid-template-columns: 1fr; gap: var(--s5); padding-bottom: var(--s7); }
     .evidence-title h2 { max-width: 11ch; font-size: clamp(2.65rem, 10vw, 4.2rem); }
     .evidence-summary { max-width: 640px; }
