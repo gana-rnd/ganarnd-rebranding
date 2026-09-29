@@ -1,0 +1,48 @@
+{
+  // 이 폴더를 VS Code에서 열었을 때: Ctrl+Shift+B → 개발 서버 + 브라우저
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // Ctrl+B 키바인딩이 부르는 이름. 아래 "Dev: GANA R&D"와 같은 일을 한다.
+      "label": "GANA: dev + open",
+      "type": "shell",
+      "command": "npx astro dev --port 4321 --open",
+      "options": { "cwd": "D:/ganarnd-rebranding" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" }
+    },
+    {
+      // Ctrl+Alt+B 키바인딩이 부르는 이름.
+      "label": "Dr. Park: dev + open",
+      "type": "shell",
+      "command": "npx astro dev --port 4500 --open",
+      "options": { "cwd": "D:/drpark-group" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" }
+    },
+    {
+      "label": "Dev: GANA R&D (localhost:4321)",
+      "type": "shell",
+      "command": "npx astro dev --port 4321 --open",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "reveal": "always" },
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Build: GANA R&D",
+      "type": "shell",
+      "command": "npm run build",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Deploy: Vercel production",
+      "type": "shell",
+      "command": "vercel --prod --yes",
+      "problemMatcher": []
+    }
+  ]
+}
