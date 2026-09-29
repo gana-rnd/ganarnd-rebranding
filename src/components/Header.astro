@@ -100,15 +100,9 @@ const languageLabel: Record<string, string> = {
   .hdr.nav-open .bars i:last-child { transform: translateY(-4.25px) rotate(-45deg); }
 
   body.has-hero .hdr { position: fixed; left: 0; right: 0; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: linear-gradient(to bottom, rgba(8,20,29,.56), transparent); border-color: transparent; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-logo.on-light { opacity: 0; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-logo.on-dark { opacity: 1; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-link,
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .lang-btn,
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .menu-btn { color: #fff; }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-descriptor { color: rgba(255,255,255,.64); border-color: rgba(255,255,255,.28); }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-cta { border-color: rgba(255,255,255,.48); }
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .nav-cta:hover { color: var(--ink); background: #fff; border-color: #fff; }
+  /* 히어로 위 상단 띠: 반투명 흰 유리(40%) + 블러. 띠가 밝아지므로 로고·메뉴는 원래 짙은 색 그대로 둔다 */
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: rgba(255,255,255,.4); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); border-color: rgba(255,255,255,.35); }
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-descriptor { color: var(--ink-2); border-color: rgba(22,34,44,.28); }
   .hdr.is-scrolled { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 8px 30px rgba(13,29,42,.06); }
   .hdr.is-scrolled .row { min-height: 70px; }
 
