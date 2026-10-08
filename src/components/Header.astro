@@ -103,7 +103,7 @@ const languageLabel: Record<string, string> = {
   /* 히어로 위 상단 띠: 흰 유리(78%) + 블러. 띠가 밝아지므로 로고·메뉴는 원래 짙은 색 그대로 둔다 */
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: rgba(255,255,255,.78); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border-color: rgba(22,34,44,.08); }
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-descriptor { color: var(--ink-2); border-color: rgba(22,34,44,.28); }
-  .hdr.is-scrolled { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 8px 30px rgba(13,29,42,.06); }
+  .hdr.is-scrolled { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 8px 30px rgba(14,33,57,.06); }
   .hdr.is-scrolled .row { min-height: 70px; }
 
   @media (max-width: 1120px) {
@@ -111,7 +111,7 @@ const languageLabel: Record<string, string> = {
     .brand-descriptor { display: none; }
     .menu-btn { display: inline-flex; }
     .right { gap: 8px; }
-    nav { position: absolute; left: 0; right: 0; top: 100%; display: none; padding: 0 var(--gutter) var(--s6); background: rgba(255,255,255,.98); border-bottom: 1px solid var(--line); box-shadow: 0 24px 50px rgba(13,29,42,.12); }
+    nav { position: absolute; left: 0; right: 0; top: 100%; display: none; padding: 0 var(--gutter) var(--s6); background: rgba(255,255,255,.98); border-bottom: 1px solid var(--line); box-shadow: 0 24px 50px rgba(14,33,57,.12); }
     .hdr.nav-open nav { display: block; }
     nav ul { flex-direction: column; align-items: stretch; gap: 0; padding-top: var(--s3); }
     .nav-link { width: 100%; min-height: 58px; border-bottom: 1px solid var(--line); color: var(--ink) !important; font-size: 1.05rem; }

@@ -16,8 +16,8 @@
   --accent: #9a8050;
   --accent-2: #735f36;
   --accent-soft: #eee8dc;
-  --navy: #0d1d2a;
-  --navy-2: #142b3b;
+  --navy: #0e2139;
+  --navy-2: #152e49;
   --logo-red: #c8202a;
   --on-dark: #f7f9f8;
 
@@ -61,8 +61,8 @@
   --radius-sm: 6px;
   --radius: 12px;
   --radius-lg: 20px;
-  --shadow-sm: 0 1px 2px rgba(13, 29, 42, 0.05), 0 8px 24px rgba(13, 29, 42, 0.05);
-  --shadow-lg: 0 30px 90px rgba(13, 29, 42, 0.14);
+  --shadow-sm: 0 1px 2px rgba(14, 33, 57, 0.05), 0 8px 24px rgba(14, 33, 57, 0.05);
+  --shadow-lg: 0 30px 90px rgba(14, 33, 57, 0.14);
 
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
