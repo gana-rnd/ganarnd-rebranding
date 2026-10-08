@@ -100,8 +100,8 @@ const languageLabel: Record<string, string> = {
   .hdr.nav-open .bars i:last-child { transform: translateY(-4.25px) rotate(-45deg); }
 
   body.has-hero .hdr { position: fixed; left: 0; right: 0; }
-  /* 히어로 위 상단 띠: 반투명 흰 유리(40%) + 블러. 띠가 밝아지므로 로고·메뉴는 원래 짙은 색 그대로 둔다 */
-  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: rgba(255,255,255,.4); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); border-color: rgba(255,255,255,.35); }
+  /* 히어로 위 상단 띠: 흰 유리(78%) + 블러. 띠가 밝아지므로 로고·메뉴는 원래 짙은 색 그대로 둔다 */
+  body.has-hero .hdr:not(.is-scrolled):not(.nav-open) { background: rgba(255,255,255,.78); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border-color: rgba(22,34,44,.08); }
   body.has-hero .hdr:not(.is-scrolled):not(.nav-open) .brand-descriptor { color: var(--ink-2); border-color: rgba(22,34,44,.28); }
   .hdr.is-scrolled { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 8px 30px rgba(13,29,42,.06); }
   .hdr.is-scrolled .row { min-height: 70px; }
