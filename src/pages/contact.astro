@@ -7,7 +7,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Base title={t.nav.contact} description="Contact GANA R&D — distributors, clinics, hospitals and brand partners.">
+<Base title={t.nav.contact} description={t.meta.contact}>
   <header class="container page-head">
     <p class="ph-eyebrow hero-fade d1">{t.contact.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.contact.title}</span></span></h1>

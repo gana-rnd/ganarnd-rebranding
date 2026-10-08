@@ -8,7 +8,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Base title={t.nav.coDevelopment} description="OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.">
+<Base title={t.nav.coDevelopment} description={t.meta.coDev}>
   <header class="container page-head">
     <p class="ph-eyebrow hero-fade d1">{t.coDev.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.coDev.title}</span></span></h1>

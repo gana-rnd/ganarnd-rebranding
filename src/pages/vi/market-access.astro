@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf, catLabel, umbrellaNote } from '../../data/registry';
+import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf, catLabel, umbrellaNote, productName } from '../../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -20,7 +20,7 @@ const lookupUrl: Record<string, string> = {
 };
 ---
 
-<Base title={t.nav.marketAccess} description="Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path.">
+<Base title={t.nav.marketAccess} description={t.meta.marketAccess}>
   <header class="container page-head">
     <p class="ph-eyebrow hero-fade d1">{t.marketAccess.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.marketAccess.title}</span></span></h1>
@@ -96,7 +96,7 @@ const lookupUrl: Record<string, string> = {
                 {items.map((r) => (
                   <tr>
                     <td class="mono">{r.number}</td>
-                    <td>{r.product}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                    <td>{productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
                     <td>{catLabel(r, lang)}</td>
                     <td>{fmtDate(r.date, lang)}{r.valid_to ? ` — ${t.table.to} ${fmtDate(r.valid_to, lang)}` : r.term === 'indefinite' ? ` — ${t.table.indefinite}` : ''}</td>
                     <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? tpl(t.table.classFmt, { c: r.class }) : null].filter(Boolean).join(' · ')}</td>

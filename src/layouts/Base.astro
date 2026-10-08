@@ -3,16 +3,13 @@ import '../styles/global.css';
 import '../styles/motion.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getLangFromUrl, stripLangFromPath, localizePath, languages } from '../i18n/utils';
+import { getLangFromUrl, stripLangFromPath, localizePath, languages, useTranslations } from '../i18n/utils';
 
 interface Props { title: string; description?: string; hasHero?: boolean; }
-const {
-  title,
-  description = 'GANA R&D Co., Ltd. — licensed medical device manufacturer in Seongnam, Korea. Dermal fillers, wound dressings and contract manufacturing, with registration numbers a buyer can verify.',
-  hasHero = false,
-} = Astro.props;
-const fullTitle = title === 'GANA R&D' ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea' : `${title} — GANA R&D`;
 const lang = getLangFromUrl(Astro.url);
+// 설명을 안 넘긴 페이지(홈)는 해당 언어의 홈 설명을 쓴다
+const { title, description = useTranslations(lang).meta.home, hasHero = false } = Astro.props;
+const fullTitle = title === 'GANA R&D' ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea' : `${title} — GANA R&D`;
 const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;

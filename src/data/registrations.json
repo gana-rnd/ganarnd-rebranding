@@ -326,7 +326,7 @@
       "category_ko": "조직수복용재료",
       "class": 4,
       "depth": "surface",
-      "product": "GANA PH (Belviso PLA Filler)",
+      "product": "GANA PH (Belviso PLA Filler)", "display_product": "GANA PH",
       "chemistry": "PLLA",
       "export_only": true,
       "status": "active",

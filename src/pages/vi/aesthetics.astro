@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { surface, chemistryGroups, authorityName, fmtDate, scopeOf, umbrellaNote, byId } from '../../data/registry';
+import { surface, chemistryGroups, authorityName, fmtDate, scopeOf, umbrellaNote, byId, productName } from '../../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -21,7 +21,7 @@ const lineup = [
   .map((l) => ({ ...l, group: chemistryGroups([l.reg!])[0].name }));
 ---
 
-<Base title={t.nav.aesthetics} description="Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.">
+<Base title={t.nav.aesthetics} description={t.meta.aesthetics}>
   <header class="container page-head">
     <p class="ph-eyebrow hero-fade d1">{t.aesthetics.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.aesthetics.title}</span></span></h1>
@@ -52,7 +52,7 @@ const lineup = [
         <li>
           <div class="shot"><img src={l.img} alt={l.alt} loading="lazy" /></div>
           <p class="chem">{l.group}</p>
-          <p class="name">{l.reg!.product}</p>
+          <p class="name">{productName(l.reg!, t.table.partnerBrand)}</p>
           <p class="reg mono">{authorityName[l.reg!.jurisdiction]} {l.reg!.number}</p>
           <p class="where">{t.jurisdictions[l.reg!.jurisdiction as keyof typeof t.jurisdictions] ?? l.reg!.jurisdiction}</p>
         </li>
@@ -68,7 +68,7 @@ const lineup = [
             <tbody>
               {g.items.map((r) => (
                 <tr>
-                  <td>{r.product}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                  <td>{productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
                   <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
                   <td class="mono">{r.number}</td>
                   <td>{fmtDate(r.date, lang)}</td>

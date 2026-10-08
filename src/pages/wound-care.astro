@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import { tissue, authorityName, fmtDate, scopeOf, catLabel } from '../data/registry';
+import { tissue, authorityName, fmtDate, scopeOf, catLabel, productName } from '../data/registry';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Base title={t.nav.woundCare} description="Hydrogel and foam wound dressings manufactured by GANA R&D — MFDS licensed, including domestic approval, and registered in Russia.">
+<Base title={t.nav.woundCare} description={t.meta.woundCare}>
   <header class="container page-head">
     <p class="ph-eyebrow hero-fade d1">{t.woundCare.eyebrow}</p>
     <h1><span class="hero-line"><span>{t.woundCare.title}</span></span></h1>
@@ -40,7 +40,7 @@ const t = useTranslations(lang);
         <tbody>
           {tissue.map((r) => (
             <tr>
-              <td>{r.product}</td>
+              <td>{productName(r, t.table.partnerBrand)}</td>
               <td>{catLabel(r, lang)}</td>
               <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
               <td class="mono">{r.number}</td>

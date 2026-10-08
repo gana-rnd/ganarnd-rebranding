@@ -211,6 +211,7 @@ export const en = {
     sideNote: 'Manufacturing licence MFDS No. 4490 · GMP KCL-ABBA-19926 · EUDAMED SRN KR-MF-000037221 · MHRA MAN_ID 32678',
   },
   table: {
+    partnerBrand: 'Partner brand',
     territory: 'Territory',
     status: 'Status',
     basis: 'Basis',
@@ -262,7 +263,16 @@ export const en = {
     mhraK: 'MHRA manufacturer registration',
     mhraV: '{n} — updated 11 Apr 2026',
     mhraLink: 'MHRA PARD',
-  }
+  },
+  meta: {
+    home: 'GANA R&D Co., Ltd. — licensed medical device manufacturer in Seongnam, Korea. Dermal fillers, wound dressings and contract manufacturing, with registration numbers a buyer can verify.',
+    aesthetics: 'Dermal fillers across hyaluronic acid, PLLA, PCL and calcium — registered under a single manufacturer, GANA R&D.',
+    woundCare: 'Hydrogel and foam wound dressings manufactured by GANA R&D — MFDS licensed, including domestic approval, and registered in Russia.',
+    coDev: 'OEM/ODM development and licensed manufacture of medical devices at GANA R&D — from concept and formulation to scale-up.',
+    marketAccess: 'Where GANA R&D can supply today, and the full list of product registrations by jurisdiction — each with a public lookup path.',
+    contact: 'Contact GANA R&D — distributors, clinics, hospitals and brand partners.',
+    notFound: 'The page you were looking for does not exist.',
+  },
 };
 
 // 구조적 타입 — 모든 문자열은 string으로 넓혀서 다른 언어 번역을 허용

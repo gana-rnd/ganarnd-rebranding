@@ -68,6 +68,12 @@ export const mhra = credentials.find((c) => c.id === 'mhra-man')!;
 export function catLabel(r: Reg, _lang?: string): string {
   return r.category_en ?? r.chemistry ?? '';
 }
+/** 표에 보이는 제품명 — 위탁 브랜드 확인 전(brand_check)인 등재는 이름 대신 "파트너 브랜드"로,
+ *  표시명이 따로 있으면(display_product, 예: 위탁 브랜드 괄호를 뺀 이름) 그걸 쓴다. 등록번호는 그대로 게시. */
+export function productName(r: Reg, partnerLabel: string): string {
+  if (r.brand_check) return partnerLabel;
+  return r.display_product ?? r.product;
+}
 /** 총괄 허가 비고 */
 export function umbrellaNote(r: Reg, _lang?: string): string | null {
   return r.umbrella_note_en ?? null;
