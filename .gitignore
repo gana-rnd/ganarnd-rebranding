@@ -11,3 +11,7 @@ dist/
 # Raw media assets (280MB, videos, Premiere autosaves) - not versioned
 # Anchored to repo root so the site's public/images/ stays tracked
 /images/
+
+# Raw photo shoot files (33GB) - never version these
+/100MSDCF.zip
+/가나알엔디 촬영본/
