@@ -103,7 +103,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8825-737%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -121,7 +121,7 @@
       "status": "active",
       "publish": false,
       "publish_note": "KoraVie — EU 2a 전 비언급",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%EC%9D%B825-4996%ED%98%B8&searchYn=Y",
       "category_en": "Topical hydrogel wound dressing"
     },
     {
@@ -139,7 +139,7 @@
       "status": "active",
       "publish": true,
       "brand_check": "자사/위탁 브랜드 확인 필요",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8825-710%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -157,7 +157,7 @@
       "status": "active",
       "publish": true,
       "brand_check": "자사/위탁 브랜드 확인 필요",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8825-709%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -175,7 +175,7 @@
       "status": "active",
       "publish": false,
       "publish_note": "KoraVie — EU 2a 전 비언급",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8825-518%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -193,7 +193,7 @@
       "status": "active",
       "publish": true,
       "brand_check": "자사/위탁 브랜드 확인 필요",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8824-663%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -210,7 +210,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8824-210%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -227,7 +227,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8823-426%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -244,7 +244,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8823-128%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -262,7 +262,7 @@
       "status": "active",
       "publish": true,
       "brand_check": "BELVISO 자사/위탁 확인 필요",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-751%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -280,7 +280,7 @@
       "status": "withdrawn",
       "withdrawn_date": "2022-12-23",
       "publish": false,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-737%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -297,7 +297,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-423%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -314,7 +314,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-305%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -326,12 +326,13 @@
       "category_ko": "조직수복용재료",
       "class": 4,
       "depth": "surface",
-      "product": "GANA PH (Belviso PLA Filler)", "display_product": "GANA PH",
+      "product": "GANA PH (Belviso PLA Filler)",
+      "display_product": "GANA PH",
       "chemistry": "PLLA",
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-304%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -348,7 +349,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-134%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -365,7 +366,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-123%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -382,7 +383,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-116%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -399,7 +400,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-55%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -416,7 +417,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-53%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -433,7 +434,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8822-52%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -450,7 +451,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8821-236%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material"
     },
     {
@@ -469,7 +470,7 @@
       "status": "active",
       "publish": true,
       "note": "그룹 유일의 국내 판매 승인",
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%EC%9D%B820-4997%ED%98%B8&searchYn=Y",
       "category_en": "Topical hydrogel wound dressing"
     },
     {
@@ -487,7 +488,7 @@
       "status": "active",
       "publish": true,
       "umbrella": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8815-1662%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material",
       "umbrella_note_en": "Umbrella licence covering ART AQUA and 21 further products",
       "umbrella_note_ko": "ART AQUA 외 21종 포함"
@@ -507,7 +508,7 @@
       "status": "withdrawn",
       "withdrawn_date": "2017-12-12",
       "publish": false,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%88%98%EC%9D%B815-4161%ED%98%B8&searchYn=Y",
       "category_en": "Syringe"
     },
     {
@@ -524,7 +525,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%EC%9D%B815-4197%ED%98%B8&searchYn=Y",
       "category_en": "Topical foam wound dressing"
     },
     {
@@ -542,7 +543,7 @@
       "status": "active",
       "publish": true,
       "umbrella": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8814-652%ED%98%B8&searchYn=Y",
       "category_en": "Tissue-repair material",
       "umbrella_note_en": "Umbrella licence covering DIAL LINE and 23 further products",
       "umbrella_note_ko": "DIAL LINE 외 23종 포함"
@@ -561,7 +562,7 @@
       "export_only": true,
       "status": "active",
       "publish": true,
-      "lookup": "https://emedi.mfds.go.kr",
+      "lookup": "https://emedi.mfds.go.kr/search/data/MNU20237?itemNoFullname=%EC%A0%9C%ED%97%8814-550%ED%98%B8&searchYn=Y",
       "category_en": "Suture and ligature"
     },
     {
@@ -577,7 +578,8 @@
       "holder": "ООО М-ТЕХНОЛОГИЯ (local representative)",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/201443",
+      "registry_id": 201443
     },
     {
       "id": "ru-2021-14277",
@@ -591,7 +593,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/153011",
+      "registry_id": 153011
     },
     {
       "id": "ru-2022-18121",
@@ -605,7 +608,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/160449",
+      "registry_id": 160449
     },
     {
       "id": "ru-2024-22431",
@@ -621,7 +625,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/178777",
+      "registry_id": 178777
     },
     {
       "id": "ru-2024-22440",
@@ -635,7 +640,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/179226",
+      "registry_id": 179226
     },
     {
       "id": "ru-2024-22794",
@@ -649,7 +655,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/179455",
+      "registry_id": 179455
     },
     {
       "id": "ru-2025-26343",
@@ -663,7 +670,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/193144",
+      "registry_id": 193144
     },
     {
       "id": "ru-2025-26344",
@@ -677,7 +685,8 @@
       "holder": "local representative",
       "status": "active",
       "publish": true,
-      "lookup": "https://roszdravnadzor.gov.ru/services/misearch"
+      "lookup": "https://elk.roszdravnadzor.gov.ru/widget/med-product/193166",
+      "registry_id": 193166
     },
     {
       "id": "br-80781300005",
@@ -768,5 +777,11 @@
       "supply": "no",
       "basis": "no FDA device registration"
     }
-  ]
+  ],
+  "lookup_home": {
+    "KR": "https://emedi.mfds.go.kr/search/data/MNU20237",
+    "RU": "https://elk.roszdravnadzor.gov.ru/widget/",
+    "BR": "https://consultas.anvisa.gov.br",
+    "UK": "https://pard.mhra.gov.uk/manufacturer-details/32678"
+  }
 }
