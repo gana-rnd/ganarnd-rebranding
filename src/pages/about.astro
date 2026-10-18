@@ -148,12 +148,22 @@ const index = [
       <section class="blk" id="group" data-reveal>
         <p class="eyebrow"><span class="no">07</span> {a.s7Eyebrow}</p>
         <h2>{a.s7Title}</h2>
-        <div class="strip" data-reveal-stagger>
-          <div class="co here"><span class="tag mono">01</span><b>GANA R&D</b><span>{a.cardWho1} · {a.cardWho2}</span></div>
-          <div class="co"><span class="tag mono">02</span><b>GANA Cosmetic</b><span>Cosmeceuticals</span></div>
-          <div class="co"><span class="tag mono">03</span><b>Dr. Park CDMO</b><span>Viral vector manufacturing</span></div>
+        <div class="group" data-reveal-stagger>
+          <div class="umbrella">
+            {GROUP_URL
+              ? <a class="gname" href={GROUP_URL} rel="noopener"><span class="mark" aria-hidden="true"></span>Dr. Park Group <span class="arr">→</span></a>
+              : <p class="gname"><span class="mark" aria-hidden="true"></span>Dr. Park Group</p>}
+            <span class="gline" aria-hidden="true"></span>
+          </div>
+          <ul class="strip">
+            <li class="co here"><span class="tag mono">01</span><b>GANA R&D</b><span>{a.cardWho1} · {a.cardWho2}</span><span class="you">{t.nav.about}</span></li>
+            <li class="co"><a href="https://gana-cosmetics.com" rel="noopener"><span class="tag mono">02</span><b>GANA Cosmetic</b><span>Cosmeceuticals</span><span class="go">gana-cosmetics.com <span class="arr">→</span></span></a></li>
+            <li class="co"><a href="https://drpark-cdmo.com" rel="noopener"><span class="tag mono">03</span><b>Dr. Park CDMO</b><span>Viral vector manufacturing</span><span class="go">drpark-cdmo.com <span class="arr">→</span></span></a></li>
+            <li class="co"><a href="https://www.drpgt.com" rel="noopener"><span class="tag mono">04</span><b>Dr. Park Pharmaceutical</b><span>Genomic · telomere research</span><span class="go">drpgt.com <span class="arr">→</span></span></a></li>
+            <li class="co"><a href="https://www.ndpgt.com" rel="noopener"><span class="tag mono">05</span><b>NeuroDP Therapeutics</b><span>Neuro therapeutics</span><span class="go">ndpgt.com <span class="arr">→</span></span></a></li>
+          </ul>
         </div>
-        <p class="gnote">{a.s7P1} {GROUP_URL && <a class="link" href={GROUP_URL} rel="noopener">{a.s7Link} <span class="arr">→</span></a>}</p>
+        <p class="gnote">{a.s7P1}</p>
       </section>
     </div>
   </div>
@@ -244,18 +254,31 @@ const index = [
   .rail .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 2px solid var(--accent); margin: 8px 0 0 16px; box-shadow: 0 0 0 4px var(--paper); }
   .rail .d { font-size: var(--text-sm); color: var(--ink); max-width: 64ch; line-height: 1.6; }
 
-  /* 07 — 세 회사 스트립 */
-  .strip { margin-top: var(--s7); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
-  .strip .co { display: grid; gap: var(--s2); padding: var(--s6) var(--s5) var(--s6) 0; border-right: 1px solid var(--line); color: var(--ink-3); font-size: var(--text-sm); }
-  .strip .co + .co { padding-left: var(--s5); }
+  /* 07 — Dr. Park Group 우산 + 5개 회사 스트립. 그룹명이 위에 서고 수직선으로 다섯 칸에 내려온다 */
+  .group { margin-top: var(--s7); }
+  .umbrella { display: flex; flex-direction: column; align-items: flex-start; }
+  .gname { display: inline-flex; align-items: center; gap: 10px; font-size: var(--text-lg); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin: 0; }
+  .gname .mark { width: 14px; height: 14px; background: var(--ink); }
+  a.gname:hover { color: var(--accent); }
+  .gline { display: block; width: 1px; height: 28px; margin-left: 6px; background: var(--ink); }
+  .strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
+  .strip .co { display: grid; gap: var(--s2); padding: var(--s6) var(--s4) var(--s6) 0; border-right: 1px solid var(--line); color: var(--ink-3); font-size: var(--text-sm); }
+  .strip .co > a { display: grid; gap: var(--s2); color: inherit; }
+  .strip .co + .co { padding-left: var(--s4); }
   .strip .co:last-child { border-right: 0; }
-  .strip .co b { color: var(--ink); font-size: var(--text-lg); font-weight: 600; }
+  .strip .co b { color: var(--ink); font-size: var(--text-base); font-weight: 600; line-height: 1.25; }
   .strip .tag { font-size: var(--text-xs); letter-spacing: .1em; color: var(--ink-3); }
-  .strip .here { background: var(--paper-2); padding-left: var(--s5); margin-left: calc(-1 * var(--s5)); }
+  .strip .go, .strip .you { margin-top: var(--s2); font-size: var(--text-xs); letter-spacing: .04em; color: var(--accent-2); }
+  .strip .go .arr { display: inline-block; transition: transform 350ms var(--ease-out-expo); }
+  .strip .co a:hover .go .arr { transform: translateX(4px); }
+  .strip .co a:hover b { color: var(--accent); }
+  .strip .here { background: var(--paper-2); padding-left: var(--s4); margin-left: calc(-1 * var(--s4)); }
   .strip .here .tag { color: var(--accent); }
   .gnote { margin-top: var(--s6); color: var(--ink-2); max-width: 70ch; font-size: var(--text-sm); }
 
   @media (max-width: 1024px) {
+    .strip { grid-template-columns: repeat(3, 1fr); }
+    .strip .co:nth-child(3) { border-right: 0; }
     .dossier { grid-template-columns: 1fr; gap: var(--s7); }
     .toc { position: static; }
     .toc ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--s6); }
@@ -273,8 +296,8 @@ const index = [
     .rail::before { left: 20px; }
     .rail li { grid-template-columns: 1fr; gap: 4px; padding-left: 44px; position: relative; }
     .rail .dot { position: absolute; left: 16px; top: 22px; margin: 0; }
-    .strip { grid-template-columns: 1fr; }
-    .strip .co { border-right: 0; border-bottom: 1px solid var(--line); padding: var(--s5) 0; }
+    .strip { grid-template-columns: repeat(2, 1fr); }
+    .strip .co { border-right: 0; border-bottom: 1px solid var(--line); padding: var(--s5) var(--s4) var(--s5) 0; }
     .strip .co + .co { padding-left: 0; }
     .strip .here { margin-left: 0; padding-left: var(--s4); }
   }
