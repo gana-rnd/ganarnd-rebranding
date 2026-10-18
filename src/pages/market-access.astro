@@ -1,10 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf, catLabel, umbrellaNote, productName } from '../data/registry';
+import { counts, marketAccess, published, licence, gmp, eudamed, mhra, authorityName, fmtDate, countBy, scopeOf, catLabel, umbrellaNote, productName, lookupHome } from '../data/registry';
+import { productForReg } from '../data/products';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+// 등재 → 제품 상세 페이지 (products.ts에 있는 제품만 링크가 생긴다)
+const detailHref = (regId: string) => {
+  const p = productForReg(regId);
+  return p ? localizePath(`/${p.category}/${p.slug}`, lang) : null;
+};
 
 const supplyLabel: Record<string, { text: string; cls: string }> = {
   yes: { text: t.table.supplyYes, cls: 'ok' },
@@ -12,12 +18,8 @@ const supplyLabel: Record<string, { text: string; cls: string }> = {
   no: { text: t.table.supplyNo, cls: 'warn' },
 };
 const byJurisdiction = countBy(published, 'jurisdiction');
-const lookupUrl: Record<string, string> = {
-  KR: 'https://emedi.mfds.go.kr',
-  RU: 'https://roszdravnadzor.gov.ru/services/misearch',
-  BR: 'https://consultas.anvisa.gov.br',
-  UK: 'https://pard.mhra.gov.uk/manufacturer-details/32678',
-};
+// 기관별 입구는 registrations.json lookup_home, 등재별 딥링크는 각 등재의 lookup
+const lookupUrl: Record<string, string> = lookupHome;
 ---
 
 <Base title={t.nav.marketAccess} description={t.meta.marketAccess}>
@@ -91,20 +93,22 @@ const lookupUrl: Record<string, string> = {
           </div>
           <div class="table-wrap">
             <table class="table">
-              <thead><tr><th>{t.table.registration}</th><th>{t.table.product}</th><th>{t.table.category}</th><th>{t.table.granted}</th><th>{t.table.scopeClass}</th></tr></thead>
+              <thead><tr><th>{t.table.registration}</th><th>{t.table.product}</th><th>{t.table.category}</th><th>{t.table.granted}</th><th>{t.table.scopeClass}</th><th>{t.product.verify}</th></tr></thead>
               <tbody>
                 {items.map((r) => (
                   <tr>
                     <td class="mono">{r.number}</td>
-                    <td>{productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                    <td>{detailHref(r.id) ? <a class="plink" href={detailHref(r.id)!}>{productName(r, t.table.partnerBrand)}<span class="arr" aria-hidden="true">→</span></a> : productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
                     <td>{catLabel(r, lang)}</td>
                     <td>{fmtDate(r.date, lang)}{r.valid_to ? ` — ${t.table.to} ${fmtDate(r.valid_to, lang)}` : r.term === 'indefinite' ? ` — ${t.table.indefinite}` : ''}</td>
                     <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? tpl(t.table.classFmt, { c: r.class }) : null].filter(Boolean).join(' · ')}</td>
+                    <td>{r.lookup ? <a class="link" href={r.lookup} rel="noopener" target="_blank">{t.product.register}<span class="arr">→</span></a> : '—'}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          {jur === 'RU' && <p class="small muted regnote">{t.product.ruCertNote}</p>}
         </div>
       );
     })}
@@ -142,5 +146,10 @@ const lookupUrl: Record<string, string> = {
   .group { display: grid; grid-template-columns: minmax(180px, .32fr) minmax(0, 1.68fr); gap: clamp(32px, 6vw, 92px); margin-bottom: var(--s9); padding-top: var(--s6); border-top: 1px solid var(--line-strong); }
   .group-head { position: sticky; top: 110px; align-self: start; display: grid; gap: var(--s4); }
   .group-head h3 { color: var(--ink); }
-  @media (max-width: 780px) { .prose, .group { grid-template-columns: 1fr; } .prose .btn { grid-column: 1; grid-row: auto; } .group-head { position: static; } }
+  .group .regnote { grid-column: 2; max-width: 72ch; margin-top: var(--s4); }
+  .plink { font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; transition: border-color 220ms var(--ease), color 220ms var(--ease); }
+  .plink:hover { color: var(--accent-2); border-color: var(--accent); }
+  .plink .arr { display: inline-block; margin-left: 5px; color: var(--accent-2); transition: transform 300ms var(--ease-out-expo); }
+  .plink:hover .arr { transform: translateX(4px); }
+  @media (max-width: 780px) { .prose, .group { grid-template-columns: 1fr; } .group .regnote { grid-column: 1; } .prose .btn { grid-column: 1; grid-row: auto; } .group-head { position: static; } }
 </style>

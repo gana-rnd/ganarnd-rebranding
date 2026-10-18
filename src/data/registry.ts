@@ -9,6 +9,9 @@ export const marketAccess = data.market_access as Reg[];
 
 export const all: Reg[] = data.registrations as Reg[];
 
+/** 기관별 공개 레지스트리 입구 (등재별 딥링크는 각 등재의 lookup) */
+export const lookupHome: Record<string, string> = ((data as Record<string, any>).lookup_home ?? {}) as Record<string, string>;
+
 /** 사이트에 게시 가능한 등재: publish=true 이고 status=active 인 것만 */
 export const published: Reg[] = all.filter((r) => r.publish === true && r.status === 'active');
 
