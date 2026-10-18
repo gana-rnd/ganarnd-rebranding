@@ -1,0 +1,13 @@
+---
+// 창상 제품 상세 — 본문은 components/ProductPage.astro, 데이터는 data/products.ts (category: 'wound-care')
+import ProductPage from '../../components/ProductPage.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+  return products.filter((x) => x.category === 'wound-care').map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+const { product } = Astro.props;
+---
+
+<ProductPage product={product} />

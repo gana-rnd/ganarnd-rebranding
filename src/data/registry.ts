@@ -46,6 +46,9 @@ export const counts = {
 export const surface = published.filter((r) => r.depth === 'surface');
 export const tissue = published.filter((r) => r.depth === 'tissue');
 
+/** 성분 계열 표시명 — 표 그룹 제목과 제품 상세(products.ts family)가 같이 쓴다 */
+export const chemistryName: Record<string, string> = { HA: 'Hyaluronic acid', PLLA: 'PLLA', PCL: 'PCL', calcium: 'Calcium', 'PN/PDRN': 'PN / PDRN', hydrogel: 'Hydrogel wound dressing', Other: 'Other tissue-repair materials' };
+
 /** 성분 계열별 묶음 (표면 제품). chemistry 미확인은 'Other'로 */
 export function chemistryGroups(list: Reg[]): { name: string; items: Reg[] }[] {
   const order = ['HA', 'PLLA', 'PCL', 'calcium', 'PN/PDRN'];
@@ -55,8 +58,7 @@ export function chemistryGroups(list: Reg[]): { name: string; items: Reg[] }[] {
     const key = order.find((o) => c.toLowerCase().startsWith(o.toLowerCase())) ?? 'Other';
     (groups[key] ??= []).push(r);
   }
-  const named: Record<string, string> = { HA: 'Hyaluronic acid', PLLA: 'PLLA', PCL: 'PCL', calcium: 'Calcium', 'PN/PDRN': 'PN / PDRN', Other: 'Other tissue-repair materials' };
-  return [...order, 'Other'].filter((k) => groups[k]).map((k) => ({ name: named[k], items: groups[k] }));
+  return [...order, 'Other'].filter((k) => groups[k]).map((k) => ({ name: chemistryName[k], items: groups[k] }));
 }
 
 export const gmp = credentials.find((c) => c.id === 'mfds-gmp')!;

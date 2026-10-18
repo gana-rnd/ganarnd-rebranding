@@ -1,11 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import { surface, chemistryGroups, authorityName, fmtDate, scopeOf, umbrellaNote, byId, productName } from '../data/registry';
+import { productForReg } from '../data/products';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const groups = chemistryGroups(surface);
+// 등재 → 제품 상세 페이지 (products.ts에 있는 제품만 링크가 생긴다)
+const detailHref = (regId: string) => {
+  const p = productForReg(regId);
+  return p ? localizePath(`/aesthetics/${p.slug}`, lang) : null;
+};
 
 // 성분 계열별 대표 허가 제품 팩샷(2021 카탈로그 실물, 상자 표기 = 등재 품목명). 등재가 게시에서 빠지면 카드도 빠진다.
 // GANA PH는 KR 등재명에 위탁 브랜드(Belviso)가 붙어 있어 같은 제품의 RU 등재로 연결한다.
@@ -44,19 +50,23 @@ const lineup = [
     <div class="section-head" data-reveal>
       <p class="eyebrow"><span class="no">02</span> {t.aesthetics.s2Eyebrow}</p>
       <h2>{t.aesthetics.s2Title}</h2>
-      <p class="lead">{t.aesthetics.s2Lead}</p>
+      <p class="lead">{t.aesthetics.s2Lead} {t.aesthetics.openHint}</p>
     </div>
 
     <ul class="lineup" data-reveal-stagger>
-      {lineup.map((l) => (
-        <li>
-          <div class="shot"><img src={l.img} alt={l.alt} loading="lazy" /></div>
-          <p class="chem">{l.group}</p>
-          <p class="name">{productName(l.reg!, t.table.partnerBrand)}</p>
-          <p class="reg mono">{authorityName[l.reg!.jurisdiction]} {l.reg!.number}</p>
-          <p class="where">{t.jurisdictions[l.reg!.jurisdiction as keyof typeof t.jurisdictions] ?? l.reg!.jurisdiction}</p>
-        </li>
-      ))}
+      {lineup.map((l) => {
+        const href = detailHref(l.id);
+        const card = (
+          <>
+            <div class="shot"><img src={l.img} alt={l.alt} loading="lazy" /></div>
+            <p class="chem">{l.group}</p>
+            <p class="name">{productName(l.reg!, t.table.partnerBrand)}{href ? <span class="arr" aria-hidden="true">→</span> : null}</p>
+            <p class="reg mono">{authorityName[l.reg!.jurisdiction]} {l.reg!.number}</p>
+            <p class="where">{t.jurisdictions[l.reg!.jurisdiction as keyof typeof t.jurisdictions] ?? l.reg!.jurisdiction}</p>
+          </>
+        );
+        return <li>{href ? <a class="card-link" href={href}>{card}</a> : card}</li>;
+      })}
     </ul>
 
     {groups.map((g) => (
@@ -68,7 +78,7 @@ const lineup = [
             <tbody>
               {g.items.map((r) => (
                 <tr>
-                  <td>{productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                  <td>{detailHref(r.id) ? <a class="plink" href={detailHref(r.id)!}>{productName(r, t.table.partnerBrand)}<span class="arr" aria-hidden="true">→</span></a> : productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
                   <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
                   <td class="mono">{r.number}</td>
                   <td>{fmtDate(r.date, lang)}</td>
@@ -109,6 +119,13 @@ const lineup = [
   .lineup .name { margin-top: var(--s1); font-weight: 600; color: var(--ink); }
   .lineup .reg { margin-top: var(--s2); font-size: var(--text-xs); color: var(--ink-2); }
   .lineup .where { font-size: var(--text-xs); color: var(--ink-3); }
+  .lineup .card-link { display: block; height: 100%; }
+  .lineup .name .arr { display: inline-block; margin-left: 6px; color: var(--accent-2); transition: transform 300ms var(--ease-out-expo); }
+  .lineup li:hover .name .arr { transform: translateX(4px); }
+  .plink { font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; transition: border-color 220ms var(--ease), color 220ms var(--ease); }
+  .plink:hover { color: var(--accent-2); border-color: var(--accent); }
+  .plink .arr { display: inline-block; margin-left: 5px; color: var(--accent-2); transition: transform 300ms var(--ease-out-expo); }
+  .plink:hover .arr { transform: translateX(4px); }
   .group { display: grid; grid-template-columns: minmax(150px, .28fr) minmax(0, 1.72fr); gap: clamp(32px, 6vw, 92px); margin-bottom: var(--s9); padding-top: var(--s6); border-top: 1px solid var(--line-strong); }
   .group h3 { position: sticky; top: 110px; align-self: start; color: var(--ink); }
   @media (max-width: 1024px) { .lineup { grid-template-columns: repeat(3, minmax(0, 1fr)); } .lineup li:nth-child(3) { border-right: 0; } }

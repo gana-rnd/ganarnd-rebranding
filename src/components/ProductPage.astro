@@ -1,0 +1,260 @@
+---
+// 제품 상세 본문 — /aesthetics/[slug] 와 /wound-care/[slug] 두 라우트가 같이 쓴다.
+// 데이터는 src/data/products.ts, 등재 표는 registrations.json에서 그때그때 계산한다.
+import { products, type Product } from '../data/products';
+import { byId, authorityName, fmtDate, scopeOf, productName, umbrellaNote, licence, gmp, manufacturer, chemistryName, type Reg } from '../data/registry';
+import { getLangFromUrl, useTranslations, localizePath, tpl } from '../i18n/utils';
+import Base from '../layouts/Base.astro';
+
+interface Props { product: Product }
+const { product } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = t.product;
+const isWound = product.category === 'wound-care';
+const listPath = isWound ? '/wound-care' : '/aesthetics';
+const listLabel = isWound ? t.nav.woundCare : t.nav.aesthetics;
+const backLabel = isWound ? t.nav.woundCare : p.back;
+const family = chemistryName[product.family];
+const regs = product.regIds.map(byId).filter(Boolean) as Reg[];
+const jurisdictions = [...new Set(regs.map((r) => r.jurisdiction as string))]
+  .map((j) => t.jurisdictions[j as keyof typeof t.jurisdictions] ?? j)
+  .join(' · ');
+const others = products.filter((x) => x.category === product.category && x.slug !== product.slug);
+const scopeLabel = (r: Reg) =>
+  scopeOf(r) === 'export' ? t.table['export'] : scopeOf(r) === 'domestic' ? t.table.domesticApproval : r.class ? tpl(t.table.classFmt, { c: r.class }) : '—';
+const description = tpl(p.metaFmt, { name: product.name, sub: product.subtitle });
+const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const productLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  description: product.summary,
+  image: `${siteBase}${product.image}`,
+  category: isWound ? 'Wound dressing' : 'Dermal filler',
+  brand: { '@type': 'Brand', name: 'GANA R&D' },
+  manufacturer: { '@type': 'Organization', name: manufacturer.legal_name_en },
+});
+const hlIndex = (head: string[]) => head.findIndex((h) => h.toLowerCase().startsWith(product.name.toLowerCase()));
+---
+
+<Base title={product.name} description={description}>
+  <script is:inline type="application/ld+json" set:html={productLd} />
+
+  <header class="container page-head">
+    <p class="ph-eyebrow hero-fade d1"><a href={localizePath(listPath, lang)}>{listLabel}</a><span class="sep">·</span><span>{family}</span></p>
+    <h1><span class="hero-line"><span>{product.name}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{product.summary}</p>
+  </header>
+
+  <section class="container section">
+    <div class="split glance">
+      <div class="text" data-reveal-stagger>
+        <p class="eyebrow"><span class="no">01</span> {p.glanceEyebrow}</p>
+        <p class="lead">{product.subtitle}</p>
+        <ul class="kv">
+          <li><span class="k">{p.presentation}</span><span>{product.presentation}</span></li>
+          <li><span class="k">{p.composition}</span><ul class="plain">{product.composition.map((c) => <li>{c}</li>)}</ul></li>
+          <li><span class="k">{p.chemistry}</span><span>{family}</span></li>
+          <li><span class="k">{p.registrations}</span><span>{regs.length ? tpl(p.registrationsFmt, { n: regs.length, j: jurisdictions }) : '—'}</span></li>
+          <li><span class="k">{p.catalogue}</span><span>{tpl(p.cataloguePagesFmt, { p: product.cataloguePages })}</span></li>
+        </ul>
+        {lang !== 'en' && <p class="small muted">{p.englishNote}</p>}
+        <a class="btn" href={localizePath('/contact', lang)}>{p.ctaBtn}</a>
+      </div>
+      <div class="visual pk zoom-hover" data-reveal="right"><img src={product.image} alt={product.imageAlt} /></div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">02</span> {p.regsEyebrow}</p>
+      <h2>{p.regsTitle}</h2>
+      <p class="lead">{p.regsLead}</p>
+    </div>
+
+    {regs.length > 0 && (
+      <div class="table-wrap" data-reveal>
+        <table class="table stack">
+          <thead><tr><th>{p.asRegistered}</th><th>{t.table.jurisdiction}</th><th>{t.table.registration}</th><th>{t.table.granted}</th><th>{t.table.scope}</th><th>{p.verify}</th></tr></thead>
+          <tbody>
+            {regs.map((r) => (
+              <tr>
+                <td>{productName(r, t.table.partnerBrand)}{umbrellaNote(r, lang) ? <span class="muted small"> — {umbrellaNote(r, lang)}</span> : null}</td>
+                <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
+                <td class="mono">{r.number}</td>
+                <td>{fmtDate(r.date, lang)}</td>
+                <td>{scopeLabel(r)}</td>
+                <td>{r.lookup ? <a class="link" href={r.lookup} rel="noopener" target="_blank">{p.register}<span class="arr">→</span></a> : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+
+    <div class="mfr" data-reveal>
+      <h3>{p.mfrTitle}</h3>
+      <ul class="kv">
+        <li><span class="k">{p.licenceK}</span><span>{manufacturer.legal_name_en} · MFDS {licence.number} · <a class="link" href={licence.lookup} rel="noopener" target="_blank">{p.register}<span class="arr">→</span></a></span></li>
+        <li><span class="k">{p.gmpK}</span><span class="mono">{gmp.number} · {t.table.validTo} {fmtDate(gmp.valid_to, lang)}</span></li>
+        <li><span class="k">{p.siteK}</span><span>{t.home.cred6v}</span></li>
+        {product.patents?.length ? (
+          <li><span class="k">{p.patentsK}</span><ul class="plain">{product.patents.map((pt) => <li><span class="mono">{pt.number}</span> — {pt.title} ({pt.holder}){pt.link ? <> · <a class="link" href={pt.link} rel="noopener" target="_blank">{p.register}</a></> : null}</li>)}</ul></li>
+        ) : null}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">03</span> {p.detailEyebrow}</p>
+      <h2>{p.detailTitle}</h2>
+      <p class="lead">{p.detailLead}</p>
+    </div>
+
+    {product.sections.map((s) => (
+      <div class="cat" data-reveal>
+        <h3>{s.title}</h3>
+        <div class="body">
+          {s.blocks.map((b) =>
+            b.type === 'p' ? <p>{b.text}</p>
+            : b.type === 'ul' ? <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+            : b.type === 'ol' ? <ol>{b.items.map((i) => <li>{i}</li>)}</ol>
+            : b.type === 'kv' ? <ul class="kv tight">{b.items.map(([k, v]) => <li><span class="k">{k}</span><span>{v}</span></li>)}</ul>
+            : (
+              <div class="table-wrap">
+                <table class="table cmp">
+                  {b.caption && <caption>{b.caption}</caption>}
+                  <thead><tr>{b.head.map((h, i) => <th class={i === hlIndex(b.head) ? 'hl' : undefined}>{h}</th>)}</tr></thead>
+                  <tbody>
+                    {b.rows.map((row) => (
+                      <tr>{row.map((c, i) => i === 0 ? <th scope="row">{c}</th> : <td class={i === hlIndex(b.head) ? 'hl' : undefined}>{c}</td>)}</tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    ))}
+
+    {(product.dose || product.precautions) && (
+      <div class="notes" data-reveal-stagger>
+        {product.dose && (
+          <div class="note">
+            <h4>{p.dose}</h4>
+            <ul>{product.dose.map((d) => <li>{d}</li>)}</ul>
+          </div>
+        )}
+        {product.precautions && (
+          <div class="note warn">
+            <h4>{p.precautions}</h4>
+            <ul>{product.precautions.map((d) => <li>{d}</li>)}</ul>
+          </div>
+        )}
+      </div>
+    )}
+  </section>
+
+  {others.length > 0 && (
+    <section class="container section">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow"><span class="no">04</span> {p.othersEyebrow}</p>
+        <h2>{p.othersTitle}</h2>
+      </div>
+      <ul class="others" data-reveal-stagger>
+        {others.map((o) => (
+          <li>
+            <a href={localizePath(`${listPath}/${o.slug}`, lang)}>
+              <div class="shot"><img src={o.image} alt={o.imageAlt} loading="lazy" /></div>
+              <p class="chem">{chemistryName[o.family]}</p>
+              <p class="name">{o.name}</p>
+              <p class="sub">{o.subtitle}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p style="margin-top: var(--s6)"><a class="link" href={localizePath(listPath, lang)}>{backLabel}<span class="arr">→</span></a></p>
+    </section>
+  )}
+  {others.length === 0 && (
+    <section class="container section tight">
+      <p><a class="link" href={localizePath(listPath, lang)}>{backLabel}<span class="arr">→</span></a></p>
+    </section>
+  )}
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{p.ctaTitle}</h2>
+        <p>{p.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{p.ctaBtn}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head .ph-eyebrow a { border-bottom: 1px solid transparent; transition: border-color 220ms var(--ease); }
+  .page-head .ph-eyebrow a:hover { border-color: var(--accent); }
+  .page-head .ph-eyebrow .sep { margin-inline: 2px; }
+
+  .glance .text { max-width: 620px; }
+  .glance .kv li { grid-template-columns: minmax(120px, 160px) 1fr; padding: 16px 0; }
+  .glance .kv .k { padding-top: 3px; }
+  .plain { list-style: none; }
+  .kv .plain li { display: block; padding: 0; border: 0; }
+  .plain li + li { margin-top: 6px; }
+  .pk { aspect-ratio: 5 / 4; min-height: 0; background: #eaf1f6; }
+  .pk img { object-fit: cover; }
+
+  .mfr { margin-top: var(--s8); padding-top: var(--s6); border-top: 1px solid var(--line-strong); display: grid; grid-template-columns: minmax(150px, .28fr) minmax(0, 1.72fr); gap: clamp(32px, 6vw, 92px); }
+  .mfr h3 { color: var(--ink); }
+  .mfr .kv { border-top: 1px solid var(--ink); }
+
+  .cat { display: grid; grid-template-columns: minmax(150px, .28fr) minmax(0, 1.72fr); gap: clamp(32px, 6vw, 92px); padding-top: var(--s6); margin-bottom: var(--s8); border-top: 1px solid var(--line-strong); }
+  .cat h3 { position: sticky; top: 110px; align-self: start; color: var(--ink); }
+  .cat .body > * + * { margin-top: var(--s5); }
+  .cat p { color: var(--ink-2); }
+  .cat ul, .cat ol { padding-left: 1.25em; color: var(--ink-2); line-height: 1.6; }
+  .cat li + li { margin-top: 8px; }
+  .cat li::marker { color: var(--accent-2); font-weight: 600; }
+  .cat .kv.tight { border-top: 1px solid var(--ink); padding-left: 0; }
+  .cat .kv.tight li { grid-template-columns: minmax(140px, 200px) 1fr; padding: 12px 0; margin: 0; }
+  .cat .kv.tight li::marker { content: ''; }
+  .cat .table { min-width: 560px; }
+  .cat .table caption { caption-side: top; text-align: left; padding: 0 0 12px; font-size: var(--text-sm); font-weight: 600; color: var(--ink); }
+  .cat .table th[scope='row'] { text-align: left; font-size: var(--text-sm); font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink); background: transparent; border-bottom: 1px solid var(--line); padding: 14px 12px 14px 0; vertical-align: top; }
+  .cat .table td { padding: 14px 12px; color: var(--ink-2); }
+  .cat .table th.hl, .cat .table td.hl { background: var(--accent-soft); color: var(--ink); }
+  .cat .table thead th.hl { color: var(--accent-2); }
+
+  .notes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-top: var(--s4); }
+  .note { padding: var(--s6); border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
+  .note.warn { border-left: 3px solid var(--accent); }
+  .note h4 { margin-bottom: var(--s3); font-size: var(--text-base); }
+  .note ul { padding-left: 1.2em; font-size: var(--text-sm); color: var(--ink-2); line-height: 1.6; }
+  .note li + li { margin-top: 6px; }
+
+  .others { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s4); }
+  .others a { display: block; height: 100%; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; transition: transform 300ms var(--ease-out-expo), border-color 220ms var(--ease); }
+  .others a:hover { transform: translateY(-3px); border-color: var(--line-strong); }
+  .others .shot { aspect-ratio: 5 / 4; overflow: hidden; border-radius: var(--radius-sm); background: #eaf1f6; }
+  .others .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ease-out-expo); }
+  .others a:hover .shot img { transform: scale(1.03); }
+  .others p { margin: 0; }
+  .others .chem { margin-top: var(--s3); font-size: var(--text-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); }
+  .others .name { margin-top: 2px; font-weight: 600; color: var(--ink); }
+  .others .sub { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.4; }
+
+  @media (max-width: 1024px) { .others { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 780px) {
+    .cat, .mfr { grid-template-columns: 1fr; gap: var(--s4); }
+    .cat h3 { position: static; }
+    .notes { grid-template-columns: 1fr; }
+    .glance .kv li { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>

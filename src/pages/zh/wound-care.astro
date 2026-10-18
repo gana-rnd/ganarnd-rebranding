@@ -1,10 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { tissue, authorityName, fmtDate, scopeOf, catLabel, productName } from '../../data/registry';
+import { productForReg } from '../../data/products';
 import { getLangFromUrl, useTranslations, localizePath, tpl } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+// 등재 → 제품 상세 페이지 (products.ts에 있는 제품만 링크가 생긴다)
+const detailHref = (regId: string) => {
+  const p = productForReg(regId);
+  return p ? localizePath(`/wound-care/${p.slug}`, lang) : null;
+};
+const patchHref = detailHref('kr-20-4997');
 ---
 
 <Base title={t.nav.woundCare} description={t.meta.woundCare}>
@@ -23,9 +30,13 @@ const t = useTranslations(lang);
         <p class="eyebrow"><span class="no">01</span> {t.woundCare.s1Eyebrow}</p>
         <p>{t.woundCare.s1P1}</p>
         <p>{t.woundCare.s1P2}</p>
-        <a class="btn" href={localizePath('/contact', lang)}>{t.woundCare.s1Cta}</a>
+        <p class="actions"><a class="btn" href={localizePath('/contact', lang)}>{t.woundCare.s1Cta}</a>{patchHref ? <a class="link" href={patchHref}>GANA PATCH · {t.product.detailTitle}<span class="arr">→</span></a> : null}</p>
       </div>
-      <div class="visual contain packshot zoom-hover" data-reveal="right"><img src="/images/gana-patch-packshot.webp" alt="GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D" /></div>
+      <div class="visual contain packshot zoom-hover" data-reveal="right">
+        {patchHref
+          ? <a href={patchHref} aria-label="GANA PATCH product details"><img src="/images/gana-patch-packshot.webp" alt="GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D" /></a>
+          : <img src="/images/gana-patch-packshot.webp" alt="GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D" />}
+      </div>
     </div>
   </section>
 
@@ -33,6 +44,7 @@ const t = useTranslations(lang);
     <div class="section-head" data-reveal>
       <p class="eyebrow"><span class="no">02</span> {t.woundCare.s2Eyebrow}</p>
       <h2>{t.woundCare.s2Title}</h2>
+      <p class="lead">{t.aesthetics.openHint}</p>
     </div>
     <div class="table-wrap" data-reveal>
       <table class="table">
@@ -40,7 +52,7 @@ const t = useTranslations(lang);
         <tbody>
           {tissue.map((r) => (
             <tr>
-              <td>{productName(r, t.table.partnerBrand)}</td>
+              <td>{detailHref(r.id) ? <a class="plink" href={detailHref(r.id)!}>{productName(r, t.table.partnerBrand)}<span class="arr" aria-hidden="true">→</span></a> : productName(r, t.table.partnerBrand)}</td>
               <td>{catLabel(r, lang)}</td>
               <td>{t.jurisdictions[r.jurisdiction as keyof typeof t.jurisdictions] ?? r.jurisdiction} · {authorityName[r.jurisdiction]}</td>
               <td class="mono">{r.number}</td>
@@ -69,4 +81,11 @@ const t = useTranslations(lang);
   .split .visual.contain.packshot { background: linear-gradient(145deg, #fff 0%, var(--paper-2) 100%); }
   .split .visual.contain.packshot img { padding: 0; transition: transform 600ms var(--ease-out-expo); }
   .split .visual.contain.packshot:hover img { transform: scale(1.025); }
+  .split .visual.contain.packshot a { display: block; width: 100%; height: 100%; }
+  .actions { display: flex; align-items: center; gap: var(--s5); flex-wrap: wrap; }
+  .plink { font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; transition: border-color 220ms var(--ease), color 220ms var(--ease); }
+  .plink:hover { color: var(--accent-2); border-color: var(--accent); }
+  .plink .arr { display: inline-block; margin-left: 5px; color: var(--accent-2); transition: transform 300ms var(--ease-out-expo); }
+  .plink:hover .arr { transform: translateX(4px); }
+  @media (max-width: 640px) { .actions { flex-direction: column; align-items: stretch; } .actions .link { align-self: flex-start; } }
 </style>
