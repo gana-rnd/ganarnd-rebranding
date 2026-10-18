@@ -1,6 +1,6 @@
 ---
-// About — "회사 소개"가 아니라 제조자 신원 확인 페이지. 등록증의 제조자명을 보고 들어온 바이어·규제 담당자가 "이 회사가 맞나"를 확인하는 자리.
-// 구성: 법인 신원 → 무엇을 만드는가 → 자격 4건(공개 조회 링크) → 제조소 사진 → 창업자 → 연혁 → Dr. Park Group 관계 → CTA
+// About — "회사 소개"가 아니라 제조자 신원 확인 페이지. 레이아웃은 다른 페이지(스플릿·kv 반복)와 다르게 "제조자 파일(dossier)" 형식:
+//   히어로 = 허가번호를 디스플레이 타이포로 세운 신원 카드 → 왼쪽 고정 목차 + 오른쪽 본문(사진 띠·자격 카드 그리드·연혁 레일·세 회사 스트립)
 // 금지: 비전·미션 문구, 효능 주장, 시술 전후 사진, 생산능력 수치(회장 결정 전), "Since 2013", KoraVie 2건, 기업집단·자회사 표현.
 import Base from '../../layouts/Base.astro';
 import PhotoSlot from '../../components/PhotoSlot.astro';
@@ -11,137 +11,153 @@ import { GROUP_URL } from '../../config';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const a = t.about;
+const since = licence.since.slice(0, 4);
+const creds = [
+  { k: t.mfr.licenceK, v: tpl(t.mfr.licenceV, { n: licence.number, y: since }), n: licence.number, href: licence.lookup, link: t.mfr.licenceLink, auth: 'MFDS' },
+  { k: t.mfr.gmpK, v: tpl(t.mfr.gmpV, { n: gmp.number }), n: gmp.number, href: gmp.lookup, link: t.mfr.gmpLink, auth: 'MFDS · KCL' },
+  { k: t.mfr.eudamedK, v: tpl(t.mfr.eudamedV, { n: eudamed.number }), n: eudamed.number, href: eudamed.lookup, link: t.mfr.eudamedLink, auth: 'EUDAMED' },
+  { k: t.mfr.mhraK, v: tpl(t.mfr.mhraV, { n: mhra.number }), n: mhra.number, href: mhra.lookup, link: t.mfr.mhraLink, auth: 'MHRA' },
+];
+const index = [
+  ['entity', a.s1Eyebrow], ['makes', a.s2Eyebrow], ['record', a.s3Eyebrow], ['site', a.s4Eyebrow],
+  ['founder', a.s5Eyebrow], ['timeline', a.s6Eyebrow], ['group', a.s7Eyebrow],
+];
 ---
 
 <Base title={t.nav.about} description={t.meta.about}>
-  <header class="container page-head">
-    <p class="ph-eyebrow hero-fade d1">{a.eyebrow}</p>
-    <h1><span class="hero-line"><span>{a.title}</span></span></h1>
-    <p class="ph-sub hero-fade d2">{a.sub}</p>
+  <!-- 신원 카드 히어로 — 허가번호가 주인공. 왼쪽 번호, 오른쪽 법인·주소. 아래로 공장 사진 띠가 이어진다 -->
+  <header class="id-hero">
+    <div class="container id-grid">
+      <div class="id-left">
+        <p class="ph-eyebrow hero-fade d1">{a.eyebrow}</p>
+        <p class="id-k hero-fade d1">{t.mfr.licenceK}</p>
+        <p class="id-no hero-line"><span>{licence.number}</span></p>
+        <p class="id-since hero-fade d2">{tpl(t.mfr.licenceV, { n: '', y: since }).replace(/^\s*[—-]\s*/, '')}</p>
+      </div>
+      <div class="id-right hero-fade d2">
+        <h1>{a.title}</h1>
+        <p class="id-sub">{a.sub}</p>
+        <dl class="id-card">
+          <div><dt>{a.idK1}</dt><dd>{a.idV1}</dd></div>
+          <div><dt>{a.idK2}</dt><dd>{a.idV2}</dd></div>
+          <div><dt>{a.idK3}</dt><dd><a class="mono" href="tel:+82317330242">+82-31-733-0242</a></dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="id-band hero-fade d3">
+      <PhotoSlot src="/images/manufacturing-line-direction.webp" ratio="21 / 7" alt="Vial filling line inside the GANA R&D cleanroom in Seongnam" note="제조소 외관 또는 안내판 와이드 컷 — 2026-10-12 촬영분(재촬영: 외관·안내판)으로 교체" />
+    </div>
   </header>
 
-  <!-- 01 법인 신원 -->
-  <section class="container section" id="entity">
-    <div class="split">
-      <div class="text" data-reveal-stagger>
+  <!-- 도시에: 왼쪽 고정 목차, 오른쪽 본문 -->
+  <div class="container dossier">
+    <nav class="toc" aria-label="On this page">
+      <ol>
+        {index.map(([id, label], i) => (
+          <li><a href={'#' + id}><span class="n mono">{String(i + 1).padStart(2, '0')}</span><span>{label}</span></a></li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="body">
+      <!-- 01 법인 -->
+      <section class="blk" id="entity" data-reveal>
         <p class="eyebrow"><span class="no">01</span> {a.s1Eyebrow}</p>
         <h2>{a.s1Title}</h2>
-        <p>{tpl(a.s1P1, { n: licence.number, y: licence.since.slice(0, 4) })}</p>
-        <p>{a.s1P2}</p>
-      </div>
-      <div data-reveal="right">
-        <PhotoSlot
-          src="/images/manufacturing-line-direction.webp"
-          alt="Vial filling line inside the GANA R&D cleanroom in Seongnam"
-          note="제조소 외관 또는 안내판 컷 — 2026-10-12 촬영분(재촬영: 외관·안내판)으로 교체"
-        />
-      </div>
-    </div>
-    <ul class="kv" data-reveal-stagger>
-      <li><span class="k">{a.idK1}</span><span>{a.idV1}</span></li>
-      <li><span class="k">{a.idK2}</span><span>{a.idV2}</span></li>
-      <li><span class="k">{a.idK3}</span><span><a class="mono" href="tel:+82317330242">+82-31-733-0242</a></span></li>
-    </ul>
-  </section>
+        <div class="prose">
+          <p>{tpl(a.s1P1, { n: licence.number, y: since })}</p>
+          <p>{a.s1P2}</p>
+        </div>
+      </section>
 
-  <!-- 02 무엇을 만드는가 -->
-  <section class="container section tight alt-wrap" id="makes">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">02</span> {a.s2Eyebrow}</p>
-      <h2>{a.s2Title}</h2>
-      <p class="lead">{a.s2P1}</p>
-      <p class="lead">{a.s2P2}</p>
-    </div>
-    <div class="cards" data-reveal-stagger>
-      <a class="card go" href={localizePath('/aesthetics', lang)}>
-        <p class="who">{a.cardWho1}</p>
-        <h3>{t.nav.aesthetics}</h3>
-        <p>{a.card1}</p>
-        <span class="link">{a.cardGo} <span class="arr">→</span></span>
-      </a>
-      <a class="card go" href={localizePath('/wound-care', lang)}>
-        <p class="who">{a.cardWho2}</p>
-        <h3>{t.nav.woundCare}</h3>
-        <p>{a.card2}</p>
-        <span class="link">{a.cardGo} <span class="arr">→</span></span>
-      </a>
-      <a class="card go" href={localizePath('/co-development', lang)}>
-        <p class="who">{a.cardWho3}</p>
-        <h3>{t.nav.coDevelopment}</h3>
-        <p>{a.card3}</p>
-        <span class="link">{a.cardGo} <span class="arr">→</span></span>
-      </a>
-    </div>
-  </section>
+      <!-- 02 무엇을 만드는가 — 세 줄 목록, 각 줄이 페이지로 가는 링크 -->
+      <section class="blk" id="makes" data-reveal>
+        <p class="eyebrow"><span class="no">02</span> {a.s2Eyebrow}</p>
+        <h2>{a.s2Title}</h2>
+        <div class="prose">
+          <p>{a.s2P1}</p>
+          <p>{a.s2P2}</p>
+        </div>
+        <ul class="lines" data-reveal-stagger>
+          <li><a href={localizePath('/aesthetics', lang)}><span class="who">{a.cardWho1}</span><span class="what"><b>{t.nav.aesthetics}</b> {a.card1}</span><span class="arr">→</span></a></li>
+          <li><a href={localizePath('/wound-care', lang)}><span class="who">{a.cardWho2}</span><span class="what"><b>{t.nav.woundCare}</b> {a.card2}</span><span class="arr">→</span></a></li>
+          <li><a href={localizePath('/co-development', lang)}><span class="who">{a.cardWho3}</span><span class="what"><b>{t.nav.coDevelopment}</b> {a.card3}</span><span class="arr">→</span></a></li>
+        </ul>
+      </section>
 
-  <!-- 03 자격 — 공개 조회 링크 -->
-  <section class="container section tight" id="record">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">03</span> {a.s3Eyebrow}</p>
-      <h2>{a.s3Title}</h2>
-      <p class="lead">{a.s3Lead}</p>
-    </div>
-    <ul class="kv creds" data-reveal-stagger>
-      <li><span class="k">{t.mfr.licenceK}</span><span>{tpl(t.mfr.licenceV, { n: licence.number, y: licence.since.slice(0, 4) })} <a class="link" href={licence.lookup} rel="noopener">{t.mfr.licenceLink} <span class="arr">→</span></a></span></li>
-      <li><span class="k">{t.mfr.gmpK}</span><span>{tpl(t.mfr.gmpV, { n: gmp.number })} <a class="link" href={gmp.lookup} rel="noopener">{t.mfr.gmpLink} <span class="arr">→</span></a></span></li>
-      <li><span class="k">{t.mfr.eudamedK}</span><span>{tpl(t.mfr.eudamedV, { n: eudamed.number })} <a class="link" href={eudamed.lookup} rel="noopener">{t.mfr.eudamedLink} <span class="arr">→</span></a></span></li>
-      <li><span class="k">{t.mfr.mhraK}</span><span>{tpl(t.mfr.mhraV, { n: mhra.number })} <a class="link" href={mhra.lookup} rel="noopener">{t.mfr.mhraLink} <span class="arr">→</span></a></span></li>
-      <li><span class="k">{a.regsK}</span><span>{tpl(a.regsV, { c: counts.published, j: counts.jurisdictions })} <a class="link" href={localizePath('/market-access', lang)}>{a.regsLink} <span class="arr">→</span></a></span></li>
-    </ul>
-  </section>
+      <!-- 03 자격 — 증서 카드 2×2, 번호가 크게 -->
+      <section class="blk" id="record" data-reveal>
+        <p class="eyebrow"><span class="no">03</span> {a.s3Eyebrow}</p>
+        <h2>{a.s3Title}</h2>
+        <p class="lead">{a.s3Lead}</p>
+        <div class="certs" data-reveal-stagger>
+          {creds.map((c) => (
+            <article class="cert">
+              <p class="auth mono">{c.auth}</p>
+              <p class="num">{c.n}</p>
+              <p class="k">{c.k}</p>
+              <p class="v">{c.v}</p>
+              <a class="link" href={c.href} rel="noopener">{c.link} <span class="arr">→</span></a>
+            </article>
+          ))}
+          <article class="cert sum">
+            <p class="auth mono">KR · RU · BR · UK</p>
+            <p class="num">{counts.published}</p>
+            <p class="k">{a.regsK}</p>
+            <p class="v">{tpl(a.regsV, { c: counts.published, j: counts.jurisdictions })}</p>
+            <a class="link" href={localizePath('/market-access', lang)}>{a.regsLink} <span class="arr">→</span></a>
+          </article>
+        </div>
+      </section>
 
-  <!-- 04 제조소 -->
-  <section class="container section tight alt-wrap" id="site">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">04</span> {a.s4Eyebrow}</p>
-      <h2>{a.s4Title}</h2>
-      <p class="lead">{a.s4P1}</p>
-    </div>
-    <div class="photos" data-reveal-stagger>
-      <PhotoSlot src="/images/formulation-process-direction.webp" ratio="4 / 3" alt="Formulation bench at the GANA R&D laboratory" note="클린룸 충전 라인 — 2026-10-12 촬영 5★ 컷(312·330·784 중)으로 교체" />
-      <PhotoSlot ratio="4 / 3" note="복도 정면 또는 라벨링·포장 공정 — 재촬영 컷으로 교체" />
-    </div>
-  </section>
+      <!-- 04 제조소 — 사진 둘이 어긋나게, 문단은 오른쪽 아래 -->
+      <section class="blk" id="site" data-reveal>
+        <p class="eyebrow"><span class="no">04</span> {a.s4Eyebrow}</p>
+        <h2>{a.s4Title}</h2>
+        <div class="site-grid">
+          <div class="ph a"><PhotoSlot src="/images/formulation-process-direction.webp" ratio="4 / 3" alt="Formulation bench at the GANA R&D laboratory" note="클린룸 충전 라인 — 2026-10-12 촬영 5★ 컷(312·330·784 중)으로 교체" /></div>
+          <div class="ph b"><PhotoSlot ratio="3 / 4" note="복도 정면 또는 라벨링·포장 공정 — 재촬영 컷으로 교체" /></div>
+          <p class="site-p">{a.s4P1}</p>
+        </div>
+      </section>
 
-  <!-- 05 창업자 -->
-  <section class="container section" id="founder">
-    <div class="split">
-      <div class="text" data-reveal-stagger>
+      <!-- 05 창업자 — 포트레이트가 왼쪽 기둥, 문장이 오른쪽 -->
+      <section class="blk" id="founder" data-reveal>
         <p class="eyebrow"><span class="no">05</span> {a.s5Eyebrow}</p>
-        <h2>{a.s5Title}</h2>
-        <p>{a.s5P1}</p>
-        <p>{a.s5P2}</p>
-      </div>
-      <div class="portrait" data-reveal="right">
-        <PhotoSlot ratio="4 / 5" note="창업자 포트레이트 — 성남 제조소 배경, 자연광, 정면 또는 반측면 (샷리스트 6-1)" />
-      </div>
-    </div>
-  </section>
+        <div class="founder">
+          <div class="portrait"><PhotoSlot ratio="4 / 5" note="창업자 포트레이트 — 성남 제조소 배경, 자연광, 정면 또는 반측면 (샷리스트 6-1)" /></div>
+          <div class="fcopy">
+            <h2>{a.s5Title}</h2>
+            <p>{a.s5P1}</p>
+            <p>{a.s5P2}</p>
+          </div>
+        </div>
+      </section>
 
-  <!-- 06 연혁 -->
-  <section class="container section tight alt-wrap" id="timeline">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">06</span> {a.s6Eyebrow}</p>
-      <h2>{a.s6Title}</h2>
-    </div>
-    <ol class="timeline" data-reveal-stagger>
-      {a.timeline.map((e) => (
-        <li><span class="y mono">{e.t}</span><span class="d">{e.d}</span></li>
-      ))}
-    </ol>
-  </section>
+      <!-- 06 연혁 — 왼쪽 레일에 연도, 점으로 잇기 -->
+      <section class="blk" id="timeline" data-reveal>
+        <p class="eyebrow"><span class="no">06</span> {a.s6Eyebrow}</p>
+        <h2>{a.s6Title}</h2>
+        <ol class="rail" data-reveal-stagger>
+          {a.timeline.map((e) => (
+            <li><span class="y mono">{e.t}</span><span class="dot" aria-hidden="true"></span><span class="d">{e.d}</span></li>
+          ))}
+        </ol>
+      </section>
 
-  <!-- 07 Dr. Park Group 관계 — "함께 쓰는 이름". 기업집단·자회사 표현 금지 -->
-  <section class="container section tight" id="group">
-    <div class="section-head" data-reveal>
-      <p class="eyebrow"><span class="no">07</span> {a.s7Eyebrow}</p>
-      <h2>{a.s7Title}</h2>
+      <!-- 07 세 회사 스트립 — R&D가 "현재 위치" -->
+      <section class="blk" id="group" data-reveal>
+        <p class="eyebrow"><span class="no">07</span> {a.s7Eyebrow}</p>
+        <h2>{a.s7Title}</h2>
+        <div class="strip" data-reveal-stagger>
+          <div class="co here"><span class="tag mono">01</span><b>GANA R&D</b><span>{a.cardWho1} · {a.cardWho2}</span></div>
+          <div class="co"><span class="tag mono">02</span><b>GANA Cosmetic</b><span>Cosmeceuticals</span></div>
+          <div class="co"><span class="tag mono">03</span><b>Dr. Park CDMO</b><span>Viral vector manufacturing</span></div>
+        </div>
+        <p class="gnote">{a.s7P1} {GROUP_URL && <a class="link" href={GROUP_URL} rel="noopener">{a.s7Link} <span class="arr">→</span></a>}</p>
+      </section>
     </div>
-    <div class="callout" data-reveal>
-      {a.s7P1}
-      {GROUP_URL && <> <a class="link" href={GROUP_URL} rel="noopener">{a.s7Link} <span class="arr">→</span></a></>}
-    </div>
-  </section>
+  </div>
 
   <section class="cta">
     <div class="container row" data-reveal>
@@ -155,19 +171,113 @@ const a = t.about;
 </Base>
 
 <style>
-  #entity .kv { margin-top: var(--s7); }
-  .section-head .lead + .lead { margin-top: var(--s3); }
-  .alt-wrap { position: relative; isolation: isolate; background: transparent; border-radius: 0; }
-  .alt-wrap::before { content: ''; position: absolute; z-index: -1; inset: 0 50%; width: 100vw; transform: translateX(-50%); background: var(--paper-2); border-block: 1px solid var(--line); }
-  .card.go { color: inherit; }
-  .card.go:hover h3 { color: var(--accent); }
-  .creds li span:last-child { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); align-items: baseline; }
-  .photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
-  .portrait { max-width: 420px; justify-self: end; width: 100%; }
-  .timeline { list-style: none; border-top: 1px solid var(--line-strong); }
-  .timeline li { display: grid; grid-template-columns: 88px 1fr; gap: var(--s5); padding: var(--s4) 0; border-bottom: 1px solid var(--line); font-size: var(--text-sm); line-height: 1.6; }
-  .timeline .y { color: var(--accent); font-size: var(--text-base); letter-spacing: .04em; }
-  .timeline .d { color: var(--ink); max-width: 72ch; }
-  @media (max-width: 900px) { .photos { grid-template-columns: 1fr; } .portrait { justify-self: start; max-width: 360px; } }
-  @media (max-width: 640px) { .timeline li { grid-template-columns: 1fr; gap: var(--s1); } }
+  /* ── 신원 카드 히어로 ── */
+  .id-hero { padding-top: clamp(48px, 7vw, 104px); border-bottom: 1px solid var(--line); background: var(--paper); }
+  .id-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(40px, 7vw, 120px); align-items: end; padding-bottom: clamp(40px, 5vw, 72px); }
+  .id-k { font-size: var(--text-xs); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-top: var(--s6); }
+  .id-no { font-family: var(--font); font-weight: 300; font-size: clamp(4rem, 11vw, 10.5rem); line-height: .95; letter-spacing: -.045em; color: var(--ink); margin-top: var(--s3); }
+  .id-since { margin-top: var(--s4); font-size: var(--text-lg); color: var(--ink-2); }
+  .id-right h1 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.12; color: var(--ink); max-width: 20ch; }
+  .id-sub { margin-top: var(--s5); font-size: var(--text-base); color: var(--ink-2); max-width: 54ch; }
+  .id-card { margin-top: var(--s7); border-top: 1px solid var(--ink); }
+  .id-card div { display: grid; grid-template-columns: 170px 1fr; gap: var(--s4); padding: var(--s3) 0; border-bottom: 1px solid var(--line); font-size: var(--text-sm); }
+  .id-card dt { color: var(--ink-3); font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; padding-top: 2px; }
+  .id-card dd { color: var(--ink); }
+  .id-band { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--gutter); }
+  .id-band :global(.frame) { border-radius: var(--radius) var(--radius) 0 0; }
+  .id-band :global(figcaption), .id-band :global(.slot) { display: block; }
+
+  /* ── 도시에: 고정 목차 + 본문 ── */
+  .dossier { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: clamp(40px, 6vw, 96px); padding-block: clamp(56px, 7vw, 104px); }
+  .toc { position: sticky; top: 104px; align-self: start; }
+  .toc ol { list-style: none; border-top: 1px solid var(--ink); }
+  .toc li a { display: grid; grid-template-columns: 28px 1fr; gap: var(--s2); padding: var(--s3) 0; border-bottom: 1px solid var(--line); font-size: var(--text-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); transition: color 180ms var(--ease); }
+  .toc li a:hover { color: var(--accent); }
+  .toc .n { color: var(--accent); }
+  .body { display: grid; gap: clamp(72px, 9vw, 128px); }
+  .blk h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.12; max-width: 20ch; }
+  .prose { margin-top: var(--s5); max-width: 62ch; }
+  .prose p + p { margin-top: var(--s4); }
+  .prose p, .lead { color: var(--ink-2); }
+  .lead { margin-top: var(--s4); max-width: 62ch; }
+
+  /* 02 — 링크 줄 */
+  .lines { list-style: none; margin-top: var(--s7); border-top: 1px solid var(--ink); }
+  .lines a { display: grid; grid-template-columns: 180px 1fr 24px; gap: var(--s5); align-items: baseline; padding: var(--s5) 0; border-bottom: 1px solid var(--line); color: inherit; transition: background 180ms var(--ease); }
+  .lines a:hover { background: var(--paper-2); }
+  .lines .who { font-size: var(--text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .lines .what { font-size: var(--text-sm); color: var(--ink-2); }
+  .lines .what b { display: block; color: var(--ink); font-size: var(--text-lg); font-weight: 600; margin-bottom: 4px; }
+  .lines .arr { color: var(--accent); transition: transform 350ms var(--ease-out-expo); }
+  .lines a:hover .arr { transform: translateX(5px); }
+
+  /* 03 — 증서 카드 */
+  .certs { margin-top: var(--s7); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
+  .cert { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 32px); display: flex; flex-direction: column; gap: var(--s2); }
+  .cert .auth { font-size: var(--text-xs); letter-spacing: .1em; color: var(--accent); }
+  .cert .num { font-size: clamp(1.5rem, 2.4vw, 2.1rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: var(--ink); word-break: break-all; }
+  .cert .k { margin-top: var(--s2); font-size: var(--text-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .cert .v { font-size: var(--text-sm); color: var(--ink-2); }
+  .cert .link { margin-top: auto; padding-top: var(--s3); }
+  .cert.sum { background: var(--navy); border-color: var(--navy); color: var(--on-dark); grid-column: 1 / -1; }
+  .cert.sum .num { color: #fff; font-size: clamp(2.5rem, 4vw, 3.5rem); }
+  .cert.sum .k, .cert.sum .v { color: rgba(247,249,248,.75); }
+  .cert.sum .auth { color: var(--accent-soft); }
+  .cert.sum .link { color: #fff; }
+
+  /* 04 — 어긋난 사진 */
+  .site-grid { margin-top: var(--s6); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-rows: auto auto; gap: var(--s5) var(--s6); }
+  .site-grid .a { grid-column: 1; grid-row: 1 / span 2; }
+  .site-grid .b { grid-column: 2; grid-row: 1; margin-top: clamp(40px, 6vw, 96px); }
+  .site-grid .site-p { grid-column: 2; grid-row: 2; align-self: end; color: var(--ink-2); font-size: var(--text-sm); max-width: 36ch; }
+
+  /* 05 — 창업자 */
+  .founder { margin-top: var(--s5); display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: end; }
+  .fcopy h2 { margin-bottom: var(--s4); }
+  .fcopy p { color: var(--ink-2); max-width: 52ch; }
+  .fcopy p + p { margin-top: var(--s4); }
+
+  /* 06 — 연도 레일 */
+  .rail { list-style: none; margin-top: var(--s7); position: relative; }
+  .rail::before { content: ''; position: absolute; left: 92px; top: 0; bottom: 0; width: 1px; background: var(--line-strong); }
+  .rail li { display: grid; grid-template-columns: 72px 40px 1fr; align-items: start; padding: var(--s4) 0; }
+  .rail .y { color: var(--accent); font-size: var(--text-base); letter-spacing: .04em; padding-top: 2px; }
+  .rail .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 2px solid var(--accent); margin: 8px 0 0 16px; box-shadow: 0 0 0 4px var(--paper); }
+  .rail .d { font-size: var(--text-sm); color: var(--ink); max-width: 64ch; line-height: 1.6; }
+
+  /* 07 — 세 회사 스트립 */
+  .strip { margin-top: var(--s7); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
+  .strip .co { display: grid; gap: var(--s2); padding: var(--s6) var(--s5) var(--s6) 0; border-right: 1px solid var(--line); color: var(--ink-3); font-size: var(--text-sm); }
+  .strip .co + .co { padding-left: var(--s5); }
+  .strip .co:last-child { border-right: 0; }
+  .strip .co b { color: var(--ink); font-size: var(--text-lg); font-weight: 600; }
+  .strip .tag { font-size: var(--text-xs); letter-spacing: .1em; color: var(--ink-3); }
+  .strip .here { background: var(--paper-2); padding-left: var(--s5); margin-left: calc(-1 * var(--s5)); }
+  .strip .here .tag { color: var(--accent); }
+  .gnote { margin-top: var(--s6); color: var(--ink-2); max-width: 70ch; font-size: var(--text-sm); }
+
+  @media (max-width: 1024px) {
+    .dossier { grid-template-columns: 1fr; gap: var(--s7); }
+    .toc { position: static; }
+    .toc ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--s6); }
+  }
+  @media (max-width: 900px) {
+    .id-grid { grid-template-columns: 1fr; gap: var(--s7); }
+    .id-card div { grid-template-columns: 1fr; gap: 4px; }
+    .lines a { grid-template-columns: 1fr 24px; }
+    .lines .who { grid-column: 1 / -1; }
+    .certs { grid-template-columns: 1fr; }
+    .site-grid { grid-template-columns: 1fr; }
+    .site-grid .a, .site-grid .b, .site-grid .site-p { grid-column: 1; grid-row: auto; }
+    .site-grid .b { margin-top: 0; }
+    .founder { grid-template-columns: 1fr; }
+    .founder .portrait { max-width: 320px; }
+    .rail::before { left: 20px; }
+    .rail li { grid-template-columns: 1fr; gap: 4px; padding-left: 44px; position: relative; }
+    .rail .dot { position: absolute; left: 16px; top: 22px; margin: 0; }
+    .strip { grid-template-columns: 1fr; }
+    .strip .co { border-right: 0; border-bottom: 1px solid var(--line); padding: var(--s5) 0; }
+    .strip .co + .co { padding-left: 0; }
+    .strip .here { margin-left: 0; padding-left: var(--s4); }
+  }
 </style>
