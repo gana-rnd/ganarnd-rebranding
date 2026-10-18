@@ -29,8 +29,9 @@
         "number": "No. 4490",
         "since": "2014-03-05",
         "status": "active",
-        "lookup": "https://emedi.mfds.go.kr",
-        "number_ko": "제4490호"
+        "lookup": "https://emedi.mfds.go.kr/gmp/status/MNU20283?bplcNm=%EA%B0%80%EB%82%98%EC%95%8C%EC%97%94%EB%94%94&searchYn=Y",
+        "number_ko": "제4490호",
+        "lookup_note": "GMP status page filtered by company name; shows business licence no. 4490 with the GMP validity (item search cannot be pre-run by URL for companies)"
       },
       {
         "id": "mfds-gmp",
@@ -41,7 +42,7 @@
         "valid_from": "2024-03-04",
         "valid_to": "2027-03-03",
         "status": "active",
-        "lookup": "https://emedi.mfds.go.kr/gmp/status/MNU20283"
+        "lookup": "https://emedi.mfds.go.kr/gmp/status/MNU20283?stbltRcognNo=KCL-ABBA-19926&searchYn=Y"
       },
       {
         "id": "eudamed-srn",
@@ -50,12 +51,13 @@
         "number": "KR-MF-000037221",
         "since": "2023-08-17",
         "status": "active",
-        "lookup": "https://ec.europa.eu/tools/eudamed/#/screen/search-eo",
+        "lookup": "https://ec.europa.eu/tools/eudamed/#/screen/search-eo/8b89e757-45f6-4cf4-b021-78073209f0b1",
         "ar": {
           "name": "CMC Medical Devices & Drugs SL (Málaga, ES)",
           "mandate": "2025-07-26 ~ 2026-07-25",
           "verify": "위임 만료일 경과 — 갱신 여부 내부 확인 필요"
-        }
+        },
+        "actor_uuid": "8b89e757-45f6-4cf4-b021-78073209f0b1"
       },
       {
         "id": "mhra-man",
