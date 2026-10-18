@@ -350,11 +350,11 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
 <script>
   // 히어로 캐러셀: 5.5초마다 다음 장. 탭이 숨겨지면 멈추고, 줄인 모션 설정이면 자동 넘김 없음.
   const media = document.querySelector('[data-hero-carousel]');
-  const track = media?.querySelector('.hero-track');
+  const track = media?.querySelector('.hero-track') as HTMLElement | null;
   const dots = Array.from(document.querySelectorAll('.hero-dots li'));
-  if (track && track.children.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (media && track && track.children.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const n = track.children.length; let i = 0; let timer = 0;
-    const go = (k) => { i = (k + n) % n; track.style.transform = `translateX(${-100 * i}%)`; dots.forEach((d, j) => d.classList.toggle('on', j === i)); };
+    const go = (k: number) => { i = (k + n) % n; track.style.transform = `translateX(${-100 * i}%)`; dots.forEach((d, j) => d.classList.toggle('on', j === i)); };
     const start = () => { stop(); timer = window.setInterval(() => go(i + 1), 5500); };
     const stop = () => { if (timer) window.clearInterval(timer); timer = 0; };
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
