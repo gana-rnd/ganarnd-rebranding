@@ -10,3 +10,6 @@
 // 스팸 수집기가 페이지 소스에서 이메일을 긁지 못하도록 base64로 실어 클라이언트에서 조립한다.
 // (원문: https://formsubmit.co/ajax/ganarndbu@gmail.com — FormSubmit 랜덤 앨리어스를 받으면 그걸로 교체)
 export const FORM_ENDPOINT_B64 = 'aHR0cHM6Ly9mb3Jtc3VibWl0LmNvL2FqYXgvZ2FuYXJuZGJ1QGdtYWlsLmNvbQ==';
+
+// Dr. Park Group 게이트웨이 사이트 URL — 도메인 확정·배포 후 입력. 빈 문자열이면 About의 그룹 문단에 링크를 달지 않는다.
+export const GROUP_URL = '';
