@@ -93,6 +93,7 @@ const hlIndex = (head: string[]) => head.findIndex((h) => h.toLowerCase().starts
         </table>
       </div>
     )}
+    {regs.some((r) => r.jurisdiction === 'RU') && <p class="small muted regnote">{p.ruCertNote}</p>}
 
     <div class="mfr" data-reveal>
       <h3>{p.mfrTitle}</h3>
@@ -211,6 +212,7 @@ const hlIndex = (head: string[]) => head.findIndex((h) => h.toLowerCase().starts
   .pk { aspect-ratio: 5 / 4; min-height: 0; background: #eaf1f6; }
   .pk img { object-fit: cover; }
 
+  .regnote { margin-top: var(--s4); max-width: 72ch; }
   .mfr { margin-top: var(--s8); padding-top: var(--s6); border-top: 1px solid var(--line-strong); display: grid; grid-template-columns: minmax(150px, .28fr) minmax(0, 1.72fr); gap: clamp(32px, 6vw, 92px); }
   .mfr h3 { color: var(--ink); }
   .mfr .kv { border-top: 1px solid var(--ink); }

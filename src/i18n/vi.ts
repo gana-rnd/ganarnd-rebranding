@@ -306,5 +306,6 @@ export const vi = {
     ctaBody: "Giấy chứng nhận đăng ký, hướng dẫn sử dụng và tài liệu kỹ thuật của sản phẩm này được cung cấp cho nhà phân phối và phòng khám theo yêu cầu.",
     ctaBtn: "Yêu cầu thông tin sản phẩm",
     metaFmt: "{name} — {sub}. Sản xuất và đăng ký bởi GANA R&D, Seongnam, Hàn Quốc.",
+    ruCertNote: "Hệ thống đăng ký của Roszdravnadzor dùng chứng chỉ do nhà nước Nga cấp. Trình duyệt ngoài nước Nga có thể hiển thị cảnh báo bảo mật trước khi mở hồ sơ.",
   },
 };

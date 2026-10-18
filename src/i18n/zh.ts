@@ -334,5 +334,6 @@ export const zh = {
     "ctaBody": "本产品的注册证书、使用说明书和技术文件可应经销商和诊所的要求提供。",
     "ctaBtn": "索取产品资料",
     "metaFmt": "{name} — {sub}。由韩国城南 GANA R&D 生产并注册。",
+    "ruCertNote": "俄罗斯 Roszdravnadzor 登记系统使用俄罗斯国家颁发的证书，俄罗斯境外的浏览器在打开记录前可能会显示安全警告。",
   },
 };

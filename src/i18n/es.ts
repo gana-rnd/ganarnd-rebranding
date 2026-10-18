@@ -306,5 +306,6 @@ export const es = {
     ctaBody: "Los certificados de registro, las instrucciones de uso y la documentación técnica de este producto están disponibles para distribuidores y clínicas previa solicitud.",
     ctaBtn: "Solicitar información del producto",
     metaFmt: "{name}: {sub}. Fabricado y registrado por GANA R&D, Seongnam, Corea.",
+    ruCertNote: "El registro de Roszdravnadzor usa un certificado estatal ruso. Fuera de Rusia, el navegador puede mostrar una advertencia de seguridad antes de abrir la ficha.",
   },
 };
