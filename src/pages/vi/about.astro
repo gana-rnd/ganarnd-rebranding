@@ -121,11 +121,10 @@ const index = [
         </div>
       </section>
 
-      <!-- 05 창업자 — 포트레이트가 왼쪽 기둥, 문장이 오른쪽 -->
+      <!-- 05 창업자 — 사진 없음(회장 뜻: 사진 노출 안 함). 문장만 -->
       <section class="blk" id="founder" data-reveal>
         <p class="eyebrow"><span class="no">05</span> {a.s5Eyebrow}</p>
         <div class="founder">
-          <div class="portrait"><PhotoSlot ratio="4 / 5" note="창업자 포트레이트 — 성남 제조소 배경, 자연광, 정면 또는 반측면 (샷리스트 6-1)" /></div>
           <div class="fcopy">
             <h2>{a.s5Title}</h2>
             <p>{a.s5P1}</p>
@@ -232,7 +231,7 @@ const index = [
   .site-grid .site-p { grid-column: 2; grid-row: 2; align-self: end; color: var(--ink-2); font-size: var(--text-sm); max-width: 36ch; }
 
   /* 05 — 창업자 */
-  .founder { margin-top: var(--s5); display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: end; }
+  .founder { margin-top: var(--s5); display: grid; grid-template-columns: minmax(0, 1fr); }
   .fcopy h2 { margin-bottom: var(--s4); }
   .fcopy p { color: var(--ink-2); max-width: 52ch; }
   .fcopy p + p { margin-top: var(--s4); }
@@ -271,7 +270,6 @@ const index = [
     .site-grid .a, .site-grid .b, .site-grid .site-p { grid-column: 1; grid-row: auto; }
     .site-grid .b { margin-top: 0; }
     .founder { grid-template-columns: 1fr; }
-    .founder .portrait { max-width: 320px; }
     .rail::before { left: 20px; }
     .rail li { grid-template-columns: 1fr; gap: 4px; padding-left: 44px; position: relative; }
     .rail .dot { position: absolute; left: 16px; top: 22px; margin: 0; }

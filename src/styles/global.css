@@ -288,3 +288,7 @@ main:has(> .cta:last-child) { padding-bottom: clamp(80px, 9vw, 144px); }
   .page-head.photo.flip .ph-eyebrow { justify-content: flex-start; flex-direction: row; text-align: left; }
   .page-head.photo.flip h1, .page-head.photo.flip .ph-sub { grid-column: 1; grid-row: auto; justify-self: start; text-align: left; }
 }
+
+/* .stack — 글 블록(아이브로우·제목·부제)을 전부 오른쪽 열에 세로로 쌓아 왼쪽을 비운다(제품 누끼 헤더용) */
+.page-head.photo.flip.stack .ph-sub { grid-column: 2; grid-row: 3; justify-self: end; text-align: right; margin-top: var(--s5); }
+@media (max-width: 900px) { .page-head.photo.flip.stack .ph-sub { grid-column: 1; grid-row: auto; justify-self: start; text-align: left; } }

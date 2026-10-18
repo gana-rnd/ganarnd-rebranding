@@ -33,8 +33,16 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
 
 <Base title="GANA R&D" hasHero>
   <section class="hero">
-    <div class="hero-media" aria-hidden="true">
-      <img src="/images/manufacturing-line-direction.webp" alt="" fetchpriority="high" />
+    <!-- 장비 사진 가로 캐러셀 — 자동 넘김(5.5s). 2026-10-12 촬영 카메라 JPG(보정 전) 6장: 312 충전라인 · 440 HMI · 706 WFI · 1200 턴테이블 · 514 동결건조기 · 1054 바이알 -->
+    <div class="hero-media" aria-hidden="true" data-hero-carousel>
+      <div class="hero-track">
+        <img src="/images/hero-1.webp" alt="" fetchpriority="high" />
+        <img src="/images/hero-2.webp" alt="" loading="lazy" />
+        <img src="/images/hero-3.webp" alt="" loading="lazy" />
+        <img src="/images/hero-4.webp" alt="" loading="lazy" />
+        <img src="/images/hero-5.webp" alt="" loading="lazy" />
+        <img src="/images/hero-6.webp" alt="" loading="lazy" />
+      </div>
     </div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
@@ -101,6 +109,7 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
         <p>{t.home.card3Body}</p>
         <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
       </div>
+      <ol class="hero-dots" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li><li></li><li></li></ol>
     </div>
   </section>
 
@@ -191,7 +200,12 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   /* 히어로 사진은 상단 흰 띠(고정 헤더) 바로 아래에서 시작한다 — 띠가 사진을 가리지 않게 */
   .hero { --hdr-h: 85px; margin-top: var(--hdr-h); position: relative; min-height: min(calc(88svh - var(--hdr-h)), 860px); display: flex; align-items: flex-end; color: #fff; overflow: hidden; background: var(--navy); }
   .hero-media, .hero-shade, .hero-grid { position: absolute; inset: 0; }
-  .hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; transform: scale(1.01); }
+  .hero-track { display: flex; height: 100%; will-change: transform; transition: transform 1100ms var(--ease-out-expo); }
+  .hero-media img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; object-position: 50% 46%; animation: none !important; }
+  .hero-dots { position: absolute; right: var(--gutter); bottom: clamp(28px, 3vw, 44px); z-index: 2; list-style: none; display: flex; gap: 8px; margin: 0; padding: 0; }
+  .hero-dots li { width: 28px; height: 2px; background: rgba(255,255,255,.3); transition: background 300ms var(--ease); }
+  .hero-dots li.on { background: #fff; }
+  @media (prefers-reduced-motion: reduce) { .hero-track { transition: none; } }
   .hero-shade { background: linear-gradient(90deg, rgba(7,23,44,.92) 0%, rgba(10,29,51,.68) 48%, rgba(10,29,51,.2) 82%), linear-gradient(0deg, rgba(7,23,44,.62), transparent 52%); }
   .hero-grid { opacity: .13; background-image: linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px); background-size: 25% 100%, 100% 25%; mask-image: linear-gradient(90deg, #000, transparent 72%); }
   .hero-inner { position: relative; z-index: 1; padding-top: clamp(64px, 7vw, 96px); padding-bottom: clamp(110px, 12vw, 160px); }
@@ -330,3 +344,18 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
     .product-family { max-width: calc(100% - 84px); }
   }
 </style>
+
+<script>
+  // 히어로 캐러셀: 5.5초마다 다음 장. 탭이 숨겨지면 멈추고, 줄인 모션 설정이면 자동 넘김 없음.
+  const media = document.querySelector('[data-hero-carousel]');
+  const track = media?.querySelector('.hero-track');
+  const dots = Array.from(document.querySelectorAll('.hero-dots li'));
+  if (track && track.children.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const n = track.children.length; let i = 0; let timer = 0;
+    const go = (k) => { i = (k + n) % n; track.style.transform = `translateX(${-100 * i}%)`; dots.forEach((d, j) => d.classList.toggle('on', j === i)); };
+    const start = () => { stop(); timer = window.setInterval(() => go(i + 1), 5500); };
+    const stop = () => { if (timer) window.clearInterval(timer); timer = 0; };
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    start();
+  }
+</script>
