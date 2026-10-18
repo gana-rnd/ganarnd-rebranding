@@ -267,3 +267,24 @@ main:has(> .cta:last-child) { padding-bottom: clamp(80px, 9vw, 144px); }
   .cta .btn { width: auto; }
   main:has(> .cta:last-child) { padding-bottom: var(--s8); }
 }
+
+/* 서브 페이지 헤더 — 사진 배경 변형. 홈 히어로와 같은 네이비 그라데이션을 씌우고, 페이지마다 글/어두운 쪽을 좌우로 번갈아(.flip) 둔다.
+ * 사진은 2026-10-12 공장 촬영 장비 컷(head-*.webp, 2400×1000, 보정 전 카메라 JPG — ARW 보정본으로 교체). */
+.page-head.photo { color: #fff; }
+.page-head.photo::before { background: var(--ph-img) center / cover no-repeat var(--navy); border-bottom: 0; }
+.page-head.photo::after { content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: linear-gradient(90deg, rgba(7,23,44,.92) 0%, rgba(10,29,51,.7) 46%, rgba(10,29,51,.22) 84%), linear-gradient(0deg, rgba(7,23,44,.66), transparent 55%); }
+.page-head.photo.flip::after { background: linear-gradient(270deg, rgba(7,23,44,.92) 0%, rgba(10,29,51,.7) 46%, rgba(10,29,51,.22) 84%), linear-gradient(0deg, rgba(7,23,44,.66), transparent 55%); }
+.page-head.photo .ph-eyebrow { color: rgba(255,255,255,.78); }
+.page-head.photo .ph-eyebrow::before { background: var(--accent); }
+.page-head.photo h1 { color: #fff; }
+.page-head.photo .ph-sub { color: rgba(255,255,255,.84); }
+.page-head.photo.flip { grid-template-columns: minmax(300px, .75fr) minmax(0, 1.25fr); }
+.page-head.photo.flip .ph-eyebrow { justify-content: flex-end; flex-direction: row-reverse; text-align: right; }
+.page-head.photo.flip h1 { grid-column: 2; grid-row: 2; justify-self: end; text-align: right; }
+.page-head.photo.flip .ph-sub { grid-column: 1; grid-row: 2; }
+@media (max-width: 900px) {
+  .page-head.photo::after, .page-head.photo.flip::after { background: linear-gradient(0deg, rgba(7,23,44,.9) 0%, rgba(10,29,51,.6) 55%, rgba(10,29,51,.25) 100%); }
+  .page-head.photo.flip { grid-template-columns: 1fr; }
+  .page-head.photo.flip .ph-eyebrow { justify-content: flex-start; flex-direction: row; text-align: left; }
+  .page-head.photo.flip h1, .page-head.photo.flip .ph-sub { grid-column: 1; grid-row: auto; justify-self: start; text-align: left; }
+}
