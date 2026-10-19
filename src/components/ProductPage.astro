@@ -37,12 +37,14 @@ const productLd = JSON.stringify({
   manufacturer: { '@type': 'Organization', name: manufacturer.legal_name_en },
 });
 const hlIndex = (head: string[]) => head.findIndex((h) => h.toLowerCase().startsWith(product.name.toLowerCase()));
+// 헤더는 목록 페이지와 같은 사진·네이비 변형 — 에스테틱은 충전 라인 컷, 창상은 목록과 같이 사진 없이 네이비만
+const headStyle = isWound ? '--ph-img: none' : "--ph-img: url('/images/head-aesthetics.webp')";
 ---
 
 <Base title={product.name} description={description}>
   <script is:inline type="application/ld+json" set:html={productLd} />
 
-  <header class="container page-head">
+  <header class:list={['container page-head photo', { flip: isWound }]} style={headStyle}>
     <p class="ph-eyebrow hero-fade d1"><a href={localizePath(listPath, lang)}>{listLabel}</a><span class="sep">·</span><span>{family}</span></p>
     <h1><span class="hero-line"><span>{product.name}</span></span></h1>
     <p class="ph-sub hero-fade d2">{product.summary}</p>

@@ -9,7 +9,7 @@ interface Props { title: string; description?: string; hasHero?: boolean; }
 const lang = getLangFromUrl(Astro.url);
 // 설명을 안 넘긴 페이지(홈)는 해당 언어의 홈 설명을 쓴다
 const { title, description = useTranslations(lang).meta.home, hasHero = false } = Astro.props;
-const fullTitle = title === 'GANA R&D' ? 'GANA R&D — Licensed Medical Device Manufacturer, Korea' : `${title} — GANA R&D`;
+const fullTitle = title === 'GANA R&D' ? useTranslations(lang).meta.homeTitle : `${title} — GANA R&D`;
 const currentPath = stripLangFromPath(Astro.url.pathname);
 const siteBase = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteBase}${localizePath(currentPath, lang)}`;
@@ -19,7 +19,6 @@ const skipLabel: Record<string, string> = {
   en: 'Skip to content', zh: '跳至主要内容', es: 'Saltar al contenido',
   th: 'ข้ามไปยังเนื้อหา', vi: 'Chuyển đến nội dung', ru: 'Перейти к содержимому',
 };
-const fontsHref = `https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap`;
 const orgSchema = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -63,9 +62,8 @@ const orgSchema = JSON.stringify({
     <script is:inline type="application/ld+json" set:html={orgSchema} />
     {languages.map((l) => <link rel="alternate" hreflang={l.code} href={`${siteBase}${localizePath(currentPath, l.code)}`} />)}
     <link rel="alternate" hreflang="x-default" href={`${siteBase}${currentPath}`} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href={fontsHref} rel="stylesheet" />
+    <!-- 글꼴은 셀프호스팅 (src/styles/fonts.css → public/fonts/). 첫 렌더를 막는 외부 요청이 없다 -->
+    <link rel="preload" href="/fonts/manrope-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body class={hasHero ? 'has-hero' : undefined}>
     <a href="#main" class="skip">{skipLabel[lang] ?? skipLabel.en}</a>

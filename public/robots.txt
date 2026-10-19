@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ganarnd.co.kr/sitemap-index.xml
+Sitemap: https://ganarnd-rebranding.vercel.app/sitemap-index.xml
