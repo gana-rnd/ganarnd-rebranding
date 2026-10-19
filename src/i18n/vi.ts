@@ -248,7 +248,7 @@ export const vi = {
   coverage: {
     KR: 'Xuất khẩu — 22 giấy phép chỉ xuất khẩu + 1 lưu hành nội địa (GANA PATCH)',
     RU: '8 số đăng ký, đứng tên nhà sản xuất',
-    BR: 'Qua chủ sở hữu số đăng ký tại địa phương (SKINSTORE)',
+    BR: 'Qua các chủ sở hữu số đăng ký tại địa phương',
     UK: 'Thương hiệu thuộc về chủ sở hữu giấy phép lưu hành',
     EU: 'Chứng nhận CE hết hạn 27/05/2024; đăng ký nhà sản xuất còn hiệu lực',
     US: 'Chưa có đăng ký thiết bị với FDA',

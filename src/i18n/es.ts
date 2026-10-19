@@ -248,7 +248,7 @@ export const es = {
   coverage: {
     KR: 'Exportación — 22 licencias solo exportación + 1 nacional (GANA PATCH)',
     RU: '8 registros, GANA R&D figura como fabricante',
-    BR: 'Mediante titular local del registro (SKINSTORE)',
+    BR: 'Mediante titulares locales del registro',
     UK: 'Marca propiedad del titular de la autorización',
     EU: 'Certificado CE caducado el 27 de mayo de 2024; registro de fabricante vigente',
     US: 'Sin registro de dispositivos ante la FDA',

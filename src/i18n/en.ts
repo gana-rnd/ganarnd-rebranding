@@ -249,7 +249,7 @@ export const en = {
   coverage: {
     KR: 'Export — 22 export-designated + 1 domestic (GANA PATCH)',
     RU: '8 registrations, named as manufacturer',
-    BR: 'Via local registration holder (SKINSTORE)',
+    BR: 'Via local registration holders',
     UK: 'Brand owned by market-authorisation holder',
     EU: 'CE expired 27 May 2024; manufacturer registration active',
     US: 'No FDA device registration',

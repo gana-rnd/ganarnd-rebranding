@@ -14,7 +14,7 @@
       "UK": 1
     },
     "publishable_on_site": 34,
-    "note": "36 = MFDS 유효 25 + 러시아 8 + 브라질 2 + 영국 1. 취하 2건(제허22-737·수인15-4161) 제외. 사이트 게시 가능은 KoraVie 2건 제외 34. 브라질 GANA X 만료(2026-08-19) 갱신 미확인 → 미갱신 시 35/33."
+    "note": "36 = MFDS 유효 25 + 러시아 8 + 브라질 2 + 영국 1. 취하 2건(제허22-737·수인15-4161) 제외. 사이트 게시 가능은 KoraVie 2건 제외 34. 2026-10-19 ANVISA 공개 데이터 확인: 브라질 GANA X(80781300006)는 미갱신으로 빠지고, 위탁 브랜드 Rennova Elleva(80451960236, ~2030-12-14)가 새로 확인되어 브라질은 여전히 2건(GANA V + Elleva)."
   },
   "manufacturer": {
     "legal_name_ko": "주식회사 가나알엔디",
@@ -721,9 +721,29 @@
       "class": "IV",
       "holder": "SKINSTORE S.A.",
       "status": "VERIFY",
-      "verify": "유효기간 2026-08-19 경과 — 등록보유자(SKINSTORE) 갱신 여부 확인 전 게시 보류",
+      "verify": "유효기간 2026-08-19 경과 — 2026-10-19 ANVISA 공개 데이터(TA_PRODUTO_SAUDE_SITE.csv, 유효 등재만 수록)에 없음 → 미갱신으로 판단, 게시 안 함",
       "publish": false,
       "lookup": "https://consultas.anvisa.gov.br/#/saude/25351745979201916/"
+    },
+    {
+      "id": "br-80451960236",
+      "jurisdiction": "BR",
+      "authority": "ANVISA",
+      "number": "80451960236",
+      "processo": "25351061672202094",
+      "date": "2020-12-14",
+      "valid_to": "2030-12-14",
+      "product": "PLLA dermal filler (partner brand)",
+      "product_internal": "Rennova Elleva (NUTRIEX / Rennova)",
+      "chemistry": "PLLA",
+      "depth": "surface",
+      "class": "IV",
+      "holder": "NUTRIEX IMPORTACAO E EXPORTACAO DE PRODUTOS NUTRICIONAIS E FARMOQUIMICOS LTDA (CNPJ 06.172.459/0001-59)",
+      "status": "active",
+      "publish": true,
+      "brand_check": "위탁 브랜드(Rennova Elleva) — 계약 확인 전 브랜드명 비공개",
+      "source": "2026-10-19 ANVISA 공개 데이터 TA_PRODUTO_SAUDE_SITE.csv (제조사 GANA R&D CO, LTD)",
+      "lookup": "https://consultas.anvisa.gov.br/#/saude/25351061672202094/"
     },
     {
       "id": "uk-73044",
@@ -760,8 +780,7 @@
     {
       "territory": "BR",
       "supply": "yes",
-      "basis": "via local registration holder (SKINSTORE)",
-      "verify": "GANA X 갱신 확인"
+      "basis": "via local registration holders (SKINSTORE, NUTRIEX)"
     },
     {
       "territory": "UK",
