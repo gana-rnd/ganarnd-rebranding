@@ -22,7 +22,7 @@
 
 > Use the supplied `gana-rnd-official-logo.png` as the sole GANA R&D logo reference. Preserve its original dark-gray `GANA` and blue `R&D` colors, horizontal proportions, and clear space. Do not redraw, recolor, outline, stretch, or substitute a text wordmark.
 
-## Dr. Park Group 마크 (2026-10-19 v1, 자체 제작)
-- 정본과 생성 스크립트는 `D:\drpark-group\public\images\brand\`, `D:\drpark-group\scripts\make-logo.js`. 여기엔 참고용 사본만 둔다.
-- DP 모노그램: D(둥근 사각, 모서리 36/100)와 P(스템 + 스타디움 볼, 가로 슬롯 카운터)가 카운터를 공유. 네이비 #0e2139, 다크 배경용 흰색, 워드마크 Manrope 500 "Dr. Park Group". SINCE 문구 없음.
-- 구도는 사용자가 고른 Design.com 템플릿을 참고해 기하로 새로 그린 것(비트맵 트레이스 아님). 회장 확정 전 임시.
+## Dr. Park Group 마크 (2026-10-19, 사용자가 고른 DP 모노그램 그대로)
+- 정본은 D:drpark-grouppublicimagesranddp-*.svg, 패스 데이터 src/data/dp-path.json, 사이트 컴포넌트 DpMark.astro. 여기엔 참고용 사본만 둔다.
+- 사용자가 고른 Design.com DP 템플릿을 트레이스한 것(형태 수정 없음). 네이비 #0e2139 / 다크 배경용 흰색 / 아웃라인, 워드마크 Manrope 500 "Dr. Park Group", SINCE 문구 없음.
+- 템플릿 라이선스는 사용자가 구매 예정. 회장 확정 전 임시.
