@@ -39,9 +39,11 @@
       "group": "build"
     },
     {
+      // 레포 루트의 촬영 원본(수십 GB) 때문에 소스 업로드 배포는 실패한다 → 로컬 빌드 결과물만 올린다.
       "label": "Deploy: Vercel production",
       "type": "shell",
-      "command": "vercel --prod --yes",
+      "command": "vercel pull --yes --environment=production && vercel build --prod --yes && vercel deploy --prebuilt --prod --yes",
+      "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
       "problemMatcher": []
     }
   ]
