@@ -16,14 +16,14 @@ const productMeta = {
     img: '/images/catalogue/gana-fill.webp',
     alt: 'GANA FILL family — GANA V and GANA X cartons and freeze-dried PLLA powder vials',
     packshot: true,
-    kicker: t.home.p1Kicker, body: t.home.p1Body, link: t.home.p1Link,
+    kicker: t.home.p1Kicker, body: t.home.p1Body, link: `GANA FILL · ${t.product.detailTitle}`,
   },
   patch: {
     // 2021 카탈로그 실물 팩샷(흰 배경) — .packshot 변형으로 contain + 흰 판
     img: '/images/gana-patch-packshot.webp',
     alt: 'GANA PATCH hydrogel occlusive dressing — cartons and bottles labelled GANA R&D',
     packshot: true,
-    kicker: t.home.p2Kicker, body: t.home.p2Body, link: t.home.p2Link,
+    kicker: t.home.p2Kicker, body: t.home.p2Body, link: `GANA PATCH · ${t.product.detailTitle}`,
   },
 };
 const products = featured.map((p) => ({ ...p, ...productMeta[p.key] }));
