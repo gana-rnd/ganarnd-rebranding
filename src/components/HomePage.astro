@@ -109,7 +109,6 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
         <p>{t.home.card3Body}</p>
         <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
       </div>
-      <ol class="hero-dots" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li><li></li><li></li></ol>
     </div>
   </section>
 
@@ -273,7 +272,7 @@ const gmpYear = Number(gmp.valid_to.slice(0, 4));
   .codev-section { position: relative; isolation: isolate; min-height: clamp(580px, 46vw, 720px); margin-bottom: clamp(88px, 10vw, 164px); overflow: hidden; background: var(--paper-2); }
   .codev-section::after { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, rgba(245,247,246,0) 0%, rgba(245,247,246,.04) 36%, rgba(245,247,246,.74) 56%, #f5f7f6 72%, #f5f7f6 100%); pointer-events: none; }
   .codev-visual { position: absolute; z-index: 0; inset: 0; overflow: hidden; }
-  .codev-visual img { width: min(76vw, 1220px); height: 100%; object-fit: cover; object-position: center 48%; transform: scale(1.015); }
+  .codev-visual img { width: 76vw; height: 100%; object-fit: cover; object-position: center 48%; transform: scale(1.015); }
   .codev-inner { position: relative; z-index: 2; min-height: inherit; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(380px, .88fr); align-items: center; }
   .codev-copy { grid-column: 2; display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding-block: clamp(72px, 9vw, 128px); padding-left: clamp(30px, 5vw, 84px); }
   .codev-copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 4.7vw, 4.8rem); }
