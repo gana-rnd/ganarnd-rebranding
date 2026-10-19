@@ -14,6 +14,21 @@ const OW = +(opt.w ?? 1400), OH = +(opt.h ?? 1120), PAD = +(opt.pad ?? 0.08), sh
   // 알파 정리: 아주 옅은 알파(먼지·그림자 잔재)는 0으로, 나머지는 그대로
   const a = new Uint8Array(W * H); let x0 = W, x1 = 0, y0 = H, y1 = 0;
   for (let k = 0; k < W * H; k++) { let v = px[k * 4 + 3]; if (v < 24) v = 0; a[k] = v; if (v > 40) { const x = k % W, y = (k - x) / W; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
+  // 톤 통일(--grade): 제품 안의 가장 밝은 무채색(상자 흰 면)을 기준으로 채널별 게인 → 흰 점 246, 가장 어두운 0.5%를 검은 점 10으로.
+  // 세션마다 다른 노출·색온도를 같은 자리로 맞춘다. 배경은 어차피 흰색이라 물체 픽셀에만 적용.
+  if (opt.grade !== '0') {
+    const lum = [], idx = [];
+    for (let k = 0; k < W * H; k++) if (a[k] > 200) { const i = k * 4; lum.push((px[i] + px[i + 1] + px[i + 2]) / 3); idx.push(k); }
+    const sorted = Float32Array.from(lum).sort();
+    const hi = sorted[Math.floor(sorted.length * 0.97)], lo = sorted[Math.floor(sorted.length * 0.005)];
+    const s = [0, 0, 0]; let n = 0;
+    for (let j = 0; j < idx.length; j++) { if (lum[j] < hi) continue; const i = idx[j] * 4; const mx = Math.max(px[i], px[i + 1], px[i + 2]), mn = Math.min(px[i], px[i + 1], px[i + 2]); if (mx - mn > 28) continue; s[0] += px[i]; s[1] += px[i + 1]; s[2] += px[i + 2]; n++; }
+    const WHITE = 246, BLACK = 10;
+    const gain = n > 50 ? s.map((v) => WHITE / (v / n)) : [WHITE / hi, WHITE / hi, WHITE / hi];
+    const g = (gain[0] + gain[1] + gain[2]) / 3; const b = lo * g; const scale = (WHITE - BLACK) / Math.max(1, WHITE - b);
+    for (const k of idx) { const i = k * 4; for (let c = 0; c < 3; c++) px[i + c] = (px[i + c] * gain[c] - b) * scale + BLACK; }
+    console.log('grade: white ref', n, 'px', 'gain', gain.map((v) => v.toFixed(3)).join('/'), 'black', Math.round(lo), '->', BLACK);
+  }
   // 그림자: 물체 아래 35% 구간 마스크를 크게 번져 12px 아래로, 최대 12% 어둡게
   let sh = null;
   if (shadow) {
