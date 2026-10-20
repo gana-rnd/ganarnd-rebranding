@@ -102,7 +102,7 @@ const t = useTranslations(lang);
   .steps h4 { margin-top: auto; margin-bottom: var(--s3); }
   .steps p { font-size: var(--text-sm); color: var(--ink-2); }
   .alt-wrap { position: relative; isolation: isolate; background: transparent; border-radius: 0; }
-  .alt-wrap::before { content: ''; position: absolute; z-index: -1; inset: 0 50%; width: 100vw; transform: translateX(-50%); background: var(--paper-2); border-block: 1px solid var(--line); }
+  .alt-wrap::before { content: ''; position: absolute; z-index: -1; inset: 0 50%; width: min(100vw, var(--site-max)); transform: translateX(-50%); background: var(--paper-2); border-block: 1px solid var(--line); }
   @media (max-width: 1024px) { .steps { grid-template-columns: repeat(2, 1fr); } .steps li { min-height: 230px; } }
   @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } .steps li { min-height: 200px; } }
 </style>

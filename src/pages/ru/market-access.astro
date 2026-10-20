@@ -139,10 +139,10 @@ const lookupUrl: Record<string, string> = lookupHome;
 </Base>
 
 <style>
-  .prose { max-width: 900px; display: grid; grid-template-columns: minmax(0, .65fr) minmax(280px, .35fr); gap: var(--s5) var(--s8); align-items: start; }
-  .prose .eyebrow, .prose h2 { grid-column: 1 / -1; }
-  .prose p { color: var(--ink-2); }
-  .prose .btn { grid-column: 2; grid-row: 3 / span 2; justify-self: start; }
+  /* 02 유통 파트너십: 한 열, 버튼은 본문 아래 */
+  .prose { max-width: 72ch; }
+  .prose p { margin-top: var(--s5); color: var(--ink-2); }
+  .prose .btn { margin-top: var(--s6); }
   /* 자격 행: 값은 왼쪽, 조회 링크는 오른쪽 끝 */
   .creds .v { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5); flex-wrap: wrap; }
   .creds .v .link { white-space: nowrap; }
@@ -156,5 +156,5 @@ const lookupUrl: Record<string, string> = lookupHome;
   .plink:hover { color: var(--accent-2); border-color: var(--accent); }
   .plink .arr { display: inline-block; margin-left: 5px; color: var(--accent-2); transition: transform 300ms var(--ease-out-expo); }
   .plink:hover .arr { transform: translateX(4px); }
-  @media (max-width: 780px) { .prose, .group { grid-template-columns: 1fr; } .group .regnote { grid-column: 1; } .prose .btn { grid-column: 1; grid-row: auto; } .group-head { position: static; } }
+  @media (max-width: 780px) { .group { grid-template-columns: 1fr; } .group .regnote { grid-column: 1; } .group-head { position: static; } }
 </style>

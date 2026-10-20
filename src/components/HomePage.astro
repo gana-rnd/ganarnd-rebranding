@@ -110,7 +110,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
     <div class="container codev-inner">
       <div class="codev-copy" data-reveal="right">
         <p class="eyebrow"><span class="no">02</span> {t.home.card3Who}</p>
-        <h2>{t.home.card3Title}</h2>
+        <h2>{t.home.card3Title.split(' ').map((w, i) => (<>{i ? ' ' : ''}{w.includes('-') ? <span class="nb">{w}</span> : w}</>))}</h2>
         <p>{t.home.card3Body}</p>
         <a class="btn ghost" href={localizePath('/co-development', lang)}>{t.home.card3Title} <span aria-hidden="true">↗</span></a>
       </div>
@@ -226,7 +226,8 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
   .section-intro h2 { max-width: 13ch; }
   .section-intro .lead { justify-self: end; }
   .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
-  .product-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  /* 두 카드의 등재 행 수가 달라도(FILL 1·PATCH 3) 상세 링크는 같은 바닥 높이에 */
+  .product-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
   .product-visual { position: relative; display: block; aspect-ratio: 5 / 3.7; overflow: hidden; background: var(--paper-2); }
   .product-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(14,33,57,.05), rgba(14,33,57,.2)); pointer-events: none; }
   .product-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease-out-expo); }
@@ -238,7 +239,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
   .product-visual.packshot .product-index { color: var(--ink-3); }
   .product-index { position: absolute; z-index: 1; top: 20px; left: 22px; color: #fff; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; }
   .product-family { position: absolute; z-index: 1; right: 20px; bottom: 18px; max-width: 70%; padding: 8px 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(10,29,51,.52); backdrop-filter: blur(10px); color: #fff; font-size: .68rem; font-weight: 600; }
-  .product-copy { display: flex; flex-direction: column; gap: var(--s4); padding: clamp(26px, 4vw, 44px); }
+  .product-copy { flex: 1; display: flex; flex-direction: column; gap: var(--s4); padding: clamp(26px, 4vw, 44px); }
   .product-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); }
   .product-heading h3 { color: var(--ink); font-size: var(--text-2xl); font-weight: 500; }
   .product-heading > span { color: var(--accent); font-size: 1.25rem; }
@@ -246,7 +247,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
   .facts { list-style: none; margin-top: var(--s2); border-top: 1px solid var(--line-strong); }
   .facts li { display: grid; grid-template-columns: minmax(150px, .8fr) 1.4fr; gap: var(--s4); padding: 14px 0; border-bottom: 1px solid var(--line); font-size: var(--text-xs); }
   .facts .meta { color: var(--ink-3); }
-  .product-copy .link { margin-top: var(--s3); }
+  .product-copy .link { margin-top: auto; padding-top: var(--s3); }
 
   .evidence { position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 96px; padding-block: clamp(100px, 11vw, 168px); }
   .evidence::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 84% 35%, rgba(36, 76, 102, .28), transparent 31%), linear-gradient(115deg, rgba(255,255,255,.025), transparent 44%); }
@@ -277,7 +278,9 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
   .codev-visual img { width: 76vw; height: 100%; object-fit: cover; object-position: center 48%; transform: scale(1.015); }
   .codev-inner { position: relative; z-index: 2; min-height: inherit; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(380px, .88fr); align-items: center; }
   .codev-copy { grid-column: 2; display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding-block: clamp(72px, 9vw, 128px); padding-left: clamp(30px, 5vw, 84px); }
-  .codev-copy h2 { max-width: 14ch; font-size: clamp(2.5rem, 4.7vw, 4.8rem); }
+  /* "Co-development"이 하이픈에서 갈라지지 않게(.nb) + 한 줄에 들어가는 크기 */
+  .codev-copy h2 { max-width: 15ch; font-size: clamp(2.3rem, 4vw, 4rem); }
+  .codev-copy h2 .nb { white-space: nowrap; }
   .codev-copy > p:not(.eyebrow) { margin-top: var(--s5); color: var(--ink-2); }
   .codev-copy .btn { margin-top: var(--s7); }
 
@@ -330,7 +333,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
     .products { grid-template-columns: 1fr; }
     .codev-section { min-height: 720px; }
     .codev-copy { padding: 340px 0 64px; }
-    .codev-copy h2 { font-size: clamp(2.35rem, 11vw, 3.8rem); max-width: 12ch; }
+    .codev-copy h2 { font-size: clamp(2.1rem, 9.5vw, 3.6rem); max-width: 14ch; }
   }
   @media (max-width: 520px) {
     .proof-ledger { grid-template-columns: 1fr; }

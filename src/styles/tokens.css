@@ -55,6 +55,7 @@
   --s10: 128px;
   --s11: 160px;
 
+  --site-max: 1920px;
   --content-max: 1320px;
   --text-max: 760px;
   --gutter: clamp(20px, 4vw, 64px);
