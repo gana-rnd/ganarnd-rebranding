@@ -300,6 +300,7 @@ export const es = {
     regsLink: "Ver la lista completa",
     s4Eyebrow: "Planta de fabricación",
     s4Title: "Donde se hace el trabajo.",
+    s4P0: "El agua para inyección se genera y distribuye en la propia planta, para la formulación y la limpieza de los equipos en contacto con el producto.",
     s4P1: "La formulación y el envasado en sala limpia, el etiquetado y empaquetado y la liofilización se realizan en la planta de Seongnam bajo el certificado de conformidad GMP indicado arriba. Las cifras de capacidad se facilitan a petición.",
     s5Eyebrow: "Fundador",
     s5Title: "Dr. Yongho Park",

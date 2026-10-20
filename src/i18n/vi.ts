@@ -300,6 +300,7 @@ export const vi = {
     regsLink: "Xem danh sách đầy đủ",
     s4Eyebrow: "Cơ sở sản xuất",
     s4Title: "Nơi công việc được thực hiện.",
+    s4P0: "Nước pha tiêm được sản xuất và phân phối ngay tại cơ sở, dùng cho bào chế và vệ sinh thiết bị tiếp xúc với sản phẩm.",
     s4P1: "Bào chế và chiết rót trong phòng sạch, dán nhãn và đóng gói, đông khô đều được thực hiện tại cơ sở Seongnam theo chứng nhận GMP nêu trên. Số liệu công suất được cung cấp theo yêu cầu.",
     s5Eyebrow: "Nhà sáng lập",
     s5Title: "Tiến sĩ Yongho Park",

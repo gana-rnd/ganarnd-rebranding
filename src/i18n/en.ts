@@ -301,6 +301,7 @@ export const en = {
     regsLink: "See the full list",
     s4Eyebrow: "Manufacturing site",
     s4Title: "Where the work is done.",
+    s4P0: "Water for injection is generated and distributed on site, feeding formulation and the cleaning of product-contact equipment.",
     s4P1: "Cleanroom formulation and filling, labelling and packaging, and freeze-drying are carried out on site in Seongnam under the GMP conformity certificate above. Capacity figures are given on request.",
     s5Eyebrow: "Founder",
     s5Title: "Dr. Yongho Park",
