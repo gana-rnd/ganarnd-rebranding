@@ -203,11 +203,12 @@ body:not(.has-hero) .table td:last-child { padding-right: 0; }
   .table.stack td:first-child { margin-bottom: 6px; font-weight: 700; font-size: 1rem; }
 }
 .status { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-weight: 600; }
-.status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+/* 상태 점 — 글자색(--ok/--warn)보다 밝은 전용 색 + 연한 테두리로 흰 바탕에서 또렷하게 */
+.status::before { content: ''; flex: none; width: 9px; height: 9px; border-radius: 50%; background: #aab3ba; box-shadow: 0 0 0 3px rgba(170,179,186,.18); }
 .status.ok { color: var(--ink); }
-.status.ok::before { background: var(--ok); }
+.status.ok::before { background: #2fb36e; box-shadow: 0 0 0 3px rgba(47,179,110,.18); }
 .status.warn, .status.neutral { color: var(--ink-2); }
-.status.warn::before { background: var(--warn); }
+.status.warn::before { background: #e39b2b; box-shadow: 0 0 0 3px rgba(227,155,43,.2); }
 .sep { color: var(--ink-3); }
 
 /* Korean typography */
@@ -258,7 +259,8 @@ body:not(.has-hero) .section-head .lead { grid-column: 2; }
 .cta h2 { color: #fff; max-width: 18ch; }
 .cta p { margin-top: var(--s3); color: rgba(255,255,255,.7); }
 .cta .row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--s7); flex-wrap: wrap; }
-main:has(> .cta:last-child) { padding-bottom: clamp(80px, 9vw, 144px); }
+/* 페이지가 CTA 띠로 끝나면 푸터에 바로 붙는다(띠·푸터 색은 한 단계만 다름) */
+main:has(> .cta:last-child) { padding-bottom: 0; }
 
 @media (max-width: 640px) {
   .section { padding-block: var(--s9); }
@@ -266,7 +268,7 @@ main:has(> .cta:last-child) { padding-bottom: clamp(80px, 9vw, 144px); }
   .section-head { margin-bottom: var(--s7); }
   .btn { width: 100%; }
   .cta .btn { width: auto; }
-  main:has(> .cta:last-child) { padding-bottom: var(--s8); }
+  main:has(> .cta:last-child) { padding-bottom: 0; }
 }
 
 /* 서브 페이지 헤더 — 사진 배경 변형. 홈 히어로와 같은 네이비 그라데이션을 씌우고, 페이지마다 글/어두운 쪽을 좌우로 번갈아(.flip) 둔다.

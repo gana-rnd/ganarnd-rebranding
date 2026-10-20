@@ -61,22 +61,22 @@ const lookupUrl: Record<string, string> = lookupHome;
     </div>
   </section>
 
-  <!-- 제조자 자격 -->
-  <section class="container section tight">
+  <!-- 제조자 자격 — 홈의 "See the registrations"가 여기(#licences)로 온다 -->
+  <section class="container section tight" id="licences">
     <div class="section-head" data-reveal>
       <p class="eyebrow"><span class="no">03</span> {t.marketAccess.s3Eyebrow}</p>
       <h2>{t.marketAccess.s3Title}</h2>
     </div>
-    <ul class="kv" data-reveal-stagger>
-      <li><span class="k">{t.mfr.licenceK}</span><span>{tpl(t.mfr.licenceV, { n: licence.number, y: licence.since.slice(0, 4) })} · <a class="link" href={licence.lookup} rel="noopener">{t.mfr.licenceLink}</a></span></li>
-      <li><span class="k">{t.mfr.gmpK}</span><span>{tpl(t.mfr.gmpV, { n: gmp.number })} · <a class="link" href={gmp.lookup} rel="noopener">{t.mfr.gmpLink}</a></span></li>
-      <li><span class="k">{t.mfr.eudamedK}</span><span>{tpl(t.mfr.eudamedV, { n: eudamed.number })} · <a class="link" href={eudamed.lookup} rel="noopener">{t.mfr.eudamedLink}</a></span></li>
-      <li><span class="k">{t.mfr.mhraK}</span><span>{tpl(t.mfr.mhraV, { n: mhra.number })} · <a class="link" href={mhra.lookup} rel="noopener">{t.mfr.mhraLink}</a></span></li>
+    <ul class="kv creds" data-reveal-stagger>
+      <li><span class="k">{t.mfr.licenceK}</span><span class="v"><span>{tpl(t.mfr.licenceV, { n: licence.number, y: licence.since.slice(0, 4) })}</span><a class="link" href={licence.lookup} rel="noopener">{t.mfr.licenceLink}<span class="arr">→</span></a></span></li>
+      <li><span class="k">{t.mfr.gmpK}</span><span class="v"><span>{tpl(t.mfr.gmpV, { n: gmp.number })}</span><a class="link" href={gmp.lookup} rel="noopener">{t.mfr.gmpLink}<span class="arr">→</span></a></span></li>
+      <li><span class="k">{t.mfr.eudamedK}</span><span class="v"><span>{tpl(t.mfr.eudamedV, { n: eudamed.number })}</span><a class="link" href={eudamed.lookup} rel="noopener">{t.mfr.eudamedLink}<span class="arr">→</span></a></span></li>
+      <li><span class="k">{t.mfr.mhraK}</span><span class="v"><span>{tpl(t.mfr.mhraV, { n: mhra.number })}</span><a class="link" href={mhra.lookup} rel="noopener">{t.mfr.mhraLink}<span class="arr">→</span></a></span></li>
     </ul>
   </section>
 
-  <!-- 등재 자료실 -->
-  <section class="container section">
+  <!-- 등재 자료실 — 홈 "Full registration list"가 여기(#registrations)로 온다 -->
+  <section class="container section" id="registrations">
     <div class="section-head" data-reveal>
       <p class="eyebrow"><span class="no">04</span> {t.marketAccess.s4Eyebrow}</p>
       <h2>{tpl(t.marketAccess.s4Title, { c: counts.published })}</h2>
@@ -102,7 +102,7 @@ const lookupUrl: Record<string, string> = lookupHome;
                     <td>{catLabel(r, lang)}</td>
                     <td>{fmtDate(r.date, lang)}{r.valid_to ? ` — ${t.table.to} ${fmtDate(r.valid_to, lang)}` : r.term === 'indefinite' ? ` — ${t.table.indefinite}` : ''}</td>
                     <td>{[scopeOf(r) === 'export' ? t.table.export : scopeOf(r) === 'domestic' ? t.table.domestic : null, r.class ? tpl(t.table.classFmt, { c: r.class }) : null].filter(Boolean).join(' · ')}</td>
-                    <td>{r.lookup ? <a class="link" href={r.lookup} rel="noopener" target="_blank">{t.product.register}<span class="arr">→</span></a> : '—'}</td>
+                    <td class="verify">{r.lookup ? <a class="link" href={r.lookup} rel="noopener" target="_blank">{t.product.register}<span class="arr">→</span></a> : '—'}</td>
                   </tr>
                 ))}
               </tbody>
@@ -143,6 +143,11 @@ const lookupUrl: Record<string, string> = lookupHome;
   .prose .eyebrow, .prose h2 { grid-column: 1 / -1; }
   .prose p { color: var(--ink-2); }
   .prose .btn { grid-column: 2; grid-row: 3 / span 2; justify-self: start; }
+  /* 자격 행: 값은 왼쪽, 조회 링크는 오른쪽 끝 */
+  .creds .v { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5); flex-wrap: wrap; }
+  .creds .v .link { white-space: nowrap; }
+  .creds .v .link .arr { margin-left: 5px; }
+  .verify { white-space: nowrap; }
   .group { display: grid; grid-template-columns: minmax(180px, .32fr) minmax(0, 1.68fr); gap: clamp(32px, 6vw, 92px); margin-bottom: var(--s9); padding-top: var(--s6); border-top: 1px solid var(--line-strong); }
   .group-head { position: sticky; top: 110px; align-self: start; display: grid; gap: var(--s4); }
   .group-head h3 { color: var(--ink); }

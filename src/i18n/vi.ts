@@ -352,7 +352,7 @@ export const vi = {
     regsLead: "GANA R&D được ghi là nhà sản xuất trên từng mục. Mọi số đăng ký đều có thể tra cứu trên hệ thống công khai của cơ quan quản lý.",
     asRegistered: "Tên đăng ký",
     verify: "Tra cứu",
-    register: "Hệ thống công khai",
+    register: "Tra cứu",
     mfrTitle: "Nhà sản xuất",
     licenceK: "Giấy phép sản xuất MFDS",
     gmpK: "Chứng nhận GMP",

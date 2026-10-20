@@ -352,7 +352,7 @@ export const es = {
     regsLead: "GANA R&D figura como fabricante en cada entrada. Cada número puede comprobarse en el registro público de la autoridad.",
     asRegistered: "Nombre registrado",
     verify: "Comprobar",
-    register: "Registro público",
+    register: "Consultar",
     mfrTitle: "Fabricante",
     licenceK: "Licencia de fabricación MFDS",
     gmpK: "Certificado GMP",

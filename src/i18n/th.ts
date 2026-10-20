@@ -353,7 +353,7 @@ export const th = {
     regsLead: "ทุกรายการระบุ GANA R&D เป็นผู้ผลิต และตรวจสอบเลขทะเบียนได้ในระบบทะเบียนสาธารณะของหน่วยงาน",
     asRegistered: "ชื่อตามทะเบียน",
     verify: "ตรวจสอบ",
-    register: "ทะเบียนสาธารณะ",
+    register: "ตรวจสอบ",
     mfrTitle: "ผู้ผลิต",
     licenceK: "ใบอนุญาตผลิตของ MFDS",
     gmpK: "ใบรับรอง GMP",

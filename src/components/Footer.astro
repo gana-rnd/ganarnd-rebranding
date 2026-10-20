@@ -10,7 +10,7 @@ const year = new Date().getFullYear();
 <footer class="ftr">
   <div class="container top">
     <div class="brand-block">
-      <span class="footer-logo-frame"><img class="footer-logo" src="/images/brand/gana-rnd-official-logo-white.png" width="720" height="206" alt="GANA R&D" /></span>
+      <span class="footer-logo-frame"><img class="footer-logo" src="/images/brand/gana-rnd-logo-mono-white.png" width="720" height="206" alt="GANA R&D" /></span>
       <p class="statement">{t.home.heroTitle1} {t.home.heroTitle2}</p>
       <p class="note">{t.footer.note}</p>
     </div>
@@ -47,7 +47,8 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .ftr { background: #0b1c31; color: #bac4ca; padding-block: clamp(72px, 9vw, 120px) var(--s6); }
+  /* CTA 띠(--navy #0e2139)보다 한 단계 어둡게 + 머리카락 선 — 띠와 푸터가 붙어도 경계가 보인다 */
+  .ftr { background: #091729; border-top: 1px solid rgba(255,255,255,.07); color: #bac4ca; padding-block: clamp(72px, 9vw, 120px) var(--s6); }
   .top { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(160px, .75fr) minmax(260px, 1fr); gap: clamp(48px, 8vw, 120px); }
   .brand-block { max-width: 580px; }
   .footer-logo-frame { display: inline-flex; align-items: center; }

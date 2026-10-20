@@ -380,7 +380,7 @@ export const zh = {
     "regsLead": "每一项注册均以 GANA R&D 为制造商，所有编号均可在主管机构的公开登记系统中核查。",
     "asRegistered": "注册名称",
     "verify": "核查",
-    "register": "公开登记",
+    "register": "查询",
     "mfrTitle": "制造商",
     "licenceK": "MFDS 制造业许可",
     "gmpK": "GMP 证书",

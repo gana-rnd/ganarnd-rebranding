@@ -59,7 +59,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
       </h1>
       <p class="hero-sub hero-fade d2">{t.home.heroSub}</p>
       <div class="hero-actions hero-fade d3">
-        <a class="btn on-dark" href={localizePath('/market-access', lang)}>{t.home.heroCta} <span aria-hidden="true">↗</span></a>
+        <a class="btn on-dark" href={`${localizePath('/market-access', lang)}#licences`}>{t.home.heroCta} <span aria-hidden="true">↗</span></a>
         <a class="hero-link" href={localizePath('/contact', lang)}>{t.common.contactCta} <span class="arr">→</span></a>
       </div>
     </div>
@@ -126,7 +126,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
         </div>
         <div class="evidence-summary">
           <p class="lead">{t.home.s1P1}</p>
-          <a class="evidence-link" href={localizePath('/market-access', lang)}>{t.home.s1Cta} <span>→</span></a>
+          <a class="evidence-link" href={`${localizePath('/market-access', lang)}#licences`}>{t.home.s1Cta} <span>→</span></a>
         </div>
       </div>
 
@@ -168,7 +168,7 @@ const heroImgs = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `/images/hero-${n}.webp`,
         </div>
         <div class="intro-side">
           <p class="lead">{t.home.s5Lead}</p>
-          <a class="link" href={localizePath('/market-access', lang)}>{t.home.s5Link} <span class="arr">→</span></a>
+          <a class="link" href={`${localizePath('/market-access', lang)}#registrations`}>{t.home.s5Link} <span class="arr">→</span></a>
         </div>
       </div>
       <div class="table-wrap market-table" data-reveal>

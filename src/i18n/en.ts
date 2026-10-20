@@ -354,7 +354,7 @@ export const en = {
     regsLead: 'GANA R&D is named as manufacturer on each entry. Every number can be checked on the authority’s public register.',
     asRegistered: 'Name as registered',
     verify: 'Verify',
-    register: 'Public register',
+    register: 'Lookup',
     mfrTitle: 'Manufacturer',
     licenceK: 'MFDS manufacturing licence',
     gmpK: 'GMP certificate',
