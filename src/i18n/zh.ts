@@ -5,6 +5,7 @@ export const zh = {
     "coDevelopment": "共同开发",
     "marketAccess": "注册与市场准入",
     "about": "关于我们",
+    "training": "教育",
 
     "contact": "联系我们",
     "menu": "菜单"
@@ -381,6 +382,7 @@ export const zh = {
     "contact": "联系 GANA R&D — 面向经销商、诊所、医院和品牌合作伙伴。",
 
     about: "GANA R&D Co., Ltd. — 注册证上的生产商：2014 年起持有 MFDS 第 4490 号制造许可、GMP 符合性认证、EUDAMED 与 MHRA 注册、城南生产基地及创始人。",
+    training: "GANA R&D 实操课程教育 — 面部与身体的皮肤填充剂与线雕提升，由产品发明人授课，并附 2014 年以来的研讨会记录。",
     "notFound": "您要查找的页面不存在。"
   },
   "product": {

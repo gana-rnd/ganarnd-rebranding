@@ -1,4 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "astro"
+  "framework": "astro",
+  "redirects": [
+    { "source": "/wound-care", "destination": "/aesthetics#wound-care", "permanent": true },
+    { "source": "/wound-care/gana-patch", "destination": "/aesthetics/gana-patch", "permanent": true },
+    { "source": "/:lang(zh|es|th|vi|ru)/wound-care", "destination": "/:lang/aesthetics#wound-care", "permanent": true },
+    { "source": "/:lang(zh|es|th|vi|ru)/wound-care/gana-patch", "destination": "/:lang/aesthetics/gana-patch", "permanent": true }
+  ]
 }

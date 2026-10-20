@@ -6,6 +6,7 @@ export const en = {
     coDevelopment: 'Co-development',
     marketAccess: 'Registrations & Market Access',
     about: "About",
+    training: 'Education',
 
     contact: 'Contact',
     menu: 'Menu',
@@ -355,6 +356,7 @@ export const en = {
     contact: 'Contact GANA R&D — distributors, clinics, hospitals and brand partners.',
 
     about: "GANA R&D Co., Ltd. — the manufacturer named on the registration: MFDS licence No. 4490 since 2014, GMP conformity, EUDAMED and MHRA registrations, the Seongnam manufacturing site and the founder.",
+    training: 'Hands-on course education by GANA R&D — dermal fillers and thread lifting for the face and body, taught by the inventor of the products, with the seminar record since 2014.',
     notFound: 'The page you were looking for does not exist.',
   },
   // 제품 상세 페이지(/aesthetics/{slug}) UI 문자열. 제품 본문 자체는 products.ts의 영어 원문.

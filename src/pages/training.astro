@@ -1,0 +1,159 @@
+---
+// Education — 옛 ganarnd.co.kr EDUCATION 페이지의 복원. 핸즈온 코스(얼굴·몸) · 강사 약력 · 세미나 연표 · 현장 사진 · 수료증.
+// 회장 지시(2026-10-21): 옛 내용과 사진 전부 게재. 문구는 src/i18n/training.ts, 세미나 연표는 marketAccess.seminars 공용.
+import Base from '../layouts/Base.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { training } from '../i18n/training';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const tr = training[lang] ?? training.en;
+
+// 옛 사이트 사진 9장(850px 콜라주). 세로 비율이 제각각이라 컬럼 레이아웃으로 자연 비율 그대로 보여 준다.
+const photos = [
+  { src: '/images/training/education_08.webp', alt: 'Hands-on course — physicians in caps around the demonstration table' },
+  { src: '/images/training/education_03.webp', alt: 'Course with Russian physicians at the GANA R&D clinic room' },
+  { src: '/images/training/education_04.webp', alt: 'Seminar in Indonesia — lecture hall and delegation' },
+  { src: '/images/training/education_05.webp', alt: 'GANA R&D certificate of completion' },
+  { src: '/images/training/education_06.webp', alt: 'Seminar in Indonesia — welcome banner and delegation' },
+  { src: '/images/training/education_07.webp', alt: 'Lecture and demonstration with visiting physicians' },
+  { src: '/images/training/education_09.webp', alt: 'Training group and certificate presentation' },
+  { src: '/images/training/education_11.webp', alt: 'Seminar presentation in Vietnam' },
+  { src: '/images/training/education_01.webp', alt: 'Hands-on course education in aesthetic surgery' },
+];
+---
+
+<Base title={t.nav.training} description={t.meta.training}>
+  <header class="container page-head photo" style="--ph-img: url('/images/training/education_01.webp')">
+    <p class="ph-eyebrow hero-fade d1">{tr.eyebrow}</p>
+    <h1><span class="hero-line"><span>{tr.title}</span></span></h1>
+    <p class="ph-sub hero-fade d2">{tr.sub}</p>
+  </header>
+
+  <!-- 01 코스 개요 -->
+  <section class="container section">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">01</span> {tr.s1Eyebrow}</p>
+      <h2>{tr.s1Title}</h2>
+    </div>
+    <div class="intro" data-reveal-stagger>
+      <p class="lead">{tr.s1P1}</p>
+      <p>{tr.s1P2}</p>
+      <p>{tr.s1P3}</p>
+    </div>
+  </section>
+
+  <!-- 02 얼굴 코스 / 03 몸 코스 -->
+  <section class="container section tight">
+    <div class="courses">
+      <article class="course" data-reveal>
+        <p class="eyebrow"><span class="no">02</span> {tr.s2Eyebrow}</p>
+        <h2>{tr.s2Title}</h2>
+        <p class="lead">{tr.s2Lead}</p>
+        <ul class="kv">
+          {tr.s2List.map((i) => <li><span class="k">{i.t}</span><span>{i.d}</span></li>)}
+        </ul>
+      </article>
+      <article class="course" data-reveal>
+        <p class="eyebrow"><span class="no">03</span> {tr.s3Eyebrow}</p>
+        <h2>{tr.s3Title}</h2>
+        <p class="lead">{tr.s3Lead}</p>
+        <ul class="kv">
+          {tr.s3List.map((i) => <li><span class="k">{i.t}</span><span>{i.d}</span></li>)}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- 04 강사 — 사진 없이 약력만(회장 뜻) -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">04</span> {tr.s4Eyebrow}</p>
+      <h2>{tr.s4Title}</h2>
+    </div>
+    <div class="lecturer" data-reveal-stagger>
+      <ul class="kv cv">
+        {tr.cv.map((i) => <li><span class="k mono">{i.t}</span><span>{i.d}</span></li>)}
+      </ul>
+      <div>
+        <p class="rec-title">{tr.devTitle}</p>
+        <ul class="kv dev">
+          {tr.dev.map((i) => <li><span class="k">{i.t}</span><span>{i.d}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 세미나 연표 — marketAccess.seminars 공용 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">05</span> {tr.s5Eyebrow}</p>
+      <h2>{tr.s5Title}</h2>
+    </div>
+    <div class="seminars-wrap" data-reveal>
+      <ul class="kv seminars">
+        {t.marketAccess.seminars.map((s) => <li><span class="k mono">{s.t}</span><span>{s.d}</span></li>)}
+      </ul>
+      <p class="small muted note">{t.marketAccess.s6Note}</p>
+    </div>
+  </section>
+
+  <!-- 06 사진 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">06</span> {tr.s6Eyebrow}</p>
+      <h2>{tr.s6Title}</h2>
+    </div>
+    <div class="gallery" data-reveal>
+      {photos.map((p) => (
+        <figure class="shot"><img src={p.src} alt={p.alt} loading="lazy" /></figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- 07 수료증 -->
+  <section class="container section tight">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow"><span class="no">07</span> {tr.s7Eyebrow}</p>
+      <h2>{tr.s7Title}</h2>
+      <p class="lead">{tr.s7P}</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container row" data-reveal>
+      <div>
+        <h2>{tr.ctaTitle}</h2>
+        <p>{tr.ctaBody}</p>
+      </div>
+      <a class="btn on-dark" href={localizePath('/contact', lang)}>{tr.ctaBtn}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { max-width: 72ch; }
+  .intro p { color: var(--ink-2); }
+  .intro p + p { margin-top: var(--s5); }
+  .intro .lead { color: var(--ink); }
+  .courses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s7) clamp(40px, 6vw, 96px); }
+  .course h2 { margin-bottom: var(--s4); }
+  .course .lead { margin-bottom: var(--s6); }
+  .course .kv li { grid-template-columns: minmax(140px, .4fr) 1fr; }
+  .lecturer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s7) clamp(40px, 6vw, 96px); align-items: start; }
+  .cv li { grid-template-columns: minmax(110px, 140px) 1fr; }
+  .cv .k { color: var(--ink); font-size: var(--text-sm); letter-spacing: 0; text-transform: none; font-weight: 500; }
+  .rec-title { margin-bottom: var(--s4); color: var(--ink-3); font-size: var(--text-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .dev li { grid-template-columns: minmax(120px, 160px) 1fr; padding: 14px 0; }
+  .dev .k { color: var(--ink); letter-spacing: .02em; }
+  .seminars-wrap { max-width: 820px; }
+  .seminars li { grid-template-columns: minmax(110px, 140px) 1fr; padding: 16px 0; }
+  .seminars .k { color: var(--ink); font-size: var(--text-sm); letter-spacing: 0; text-transform: none; font-weight: 500; }
+  .seminars-wrap .note { margin-top: var(--s4); }
+  /* 옛 사진은 비율이 제각각인 콜라주라 컬럼으로 흘려서 자연 비율 유지 */
+  .gallery { columns: 3; column-gap: var(--s5); }
+  .shot { break-inside: avoid; margin: 0 0 var(--s5); overflow: hidden; border-radius: var(--radius); background: var(--paper-2); box-shadow: var(--shadow-sm); }
+  .shot img { display: block; width: 100%; height: auto; }
+  @media (max-width: 900px) { .courses, .lecturer { grid-template-columns: 1fr; } .gallery { columns: 2; } }
+  @media (max-width: 560px) { .gallery { columns: 1; } .course .kv li, .dev li { grid-template-columns: 1fr; gap: var(--s1); } }
+</style>

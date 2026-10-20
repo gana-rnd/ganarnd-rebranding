@@ -9,7 +9,7 @@ const t = useTranslations(lang);
 // 등재 → 제품 상세 페이지 (products.ts에 있는 제품만 링크가 생긴다)
 const detailHref = (regId: string) => {
   const p = productForReg(regId);
-  return p ? localizePath(`/${p.category}/${p.slug}`, lang) : null;
+  return p ? localizePath(`/aesthetics/${p.slug}`, lang) : null;
 };
 
 const supplyLabel: Record<string, { text: string; cls: string }> = {
@@ -72,7 +72,7 @@ const lookupUrl: Record<string, string> = lookupHome;
       <div class="training-copy">
         <p>{t.marketAccess.s6P1}</p>
         <p>{t.marketAccess.s6P2}</p>
-        <a class="btn" href={localizePath('/contact', lang)}>{t.marketAccess.s6Cta}</a>
+        <p class="actions"><a class="btn" href={localizePath('/contact', lang)}>{t.marketAccess.s6Cta}</a><a class="link" href={localizePath('/training', lang)}>{t.nav.training} <span class="arr">→</span></a></p>
       </div>
       <div class="training-record">
         <p class="rec-title">{t.marketAccess.s6ListTitle}</p>
@@ -172,7 +172,7 @@ const lookupUrl: Record<string, string> = lookupHome;
   .training { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr); gap: var(--s6) clamp(40px, 7vw, 110px); align-items: start; }
   .training-copy p { color: var(--ink-2); }
   .training-copy p + p { margin-top: var(--s5); }
-  .training-copy .btn { margin-top: var(--s6); }
+  .training-copy .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4) var(--s6); margin-top: var(--s6); }
   .rec-title { margin-bottom: var(--s4); color: var(--ink-3); font-size: var(--text-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .seminars li { grid-template-columns: minmax(110px, 140px) 1fr; padding: 16px 0; }
   .seminars .k { color: var(--ink); font-size: var(--text-sm); letter-spacing: 0; text-transform: none; font-weight: 500; }

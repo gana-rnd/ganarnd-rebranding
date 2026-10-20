@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
 const LANGS = ['zh', 'es', 'th', 'vi', 'ru'];
-const PAGES = ['index', 'aesthetics', 'aesthetics/[slug]', 'wound-care', 'wound-care/[slug]', 'co-development', 'market-access', 'contact'];
+const PAGES = ['index', 'aesthetics', 'aesthetics/[slug]', 'co-development', 'market-access', 'training', 'about', 'contact'];
 const pages = process.argv.slice(2).length ? process.argv.slice(2) : PAGES;
 
 for (const lang of LANGS) {

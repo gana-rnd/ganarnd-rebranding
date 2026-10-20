@@ -1,10 +1,11 @@
 ---
-// 에스테틱 제품 상세 — 본문은 components/ProductPage.astro, 데이터는 data/products.ts (category: 'aesthetics')
+// 제품 상세 — 본문은 components/ProductPage.astro, 데이터는 data/products.ts.
+// 2026-10-21부터 창상(category 'wound-care')도 이 라우트 아래(/aesthetics/gana-patch) — Wound Care 메뉴를 없애고 Medical Aesthetics에 합침.
 import ProductPage from '../../../components/ProductPage.astro';
 import { products } from '../../../data/products';
 
 export function getStaticPaths() {
-  return products.filter((x) => x.category === 'aesthetics').map((product) => ({ params: { slug: product.slug }, props: { product } }));
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
 }
 
 const { product } = Astro.props;

@@ -5,6 +5,7 @@ export const es = {
     coDevelopment: 'Desarrollo Conjunto',
     marketAccess: 'Registros y Acceso al Mercado',
     about: "Quiénes somos",
+    training: 'Educación',
 
     contact: 'Contacto',
     menu: 'Menú',
@@ -353,6 +354,7 @@ export const es = {
     contact: 'Contacte con GANA R&D: distribuidores, clínicas, hospitales y marcas asociadas.',
 
     about: "GANA R&D Co., Ltd. — el fabricante que figura en el registro: licencia MFDS n.º 4490 desde 2014, conformidad GMP, registros EUDAMED y MHRA, la planta de Seongnam y el fundador.",
+    training: 'Formación práctica de GANA R&D: rellenos dérmicos y lifting con hilos para rostro y cuerpo, impartida por el inventor de los productos, con el historial de seminarios desde 2014.',
     notFound: 'La página que busca no existe.',
   },
   product: {

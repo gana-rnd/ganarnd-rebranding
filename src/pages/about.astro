@@ -80,7 +80,7 @@ const index = [
         </div>
         <ul class="lines" data-reveal-stagger>
           <li><a href={localizePath('/aesthetics', lang)}><span class="who">{a.cardWho1}</span><span class="what"><b>{t.nav.aesthetics}</b> {a.card1}</span><span class="arr">→</span></a></li>
-          <li><a href={localizePath('/wound-care', lang)}><span class="who">{a.cardWho2}</span><span class="what"><b>{t.nav.woundCare}</b> {a.card2}</span><span class="arr">→</span></a></li>
+          <li><a href={`${localizePath('/aesthetics', lang)}#wound-care`}><span class="who">{a.cardWho2}</span><span class="what"><b>{t.nav.woundCare}</b> {a.card2}</span><span class="arr">→</span></a></li>
           <li><a href={localizePath('/co-development', lang)}><span class="who">{a.cardWho3}</span><span class="what"><b>{t.nav.coDevelopment}</b> {a.card3}</span><span class="arr">→</span></a></li>
         </ul>
       </section>

@@ -5,6 +5,7 @@ export const vi = {
     coDevelopment: 'Hợp tác phát triển',
     marketAccess: 'Đăng ký & Tiếp cận thị trường',
     about: "Về chúng tôi",
+    training: 'Đào tạo',
 
     contact: 'Liên hệ',
     menu: 'Menu',
@@ -353,6 +354,7 @@ export const vi = {
     contact: 'Liên hệ GANA R&D — dành cho nhà phân phối, phòng khám, bệnh viện và đối tác thương hiệu.',
 
     about: "GANA R&D Co., Ltd. — nhà sản xuất ghi trên giấy đăng ký: giấy phép MFDS số 4490 từ năm 2014, chứng nhận GMP, đăng ký EUDAMED và MHRA, cơ sở sản xuất Seongnam và nhà sáng lập.",
+    training: 'Khóa thực hành của GANA R&D — chất làm đầy và nâng cơ bằng chỉ cho mặt và cơ thể, do người phát minh ra sản phẩm giảng dạy, kèm lịch sử hội thảo từ năm 2014.',
     notFound: 'Trang bạn tìm không tồn tại.',
   },
   product: {

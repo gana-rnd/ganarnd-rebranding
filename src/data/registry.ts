@@ -103,5 +103,5 @@ export function byId(id: string): Reg | undefined {
 /** 홈 대표 제품 2종 — 회장 지시(2026-09-15): "ganafill and gana patch are main products, use two products on first page" */
 export const featured: { key: 'fill' | 'patch'; name: string; page: string; regs: Reg[] }[] = [
   { key: 'fill', name: 'GANA FILL', page: '/aesthetics/gana-fill', regs: ['kr-14-652'].map(byId).filter(Boolean) as Reg[] },
-  { key: 'patch', name: 'GANA PATCH', page: '/wound-care/gana-patch', regs: ['kr-20-4997', 'ru-2024-22431', 'kr-15-4197'].map(byId).filter(Boolean) as Reg[] },
+  { key: 'patch', name: 'GANA PATCH', page: '/aesthetics/gana-patch', regs: ['kr-20-4997', 'ru-2024-22431', 'kr-15-4197'].map(byId).filter(Boolean) as Reg[] },
 ];

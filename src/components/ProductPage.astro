@@ -1,5 +1,5 @@
 ---
-// 제품 상세 본문 — /aesthetics/[slug] 와 /wound-care/[slug] 두 라우트가 같이 쓴다.
+// 제품 상세 본문 — /aesthetics/[slug] 라우트(에스테틱·창상 모두). 창상은 목록이 /aesthetics#wound-care 섹션이다(2026-10-21 Wound Care 메뉴 폐지).
 // 데이터는 src/data/products.ts, 등재 표는 registrations.json에서 그때그때 계산한다.
 import { products, type Product } from '../data/products';
 import { byId, authorityName, fmtDate, scopeOf, productName, umbrellaNote, licence, gmp, manufacturer, chemistryName, type Reg } from '../data/registry';
@@ -13,7 +13,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const p = t.product;
 const isWound = product.category === 'wound-care';
-const listPath = isWound ? '/wound-care' : '/aesthetics';
+const listPath = isWound ? '/aesthetics#wound-care' : '/aesthetics';
 const listLabel = isWound ? t.nav.woundCare : t.nav.aesthetics;
 const backLabel = isWound ? t.nav.woundCare : p.back;
 const family = chemistryName[product.family];
