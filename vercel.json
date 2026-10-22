@@ -1,6 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    }
+  ],
   "redirects": [
     { "source": "/wound-care", "destination": "/aesthetics#wound-care", "permanent": true },
     { "source": "/wound-care/gana-patch", "destination": "/aesthetics/gana-patch", "permanent": true },

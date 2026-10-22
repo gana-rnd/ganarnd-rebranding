@@ -46,6 +46,8 @@ const orgSchema = JSON.stringify({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <!-- 회장 지시(2026-10-22): 2026년 12월 말까지 검색 노출 금지. 2027년 1월에 이 줄과 vercel.json의 X-Robots-Tag, robots.txt의 Sitemap 복구를 함께 되돌릴 것 -->
+    <meta name="robots" content="noindex, nofollow, noarchive" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

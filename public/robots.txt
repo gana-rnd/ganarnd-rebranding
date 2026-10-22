@@ -1,4 +1,6 @@
+# 2026년 12월 말까지 검색 노출 금지 (회장 지시 2026-10-22).
+# 크롤링은 허용해 두어야 각 페이지의 noindex 표시와 X-Robots-Tag 헤더를 검색엔진이 읽는다.
+# 2027년 1월 복구: 아래에 "Sitemap: https://ganarnd.com/sitemap-index.xml" 줄을 되살리고,
+# src/layouts/Base.astro의 robots meta와 vercel.json의 X-Robots-Tag 헤더를 제거한다.
 User-agent: *
 Allow: /
-
-Sitemap: https://ganarnd.com/sitemap-index.xml
