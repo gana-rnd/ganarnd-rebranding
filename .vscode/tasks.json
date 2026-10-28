@@ -1,40 +1,47 @@
 {
-  // 이 폴더를 VS Code에서 열었을 때: Ctrl+Shift+B → 개발 서버 + 브라우저
+  // Ctrl+Shift+B(맥: Cmd+Shift+B) → 아래 "group": "build" 작업들이 목록으로 뜬다.
+  // 기본 작업(isDefault)을 두지 않아야 바로 실행되지 않고 고르는 목록이 나온다.
+  //
+  // 닥터박 그룹 경로: 윈도우는 D:/drpark-group,
+  // 맥·리눅스는 이 레포 옆 폴더(../drpark-group)로 본다.
   "version": "2.0.0",
   "tasks": [
     {
-      // Ctrl+B 키바인딩이 부르는 이름. 아래 "Dev: GANA R&D"와 같은 일을 한다.
+      // Ctrl+B 키바인딩이 부르는 이름 — 이름 바꾸지 말 것.
       "label": "GANA: dev + open",
       "type": "shell",
       "command": "npx astro dev --port 4321 --open",
-      "options": { "cwd": "D:/ganarnd-rebranding" },
+      "options": { "cwd": "${workspaceFolder}" },
+      "windows": { "options": { "cwd": "D:/ganarnd-rebranding" } },
       "isBackground": true,
       "problemMatcher": [],
-      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" }
+      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" },
+      "group": "build"
     },
     {
-      // Ctrl+Alt+B 키바인딩이 부르는 이름.
+      // Ctrl+Alt+B 키바인딩이 부르는 이름 — 이름 바꾸지 말 것.
       "label": "Dr. Park: dev + open",
       "type": "shell",
-      "command": "npx astro dev --port 4500 --open",
-      "options": { "cwd": "D:/drpark-group" },
+      // 맥: 폴더가 없으면 조용히 실패하지 않고 이유를 터미널에 찍는다.
+      "command": "if [ -d \"${workspaceFolder}/../drpark-group\" ]; then cd \"${workspaceFolder}/../drpark-group\" && npx astro dev --port 4500 --open; else echo '닥터박 그룹 프로젝트가 이 맥에 없습니다.'; echo '윈도우 PC의 D:/drpark-group 폴더를 다음 위치로 복사하거나 git으로 받아 주세요:'; echo \"${workspaceFolder}/../drpark-group\"; exit 1; fi",
+      "windows": { "command": "npx astro dev --port 4500 --open", "options": { "cwd": "D:/drpark-group" } },
       "isBackground": true,
       "problemMatcher": [],
-      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" }
+      "presentation": { "panel": "dedicated", "reveal": "always", "group": "dev" },
+      "group": "build"
     },
     {
-      "label": "Dev: GANA R&D (localhost:4321)",
-      "type": "shell",
-      "command": "npx astro dev --port 4321 --open",
-      "isBackground": true,
+      "label": "GANA + Dr. Park: dev 둘 다",
+      "dependsOn": ["GANA: dev + open", "Dr. Park: dev + open"],
+      "dependsOrder": "parallel",
       "problemMatcher": [],
-      "presentation": { "panel": "dedicated", "reveal": "always" },
-      "group": { "kind": "build", "isDefault": true }
+      "group": "build"
     },
     {
       "label": "Build: GANA R&D",
       "type": "shell",
       "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "group": "build"
     },
@@ -43,7 +50,8 @@
       "label": "Deploy: Vercel production",
       "type": "shell",
       "command": "vercel pull --yes --environment=production && vercel build --prod --yes && vercel deploy --prebuilt --prod --yes",
-      "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } },
+      "options": { "cwd": "${workspaceFolder}" },
+      "windows": { "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } } },
       "problemMatcher": []
     }
   ]
